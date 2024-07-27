@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">captest</string>
+    <string name="title_activity_main">captest</string>
+    <string name="package_name">com.captest.app</string>
+    <string name="custom_url_scheme">com.captest.app</string>
+</resources>
