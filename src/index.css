@@ -6,8 +6,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+@font-face {
+  font-family: 'BoardofDirectorsWOO-Hvlt';
+  src: url('/public/fonts/Board-of-Directors-W00-Heavy-It.ttf') format('truetype');
+}
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'BoardofDirectorsWOO-Hvlt', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

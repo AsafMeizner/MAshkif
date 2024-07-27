@@ -1,5 +1,10 @@
+@font-face {
+  font-family: 'BoardofDirectorsWOO-Hvlt';
+  src: url('/public/fonts/Board-of-Directors-W00-Heavy-It.ttf') format('truetype');
+}
+
 .App {
-  font-family: Arial, sans-serif;
+  font-family: 'BoardofDirectorsWOO-Hvlt', Arial, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,7 +16,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 100%;
+  width: 90%;
+  margin-right: 5%;
+  margin-left: 5%;
 }
 
 .quiz-container {
