@@ -1,4 +1,4 @@
-package com.captest.app;
+package com.mashkif.app;
 
 import com.getcapacitor.BridgeActivity;
 

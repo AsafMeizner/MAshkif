@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.captest.app',
-  appName: 'captest',
+  appId: 'com.mashkif.app',
+  appName: 'MAshkif',
   webDir: 'build'
 };
 
