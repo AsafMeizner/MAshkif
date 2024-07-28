@@ -197,6 +197,8 @@
   .modal {
     position: relative;
     z-index: 1001;
+    margin-right: 5%;
+    margin-left: 5%;
   }
   
   .history-content {

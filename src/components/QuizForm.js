@@ -271,7 +271,6 @@ const QuizForm = () => {
   const [historyModalIsOpen, setHistoryModalIsOpen] = useState(false);
   const [submissions, setSubmissions] = useState([]);
   const [tempQrContent, setTempQrContent] = useState(null);
-  const [decompressedContent, setDecompressedContent] = useState(null);
 
   useEffect(() => {
     setSections(quizData.sections);
@@ -287,10 +286,21 @@ const QuizForm = () => {
     });
   };
 
+  const decompressAndDecode = (content) => {
+    return LZUTF8.decompress(content, {inputEncoding: 'Base64', outputEncoding: 'String'});
+  };
+
+  const compressAndEncode = (content) => {
+    return LZUTF8.compress(content, {outputEncoding: 'Base64'});
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    let content = JSON.stringify(responses);
-    content = LZUTF8.compress(content, {outputEncoding: 'Base64'});
+    let content = JSON.stringify({
+      ...responses,
+      submissionTime: new Date().getTime()
+    });
+    content = compressAndEncode(content);
     setQrContent(content);
 
     // Save submission to local storage
@@ -311,7 +321,6 @@ const QuizForm = () => {
 
   const openQrModal = (content) => {
     setTempQrContent(content);
-    setDecompressedContent(LZUTF8.decompress(content, {inputEncoding: 'Base64', outputEncoding: 'String'}));
     closeHistoryModal();
     setModalIsOpen(true);
   };
@@ -374,7 +383,7 @@ const QuizForm = () => {
   return (
     <div>
       <div style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100vw"}}>
-          <h1 style={{color: "white"}}>{quizData.page_title}</h1>
+        <h1 style={{color: "white"}}>{quizData.page_title}</h1>
       </div>
       <form onSubmit={handleSubmit} className="form-container">
         {sections.map((section) => (
@@ -400,7 +409,7 @@ const QuizForm = () => {
           <QRCode value={tempQrContent || qrContent} />
           <p>{tempQrContent || qrContent}</p>
 
-          <p>Decompressed and Decoded: {LZUTF8.decompress(tempQrContent, {inputEncoding: 'Base64', outputEncoding: 'String'})}</p>
+          <p>Decompressed and Decoded: {decompressAndDecode(tempQrContent || qrContent)}</p>
           
           <button onClick={closeQrModal} className="close-button">Close</button>
         </div>
@@ -409,12 +418,17 @@ const QuizForm = () => {
         <div className="modal-content">
           <h2>Submission History</h2>
           <div className="history-content">
-            {submissions.map((submission, index) => (
-              <div key={index} className="submission-item">
-                <p>{submission}</p>
-                <button onClick={() => openQrModal(submission)} className="view-button">View QR</button>
-              </div>
-            ))}
+            {Object.entries(submissions).map(([key, value]) => {
+              const decodedValue = JSON.parse(decompressAndDecode(value));
+              return (
+                <div key={key} className="submission-item">
+                  <p><strong>Match Number: </strong> {decodedValue.matchNumber} | ‎</p>
+                  <p><strong>Team Number: </strong> {decodedValue.teamNumber} | ‎</p>
+                  <p><strong>Submission Time: </strong> {new Date(decodedValue.submissionTime).toLocaleString()}‎ ‎</p>
+                  <button onClick={() => openQrModal(value)} className="view-button">View QR</button>
+                </div>
+              );
+            })}
           </div>
           <button onClick={closeHistoryModal} className="close-button">Close</button>
         </div>
