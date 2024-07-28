@@ -251,6 +251,8 @@ const quizData = {
   ]
 };
 
+const LZUTF8 = require('lzutf8');
+
 const initializeResponses = (sections) => {
   const initialResponses = {};
   sections.forEach(section => {
@@ -269,6 +271,7 @@ const QuizForm = () => {
   const [historyModalIsOpen, setHistoryModalIsOpen] = useState(false);
   const [submissions, setSubmissions] = useState([]);
   const [tempQrContent, setTempQrContent] = useState(null);
+  const [decompressedContent, setDecompressedContent] = useState(null);
 
   useEffect(() => {
     setSections(quizData.sections);
@@ -286,12 +289,8 @@ const QuizForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const content = sections.flatMap(section =>
-      section.fields.map(field => {
-        const value = responses[field.code];
-        return value !== undefined ? value : (field.type === 'counter' ? 0 : (field.defaultValue !== undefined ? field.defaultValue : ''));
-      })
-    ).join('|');
+    let content = JSON.stringify(responses);
+    content = LZUTF8.compress(content, {outputEncoding: 'Base64'});
     setQrContent(content);
 
     // Save submission to local storage
@@ -312,6 +311,7 @@ const QuizForm = () => {
 
   const openQrModal = (content) => {
     setTempQrContent(content);
+    setDecompressedContent(LZUTF8.decompress(content, {inputEncoding: 'Base64', outputEncoding: 'String'}));
     closeHistoryModal();
     setModalIsOpen(true);
   };
@@ -399,6 +399,9 @@ const QuizForm = () => {
         <div className="modal-content">
           <QRCode value={tempQrContent || qrContent} />
           <p>{tempQrContent || qrContent}</p>
+
+          <p>Decompressed and Decoded: {LZUTF8.decompress(tempQrContent, {inputEncoding: 'Base64', outputEncoding: 'String'})}</p>
+          
           <button onClick={closeQrModal} className="close-button">Close</button>
         </div>
       </Modal>
