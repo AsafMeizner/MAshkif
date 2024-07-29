@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import QuizForm from './components/QuizForm';
+import QuizForm from './pages/QuizForm';
 
 function App() {
   return (

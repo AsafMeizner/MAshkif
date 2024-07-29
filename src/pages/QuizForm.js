@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import QRCode from 'react-qr-code';
-import TextField from './TextField';
-import NumberField from './NumberField';
-import SelectField from './SelectField';
-import BooleanField from './BooleanField';
-import CounterField from './CounterField';
+import TextField from '../components/TextField';
+import NumberField from '../components/NumberField';
+import SelectField from '../components/SelectField';
+import BooleanField from '../components/BooleanField';
+import CounterField from '../components/CounterField';
 import './QuizForm.css';
 
 const quizData = {
