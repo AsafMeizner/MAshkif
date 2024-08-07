@@ -3,7 +3,7 @@ import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning
 import Modal from 'react-modal';
 import '../App.css';
 
-Modal.setAppElement('#root'); // Set the app element for accessibility
+Modal.setAppElement('#root');
 
 const LZUTF8 = require('lzutf8');
 
@@ -26,7 +26,7 @@ function QrScan() {
   const [decodedContent, setDecodedContent] = useState(null);
   const [submissions, setSubmissions] = useState([]);
   const [isScanning, setIsScanning] = useState(false);
-  const [, setRawContent] = useState(null); // State to hold raw content
+  const [, setRawContent] = useState(null);
 
   useEffect(() => {
     const checkSupport = async () => {
@@ -41,7 +41,6 @@ function QrScan() {
 
   const startScan = async () => {
     try {
-      // Request camera permissions
       const status = await BarcodeScanner.requestPermissions();
       if (status.camera === 'granted') {
         setIsScanning(true);
@@ -51,7 +50,6 @@ function QrScan() {
           const scannedContent = result.barcode.displayValue;
           console.log('Scanned Content:', scannedContent);
 
-          // Set raw content to state
           setRawContent(scannedContent);
 
           const decodedData = decompressAndDecode(scannedContent);
@@ -61,7 +59,6 @@ function QrScan() {
               const parsedData = JSON.parse(decodedData);
               console.log('Parsed Data:', parsedData);
 
-              // Set parsed data or handle invalid data
               if (parsedData && parsedData.submissionTime) {
                 setDecodedContent(parsedData);
               } else {
@@ -76,7 +73,7 @@ function QrScan() {
             setDecodedContent({ error: 'Decompression error', raw: scannedContent });
           }
 
-          setModalIsOpen(true); // Open modal regardless of parsing success
+          setModalIsOpen(true);
 
           await listener.remove();
           stopScan();
@@ -124,38 +121,62 @@ function QrScan() {
         {cameraAvailable ? (
           <div>
             {isScanning ? (
-              <button className="scan-button" onClick={stopScan}>Stop Scanning</button>
+              <button className="scan-button" onClick={stopScan}>
+                Stop Scanning
+              </button>
             ) : (
-              <button className="scan-button" onClick={startScan}>Start Scanning</button>
+              <button className="scan-button" onClick={startScan}>
+                Start Scanning
+              </button>
             )}
           </div>
         ) : (
           <p className="camera-warning">Camera not supported on this device.</p>
         )}
-
-        <Modal isOpen={modalIsOpen} onRequestClose={handleCloseModal} className="modal" overlayClassName="overlay">
-          <div className="modal-content">
-            <h2>Scanned Content</h2>
-            {decodedContent?.error ? (
-              <>
-                <p><strong>Error:</strong> {decodedContent.error}</p>
-                <p><strong>Raw Content:</strong> {decodedContent.raw}</p>
-              </>
-            ) : (
-              <>
-                <p><strong>Match Number:</strong> {decodedContent?.matchNumber}</p>
-                <p><strong>Team Number:</strong> {decodedContent?.teamNumber}</p>
-                <p><strong>Submission Time:</strong> {new Date(decodedContent?.submissionTime).toLocaleString()}</p>
-              </>
-            )}
-
-            <div className="form-buttons">
-              <button className="close-button" onClick={handleCloseModal}>Close</button>
-              <button className="save-button" onClick={handleSave}>Save</button>
-            </div>
-          </div>
-        </Modal>
       </div>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={handleCloseModal}
+        className="modal"
+        overlayClassName="overlay"
+      >
+        <div className="modal-content">
+          <h2>Scanned Content</h2>
+          {decodedContent?.error ? (
+            <>
+              <p>
+                <strong>Error:</strong> {decodedContent.error}
+              </p>
+              <p>
+                <strong>Raw Content:</strong> {decodedContent.raw}
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                <strong>Match Number:</strong> {decodedContent?.matchNumber}
+              </p>
+              <p>
+                <strong>Team Number:</strong> {decodedContent?.teamNumber}
+              </p>
+              <p>
+                <strong>Submission Time:</strong>{' '}
+                {new Date(decodedContent?.submissionTime).toLocaleString()}
+              </p>
+            </>
+          )}
+
+          <div className="form-buttons">
+            <button className="close-button" onClick={handleCloseModal}>
+              Close
+            </button>
+            <button className="save-button" onClick={handleSave}>
+              Save
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
