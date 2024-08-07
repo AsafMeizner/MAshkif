@@ -3,6 +3,14 @@
   src: url('/public/fonts/Board-of-Directors-W00-Heavy-It.ttf') format('truetype');
 }
 
+body.barcode-scanner-active {
+  visibility: hidden;
+}
+
+body.barcode-scanner-active .qr-scanner-container {
+  visibility: visible;
+}
+
 .App {
   font-family: 'BoardofDirectorsWOO-Hvlt', Arial, sans-serif;
   display: flex;
@@ -215,3 +223,113 @@
     margin-top: 10px;
   }
 }
+
+/* QR Scanner Styles */
+.qr-scanner-page {
+  height: 100vh;
+  width: 100vw;
+  background-color: #2c3e50;
+}
+
+.qr-scanner-container {
+  text-align: center;
+  margin-top: 5%;
+  padding: 40px;
+  background-color: #34495e;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.qr-scanner-title {
+  color: #e74c3c;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.scan-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.scan-button:hover {
+  background-color: #c0392b;
+}
+
+.scanned-content {
+  margin-top: 20px;
+  background-color: #2c3e50;
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.content-display {
+  margin-top: 10px;
+  word-break: break-all;
+  font-size: 18px;
+  color: #ecf0f1;
+  background-color: #3b3b3b;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.camera-warning {
+  color: #ecf0f1;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.save-button {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.save-button:hover {
+  background-color: #229954;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  .qr-scanner-container {
+    width: 90%;
+    padding: 30px;
+  }
+
+  .scan-button {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .scanned-content {
+    padding: 15px;
+  }
+
+  .content-display {
+    font-size: 16px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .close-button,
+  .save-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+
