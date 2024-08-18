@@ -13,3 +13,14 @@
 ### `npm run build`
 ### `npx cap sync`
 ### `npx cap open ios`
+## Electron
+### `npm run build`
+### `npx cap sync`
+### `npx cap open @capacitor-community/electron`
+
+# Packaging
+## Electron
+### `npm run build`
+### `npx cap sync`
+### `npm install electron-packager -g`
+### `electron-packager X:\code\captest\electron MAshkif --platform=win32 --arch=x64`
