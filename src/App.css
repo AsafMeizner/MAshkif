@@ -284,10 +284,9 @@ body.barcode-scanner-active .qr-scanner-container {
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 10px;
   cursor: pointer;
-  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .save-button:hover {
