@@ -16,6 +16,12 @@ function Navbar() {
       </div>
       <ul className={`menu ${isOpen ? 'open' : ''}`}>
         <li>
+          <Link to="/" onClick={toggleMenu}>Home</Link>
+        </li>
+        <li>
+          <Link to="/settings" onClick={toggleMenu}>Settings</Link>
+        </li>
+        <li>
           <Link to="/quizform" onClick={toggleMenu}>Quiz Form</Link>
         </li>
         <li>

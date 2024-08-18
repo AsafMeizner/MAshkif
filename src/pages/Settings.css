@@ -1,0 +1,81 @@
+.settings-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .settings-page {
+    background-color: #34495e; 
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    box-sizing: border-box;
+  }
+  
+  .settings-page h1 {
+    color: #e74c3c;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .settings-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .settings-page .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .settings-page label {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .settings-page input[type="text"],
+  .settings-page input[type="file"] {
+    padding: 10px;
+    border: 1px solid #7f8c8d;
+    border-radius: 5px;
+    background-color: #3b3b3b;
+    color: white;
+    font-size: 14px;
+  }
+  
+  .settings-page button[type="submit"] {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    align-self: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .settings-page button[type="submit"]:hover {
+    background-color: #c0392b;
+  }
+  
+  .settings-page input[type="file"] {
+    padding: 0;
+    font-size: 14px;
+  }
+  
+  @media (max-width: 600px) {
+    .settings-page {
+      padding: 15px;
+    }
+  
+    .settings-page input[type="text"],
+    .settings-page input[type="file"],
+    .settings-page button[type="submit"] {
+      width: 100%;
+    }
+  }
