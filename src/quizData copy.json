@@ -1,10 +1,9 @@
 {
     "$schema": "../schema.json",
-    "title": "QRScout",
-    "page_title": "Crescendo",
+    "page_title": "test test test",
     "sections": [
         {
-            "name": "Prematch",
+            "name": "test",
             "preserveDataOnReset": true,
             "fields": [
             {

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import ModalComponent from '../components/QuizComponents/ModalComponent';
 import HistoryModal from '../components/QuizComponents/HistoryModal';
 import FieldRenderer from '../components/QuizComponents/FieldRenderer';
-import { initializeResponses, compressAndEncode } from '../components/utils';
+import { compressAndEncode } from '../components/utils';
 import './QuizForm.css';
 
-const quizData = require('./quizData.json');
+const defaultQuizData = require('../quizData.json');
 
 const QuizForm = () => {
   const [sections, setSections] = useState([]);
@@ -15,10 +15,26 @@ const QuizForm = () => {
   const [submissions, setSubmissions] = useState([]);
   const [tempQrContent, setTempQrContent] = useState(null);
   const [qrContent, setQrContent] = useState('');
+  const [pageTitle, setPageTitle] = useState(defaultQuizData.page_title);
+
+  const initializeResponses = (sections) => {
+    const responses = {};
+    sections.forEach(section => {
+      section.fields.forEach(field => {
+        responses[field.code] = ''; 
+      });
+    });
+    return responses;
+  };
 
   useEffect(() => {
+    const savedConfig = localStorage.getItem('config');
+    const quizData = savedConfig ? JSON.parse(savedConfig) : defaultQuizData;
+    
     setSections(quizData.sections);
     setResponses(initializeResponses(quizData.sections));
+    setPageTitle(quizData.page_title || defaultQuizData.page_title);
+    
     const savedSubmissions = JSON.parse(localStorage.getItem('submissions')) || [];
     setSubmissions(savedSubmissions);
   }, []);
@@ -46,6 +62,17 @@ const QuizForm = () => {
     setModalIsOpen(true);
   };
 
+  const handleDelete = (index) => {
+    const updatedSubmissions = submissions.filter((_, i) => i !== index);
+    setSubmissions(updatedSubmissions);
+    localStorage.setItem('submissions', JSON.stringify(updatedSubmissions));
+  };
+
+  const handleDeleteAll = () => {
+    setSubmissions([]);
+    localStorage.setItem('submissions', JSON.stringify([]));
+  };
+
   const openHistoryModal = () => setHistoryModalIsOpen(true);
   const closeHistoryModal = () => setHistoryModalIsOpen(false);
 
@@ -63,10 +90,14 @@ const QuizForm = () => {
     }
   };
 
+  const handleReset = () => {
+    window.location.reload();
+  };
+
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100vw" }}>
-        <h1 style={{ color: "white" }}>{quizData.page_title}</h1>
+        <h1 style={{ color: "#e74c3c" }}>{pageTitle}</h1>
       </div>
       <form onSubmit={handleSubmit} className="form-container">
         {sections.map((section) => (
@@ -83,7 +114,7 @@ const QuizForm = () => {
         ))}
         <div className="form-buttons">
           <button type="submit" className="submit-button">Submit</button>
-          <button type="button" className="reset-button" onClick={() => setResponses(initializeResponses(sections))}>Reset Form</button>
+          <button type="button" className="reset-button" onClick={handleReset}>Reset Form</button>
           <button type="button" className="history-button" onClick={openHistoryModal}>View Submissions</button>
         </div>
       </form>
@@ -96,7 +127,9 @@ const QuizForm = () => {
         isOpen={historyModalIsOpen} 
         closeModal={closeHistoryModal} 
         submissions={submissions} 
-        openQrModal={openQrModal} 
+        openQrModal={openQrModal}
+        handleDelete={handleDelete} 
+        handleDeleteAll={handleDeleteAll} 
       />
     </div>
   );

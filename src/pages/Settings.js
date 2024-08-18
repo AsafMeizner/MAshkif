@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
-import Modal from 'react-modal';
+import React, { useState, useEffect } from 'react';
 import './Settings.css';
 
-Modal.setAppElement('#root');
-
 function SettingsPage() {
-    const [settingsData, setSettingsData] = useState({ dbURI: '', formJson: '' });
+    const [, setFileContent] = useState('');
+    const [uploadedConfig, setUploadedConfig] = useState(null);
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        localStorage.setItem('dburi', settingsData.dbURI);
-        localStorage.setItem('questionlist', settingsData.formJson);
-    }
+    useEffect(() => {
+        const savedConfig = localStorage.getItem('config');
+        if (savedConfig) {
+            setUploadedConfig(JSON.parse(savedConfig));
+        }
+    }, []);
 
     function handleFileUpload(e) {
         const file = e.target.files?.[0];
         if (file && file.type === 'application/json') {
             const reader = new FileReader();
             reader.onload = (event) => {
-                const fileContent = event.target?.result;
-                setSettingsData(prevState => ({ ...prevState, formJson: fileContent }));
+                const content = event.target?.result;
+                setFileContent(content);
+                localStorage.setItem('config', content || '');
+                setUploadedConfig(JSON.parse(content || '{}'));
             };
             reader.readAsText(file);
         } else {
@@ -27,33 +28,33 @@ function SettingsPage() {
         }
     }
 
+    function handleDeleteConfig() {
+        localStorage.removeItem('config');
+        setUploadedConfig(null);
+    }
+
     return (
         <div>
             <div className="settings-page">
                 <h1>Settings</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="dbURI">Database URI</label>
-                        <input
-                            id="dbURI"
-                            type="text"
-                            value={settingsData.dbURI}
-                            onChange={(e) => setSettingsData(prevState => ({ ...prevState, dbURI: e.target.value }))}
-                        />
+                <div className="form-group">
+                    <label htmlFor="formJson">Upload Configuration JSON</label>
+                    <input
+                        id="formJson"
+                        type="file"
+                        accept=".json"
+                        onChange={handleFileUpload}
+                    />
+                </div>
+                {uploadedConfig && (
+                    <div className="uploaded-config">
+                        <h2>Current Configuration</h2>
+                        <pre>{JSON.stringify(uploadedConfig, null, 2)}</pre>
+                        <button onClick={handleDeleteConfig} className='delete-button'>Delete Configuration</button>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="formJson">Upload JSON File</label>
-                        <input
-                            id="formJson"
-                            type="file"
-                            accept=".json"
-                            onChange={handleFileUpload}
-                        />
-                    </div>
-                    <button type="submit">Save</button>
-                </form>
+                )}
             </div>
-            <div style={{ height: '100vh' }}></div>
+            <div style={{height: '100vh'}}></div>
         </div>
     );
 }
