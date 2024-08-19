@@ -44,7 +44,7 @@
   color: #e74c3c;
   margin-bottom: 20px;
   text-align: center;
-  font-size: 24px; /* Optional: Set a specific font size for consistency */
+  font-size: 24px;
 }
 
 .settings-page form {
@@ -56,7 +56,7 @@
 .settings-page .form-group {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center align the form group */
+  align-items: center; 
 }
 
 .settings-page label {
@@ -120,7 +120,7 @@
   border-radius: 5px;
   text-align: center;
   transition: background-color 0.3s ease;
-  font-size: 16px; /* Set the same font size */
+  font-size: 16px; 
 }
 
 .custom-file-upload:hover {
