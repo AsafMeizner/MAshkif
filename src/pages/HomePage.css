@@ -7,64 +7,78 @@
     height: 100vh;
     margin: 0;
     text-align: center;
+    padding: 20px; /* Add padding for better spacing */
 }
-  
+
 .home-header {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 20px;
 }
-  
+
 .home-title {
     color: #e74c3c;
     font-size: 3rem; 
     margin: 20px 0;
 }
-  
+
 .home-logo {
     width: 450px; 
+    max-width: 100%; /* Make logo responsive */
+    height: auto; /* Maintain aspect ratio */
     margin: 20px 0;
 }
-  
+
 .home-description {
     font-size: 1.7rem;
     margin: 20px 0;
 }
-  
+
 .button-container {
     display: flex;
-    gap: 20px;
-    margin-top: 20px;
+    flex-direction: column; /* Stack buttons vertically on mobile */
+    gap: 10px; /* Adjust spacing */
+    width: 100%; /* Full width on mobile */
 }
-  
+
 .home-button {
     background-color: #e74c3c;
     color: white;
     border: none;
     border-radius: 5px;
-    padding: 12px 24px; /* Adjust padding for larger buttons */
+    padding: 12px 24px;
     font-size: 1.2rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%; /* Full width on mobile */
 }
-  
+
 .home-button:hover {
     background-color: #c0392b;
 }
-  
-@media (max-width: 600px) {
-    .home-description {
-         font-size: 16px;
+
+@media (min-width: 601px) {
+    .button-container {
+        flex-direction: row; /* Row layout on larger screens */
+        width: auto;
     }
   
     .home-button {
-        width: 100%;
-        padding: 15px;
-    }
-  
-    .button-container {
-        flex-direction: column;
-        gap: 10px;
+        width: auto; /* Adjust button width */
     }
 }
-  
+
+@media (max-width: 600px) {
+    .home-title {
+        font-size: 2.5rem; /* Smaller title on mobile */
+    }
+
+    .home-description {
+        font-size: 1.4rem; /* Smaller description on mobile */
+    }
+
+    .home-logo {
+        width: 300px; /* Adjust logo size for smaller screens */
+    }
+}

@@ -38,23 +38,29 @@ function SettingsPage() {
             <div className="settings-page">
                 <h1>Settings</h1>
                 <div className="form-group">
-                    <label htmlFor="formJson">Upload Configuration JSON</label>
+                    <label htmlFor="formJson" className="custom-file-upload">
+                        Choose File
+                    </label>
                     <input
                         id="formJson"
                         type="file"
                         accept=".json"
                         onChange={handleFileUpload}
                     />
+                    {uploadedConfig && (
+                        <button onClick={handleDeleteConfig} className='delete-config-button'>
+                            Delete Configuration
+                        </button>
+                    )}
                 </div>
                 {uploadedConfig && (
                     <div className="uploaded-config">
                         <h2>Current Configuration</h2>
                         <pre>{JSON.stringify(uploadedConfig, null, 2)}</pre>
-                        <button onClick={handleDeleteConfig} className='delete-button'>Delete Configuration</button>
                     </div>
                 )}
             </div>
-            <div style={{height: '100vh'}}></div>
+            <div style={{ height: '100vh' }}></div>
         </div>
     );
 }
