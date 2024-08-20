@@ -4,10 +4,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
     margin: 0;
     text-align: center;
-    padding: 20px; /* Add padding for better spacing */
+    padding: 20px;
 }
 
 .home-header {
@@ -25,8 +24,8 @@
 
 .home-logo {
     width: 450px; 
-    max-width: 100%; /* Make logo responsive */
-    height: auto; /* Maintain aspect ratio */
+    max-width: 100%;
+    height: auto; 
     margin: 20px 0;
 }
 
@@ -37,9 +36,9 @@
 
 .button-container {
     display: flex;
-    flex-direction: column; /* Stack buttons vertically on mobile */
-    gap: 10px; /* Adjust spacing */
-    width: 100%; /* Full width on mobile */
+    flex-direction: column; 
+    gap: 10px;
+    width: 100%; 
 }
 
 .home-button {
@@ -51,7 +50,7 @@
     font-size: 1.2rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 100%; /* Full width on mobile */
+    width: 100%;
 }
 
 .home-button:hover {
@@ -60,25 +59,25 @@
 
 @media (min-width: 601px) {
     .button-container {
-        flex-direction: row; /* Row layout on larger screens */
+        flex-direction: row; 
         width: auto;
     }
   
     .home-button {
-        width: auto; /* Adjust button width */
+        width: auto;
     }
 }
 
 @media (max-width: 600px) {
     .home-title {
-        font-size: 2.5rem; /* Smaller title on mobile */
+        font-size: 2.5rem;
     }
 
     .home-description {
-        font-size: 1.4rem; /* Smaller description on mobile */
+        font-size: 1.4rem;
     }
 
     .home-logo {
-        width: 300px; /* Adjust logo size for smaller screens */
+        width: 300px; 
     }
 }

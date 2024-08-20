@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css'; // Make sure to create this CSS file
 
+window.addEventListener("scroll", function() {
+  const navbar = document.querySelector(".navbar");
+  if (window.scrollY > 0) {
+    navbar.style.transform = "translateY(-100%)";
+  } else {
+    navbar.style.transition = "transform 0.3s ease-in-out";
+    navbar.style.transform = "translateY(0)";
+  }
+});
+
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
