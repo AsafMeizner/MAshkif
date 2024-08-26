@@ -1,13 +1,14 @@
 import React from 'react';
 
-const TextField = ({ field, onChange }) => {
+const TextField = ({ field, onChange, value }) => {
   return (
     <div className="field">
       <label>{field.title}</label>
       <input
         type="text"
         required={field.required}
-        onChange={(e) => onChange(field.code, e.target.value)}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       />
     </div>
   );

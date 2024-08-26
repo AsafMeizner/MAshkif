@@ -124,6 +124,13 @@
   .history-button:hover {
     background-color: #c0392b;
   }
+
+  .reset-feedback {
+    color: green;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+  }
   
   .modal-content {
     background: #34495e;

@@ -5,6 +5,7 @@ import '../App.css';
 import ScanButton from '../components/ScanComponents/ScanButton';
 import CameraWarning from '../components/ScanComponents/CameraWarning';
 import ScanModal from '../components/ScanComponents/ScanModal';
+import HapticFeedback from '../components/HapticFeedback'; 
 import { compressAndEncode, decompressAndDecode } from '../components/utils';
 
 Modal.setAppElement('#root');
@@ -113,6 +114,8 @@ function QrScannerPage() {
           <CameraWarning />
         )}
       </div>
+
+      {decodedContent && <HapticFeedback />} 
 
       <ScanModal
         isOpen={modalIsOpen}
