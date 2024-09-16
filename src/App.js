@@ -12,14 +12,12 @@ function App() {
     <Router>
       <div className="App">
         <Navbar />
-        <div style={{marginTop: "5%"}}>
-          <Routes>
-            <Route path="/quizform" element={<QuizForm />} />
-            <Route path="/" element={<HomePage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/qrscan" element={<QrScan />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/quizform" element={<QuizForm />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/qrscan" element={<QrScan />} />
+        </Routes>
       </div>
     </Router>
   );

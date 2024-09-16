@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import Modal from 'react-modal';
 import './Settings.css';
+
+Modal.setAppElement('#root'); // Required for accessibility
 
 function SettingsPage() {
     const [, setFileContent] = useState('');
     const [uploadedConfig, setUploadedConfig] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const savedConfig = localStorage.getItem('config');
@@ -33,9 +37,17 @@ function SettingsPage() {
         setUploadedConfig(null);
     }
 
+    function openModal() {
+        setIsModalOpen(true);
+    }
+
+    function closeModal() {
+        setIsModalOpen(false);
+    }
+
     return (
-        <div>
-            <div className="settings-page">
+        <div className='settings-page'>
+            <div className="settings-container">
                 <h1>Settings</h1>
                 <div className="form-group">
                     <label htmlFor="formJson" className="custom-file-upload">
@@ -48,19 +60,32 @@ function SettingsPage() {
                         onChange={handleFileUpload}
                     />
                     {uploadedConfig && (
-                        <button onClick={handleDeleteConfig} className='delete-config-button'>
-                            Delete Configuration
-                        </button>
+                        <>
+                            <button onClick={openModal} className='open-config-button'>
+                                Open Configuration
+                            </button>
+                            <button onClick={handleDeleteConfig} className='delete-config-button'>
+                                Delete Configuration
+                            </button>
+                        </>
                     )}
                 </div>
-                {uploadedConfig && (
-                    <div className="uploaded-config">
-                        <h2>Current Configuration</h2>
-                        <pre>{JSON.stringify(uploadedConfig, null, 2)}</pre>
-                    </div>
-                )}
             </div>
-            <div style={{ height: '100vh' }}></div>
+
+            <Modal
+                isOpen={isModalOpen}
+                onRequestClose={closeModal}
+                className="modal"
+                overlayClassName="overlay"
+            >
+                <div className="modal-content">
+                    <h2>Configuration</h2>
+                    <pre>{JSON.stringify(uploadedConfig, null, 2)}</pre>
+                    <button onClick={closeModal} className='close-button'>
+                        Close
+                    </button>
+                </div>
+            </Modal>
         </div>
     );
 }
