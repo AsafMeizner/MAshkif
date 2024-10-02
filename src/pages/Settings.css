@@ -3,25 +3,32 @@
   src: url('/public/fonts/Board-of-Directors-W00-Heavy-It.ttf') format('truetype');
 }
 
-.settings-page-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .settings-page {
-  font-family: 'BoardofDirectorsWOO-Hvlt', Arial, sans-serif;
-  background-color: #181b1f; 
-  margin-top: 10%;
-  color: white;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  box-sizing: border-box;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #2c3e50;
+  position: relative;
+  overflow: hidden;
 }
 
-.delete-config-button {
+.settings-container {
+  margin-top: 20%;
+  text-align: center;
+  padding: 20px;
+  background-color: #34495e;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  width: 90vw;
+  max-width: 400px;
+  box-sizing: border-box;
+  z-index: 5;
+}
+
+.open-config-button, .delete-config-button, .close-button {
   font-family: 'BoardofDirectorsWOO-Hvlt', Arial, sans-serif;
   display: inline-block;
   padding: 10px 15px;
@@ -31,12 +38,12 @@
   border-radius: 5px;
   text-align: center;
   transition: background-color 0.3s ease;
-  margin-top: 10px; 
-  border: none; 
-  font-size: 16px; 
+  margin-top: 10px;
+  border: none;
+  font-size: 16px;
 }
 
-.delete-config-button:hover {
+.open-config-button:hover, .delete-config-button:hover, .close-button:hover {
   background-color: #c0392b;
 }
 
@@ -59,52 +66,9 @@
   align-items: center; 
 }
 
-.settings-page label {
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-
-.settings-page input[type="text"],
-.settings-page input[type="file"] {
-  padding: 10px;
-  border: 1px solid #7f8c8d;
-  border-radius: 5px;
-  background-color: #3b3b3b;
-  color: white;
-  font-size: 14px;
-}
-
-.settings-page button[type="submit"] {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  align-self: center;
-  transition: background-color 0.3s ease;
-}
-
-.settings-page button[type="submit"]:hover {
-  background-color: #c0392b;
-}
-
 .settings-page input[type="file"] {
   padding: 0;
   font-size: 14px;
-}
-
-@media (max-width: 600px) {
-  .settings-page {
-    padding: 15px;
-  }
-
-  .settings-page input[type="text"],
-  .settings-page input[type="file"],
-  .settings-page button[type="submit"] {
-    width: 100%;
-  }
 }
 
 .settings-page input[type="file"] {
@@ -125,4 +89,62 @@
 
 .custom-file-upload:hover {
     background-color: #c0392b;
+}
+
+/* Modal styles */
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Adjusted for less harsh black */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #34495e;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80vw;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto; 
+  position: relative;
+}
+
+.modal-content {
+  background: #34495e;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+}
+
+.modal-content pre {
+  background-color: #3b3b3b;
+  padding: 10px;
+  border-radius: 5px;
+  color: #ecf0f1;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 45vh; 
+  overflow-y: auto; 
+}
+
+.close-button {
+  background-color: #e74c3c; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.close-button:hover {
+  background-color: #c0392b;
 }

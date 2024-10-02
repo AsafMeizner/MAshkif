@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 
-const CounterField = ({ field, onChange }) => {
-  const [count, setCount] = useState(field.defaultValue);
+const CounterField = ({ field, onChange, value }) => {
+  const [count, setCount] = useState(value || field.defaultValue);
 
   const increment = () => {
     const newCount = count + 1;
     setCount(newCount);
-    onChange(field.code, newCount);
+    onChange(newCount);
   };
 
   const decrement = () => {
     if (count > field.min) {
       const newCount = count - 1;
       setCount(newCount);
-      onChange(field.code, newCount);
+      onChange(newCount);
     }
   };
 

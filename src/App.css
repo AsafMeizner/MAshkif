@@ -240,6 +240,7 @@ body.barcode-scanner-active .qr-scanner-container {
 }
 
 .qr-scanner-container {
+  margin-top: 20%;
   text-align: center;
   padding: 20px;
   background-color: #181b1f;
@@ -247,7 +248,6 @@ body.barcode-scanner-active .qr-scanner-container {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   width: 90vw;
   max-width: 400px;
-  margin-top: 20px;
   box-sizing: border-box;
   z-index: 5;
 }
@@ -368,3 +368,9 @@ body.barcode-scanner-active .qr-scanner-container {
   background: #555;
 }
 
+/* number input ================ */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

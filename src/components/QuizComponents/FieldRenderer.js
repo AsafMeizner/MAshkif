@@ -5,13 +5,14 @@ import SelectField from './QuestionFields/SelectField';
 import BooleanField from './QuestionFields/BooleanField';
 import CounterField from './QuestionFields/CounterField';
 
-const FieldRenderer = ({ field, onChange }) => {
+const FieldRenderer = ({ field, onChange, value }) => {
   switch (field.type) {
     case 'text':
       return (
         <TextField
           key={field.code}
           field={field}
+          value={value}
           onChange={onChange}
         />
       );
@@ -20,6 +21,7 @@ const FieldRenderer = ({ field, onChange }) => {
         <NumberField
           key={field.code}
           field={field}
+          value={value}
           onChange={onChange}
         />
       );
@@ -28,6 +30,7 @@ const FieldRenderer = ({ field, onChange }) => {
         <SelectField
           key={field.code}
           field={field}
+          value={value}
           onChange={onChange}
         />
       );
@@ -36,6 +39,7 @@ const FieldRenderer = ({ field, onChange }) => {
         <BooleanField
           key={field.code}
           field={field}
+          value={value}
           onChange={onChange}
         />
       );
@@ -44,6 +48,7 @@ const FieldRenderer = ({ field, onChange }) => {
         <CounterField
           key={field.code}
           field={field}
+          value={value}
           onChange={onChange}
         />
       );
