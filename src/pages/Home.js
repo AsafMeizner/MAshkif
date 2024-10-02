@@ -16,6 +16,7 @@ function HomePage() {
                 <button onClick={() => window.location.href = '/quizform'} className="home-button">Scouting Form</button>
                 <button onClick={() => window.location.href = '/settings'} className="home-button">Setup</button>
                 <button onClick={() => window.location.href = '/qrscan'} className="home-button">Scan QR</button>
+                <button onClick={() => window.location.href = '/visualization'} className="home-button">Visualization</button>
             </div>
         </div>
     );
