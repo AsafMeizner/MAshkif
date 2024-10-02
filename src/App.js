@@ -6,18 +6,22 @@ import HomePage from './pages/Home';
 import SettingsPage from './pages/Settings';
 import QrScan from './pages/QrScan';
 import Navbar from './components/Navbar';
+import Visualization from './pages/Visualization';
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Navbar />
-        <Routes>
-          <Route path="/quizform" element={<QuizForm />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/qrscan" element={<QrScan />} />
-        </Routes>
+        <div style={{marginTop: "5%"}}>
+          <Routes>
+            <Route path="/quizform" element={<QuizForm />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/qrscan" element={<QrScan />} />
+            <Route path="/visualization" element={<Visualization />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );

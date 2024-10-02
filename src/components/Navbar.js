@@ -37,6 +37,9 @@ function Navbar() {
         <li>
           <Link to="/qrscan" onClick={toggleMenu}>QR Scan</Link>
         </li>
+        <li>
+          <Link to="/visualization" onClick={toggleMenu}>Visualization</Link>
+        </li>
       </ul>
     </nav>
   );
