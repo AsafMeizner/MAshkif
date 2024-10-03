@@ -3,6 +3,16 @@
   src: url('/public/fonts/Board-of-Directors-W00-Heavy-It.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Gilroy-ExtraBold';
+  src: url('/public/fonts/Gilroy-ExtraBold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Gilroy-Light';
+  src: url('/public/fonts/Gilroy-Light.otf') format('opentype');
+}
+
 body.barcode-scanner-active {
   visibility: hidden;
 }
@@ -11,8 +21,16 @@ body.barcode-scanner-active .qr-scanner-container {
   visibility: visible;
 }
 
+button {
+  /* font-family: 'Gilroy-ExtraBold', Arial, sans-serif; */
+  font-family: 'Gilroy-Light', Arial, sans-serif;
+
+}
+
 .App {
-  font-family: 'BoardofDirectorsWOO-Hvlt', Arial, sans-serif;
+  /* font-family: 'BoardofDirectorsWOO-Hvlt', Arial, sans-serif; */
+  font-family: 'Gilroy-Light', Arial, sans-serif;
+
   display: flex;
   justify-content: center;
   align-items: center;

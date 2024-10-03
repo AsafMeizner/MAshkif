@@ -25,6 +25,50 @@ body {
     font-size: 2rem;
     margin-bottom: 20px;
     text-align: center;
+    font-family: "Gilroy-ExtraBold", Arial, sans-serif;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    background-color: #444;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin: 0 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.tabs button.active-tab {
+    background-color: #e74c3c;
+}
+
+.tabs button:hover {
+    background-color: #cf9191;
+}
+
+.section {
+    width: 95vw; 
+    margin: 0 auto; 
+    margin-bottom: 20px;
+}
+
+.chart-section-title {
+    font-size: 1.5rem;
+    cursor: pointer;
+    background-color: #e74c3c;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+    width: 100%;
 }
 
 .graph-container {
@@ -32,15 +76,16 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    width: 100%;
+    width: 100%; 
     flex-grow: 1;
     padding-bottom: 10px;
 }
 
 @media (min-width: 1000px) {
     .graph-item {
-        flex: 1 1 calc(47% - 20px); 
-        max-width: calc(47% - 20px); 
+        font-family: Arial, sans-serif;
+        flex: 1 1 calc(45vw);
+        max-width: calc(45vw); 
         background-color: #1e1e1e;
         border-radius: 8px;
         padding: 10px;
@@ -48,7 +93,8 @@ body {
         height: 100%; 
         display: flex;
         justify-content: center;
-        align-items: center; 
+        align-items: center;
+        font-family: 'Gilroy-Light', Arial, sans-serif;
     }
 
     .graph-item canvas, .graph-item > div {
@@ -60,8 +106,9 @@ body {
 
 @media (max-width: 1000px) {
     .graph-item {
-        flex: 1 1 95%; 
-        max-width: 95%; 
+        font-family: Arial, sans-serif;
+        flex: 1 1 90vw;
+        max-width: 90vw; 
         background-color: #1e1e1e;
         border-radius: 8px;
         padding: 10px;

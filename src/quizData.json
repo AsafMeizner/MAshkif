@@ -21,21 +21,6 @@
                 "autoIncrementOnReset": true
             },
             {
-                "title": "Robot",
-                "type": "select",
-                "required": true,
-                "code": "robot",
-                "choices": {
-                    "R1": "Red 1",
-                    "R2": "Red 2",
-                    "R3": "Red 3",
-                    "B1": "Blue 1",
-                    "B2": "Blue 2",
-                    "B3": "Blue 3"
-                },
-                "defaultValue": "R1"
-            },
-            {
                 "title": "Team Number",
                 "type": "number",
                 "required": true,
@@ -119,14 +104,6 @@
             "name": "Teleop",
             "fields": [
                 {
-                    "code": "tamps",
-                    "title": "Amp Scored",
-                    "type": "counter",
-                    "defaultValue": 0,
-                    "min": 0,
-                    "required": false
-                },
-                {
                     "code": "tsc",
                     "title": "Speaker Scored",
                     "type": "counter",
@@ -135,16 +112,32 @@
                     "required": false
                 },
                 {
-                    "code": "tfs",
-                    "title": "Feeder Shots",
+                    "code": "tsm",
+                    "title": "Speaker Missed",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
                     "required": false
                 },
                 {
-                    "code": "cn",
-                    "title": "Note in Trap?",
+                    "code": "tamps",
+                    "title": "Amp Scored",
+                    "type": "counter",
+                    "defaultValue": 0,
+                    "min": 0,
+                    "required": false
+                },
+                {
+                    "code": "tampm",
+                    "title": "Amp Missed",
+                    "type": "counter",
+                    "defaultValue": 0,
+                    "min": 0,
+                    "required": false
+                },
+                {
+                    "code": "tfs",
+                    "title": "Feeder Shots",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -175,6 +168,14 @@
                     "Fh": "Failed Harmony"
                     },
                     "defaultValue": "No"
+                },
+                {
+                    "code": "cn",
+                    "title": "Note in Trap?",
+                    "type": "counter",
+                    "defaultValue": 0,
+                    "min": 0,
+                    "required": false
                 }
             ]
         },

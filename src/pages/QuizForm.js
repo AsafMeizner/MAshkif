@@ -91,7 +91,7 @@ const QuizForm = () => {
   return (
     <div style={window.innerWidth > window.innerHeight ? {marginTop: "5%", marginBottom: "5%"} : {marginTop: "10%", marginBottom: "5%"}}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100vw", margintop: "10%" }}>
-        <h1 style={{ color: "#e74c3c" }}>{pageTitle}</h1>
+        <h1 className="quiz-title">{pageTitle}</h1>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="form-container">
         {sections.map((section) => (

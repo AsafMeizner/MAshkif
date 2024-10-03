@@ -9,9 +9,9 @@ function HomePage() {
     const homePageClass = isMobile ? "home-page-mobile" : "home-page";
 
     return (
-        <div className={homePageClass}>
+        <div className="home-page">
             <header className="home-header">
-                <h1 className="home-title">Mashkif</h1>
+                <h1 className="home-title">MAshkif</h1>
                 <img src="/icon.png" alt="App Icon" className="home-logo" />
             </header>
             <p className="home-description">This is the scouting app made by Makers Assemble 5951</p>

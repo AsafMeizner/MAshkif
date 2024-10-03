@@ -48,12 +48,13 @@ const RadarGraph = ({ config }) => {
         height,
         title,
         fontSettings,
+        maintainAspectRatio,
     } = finalConfig;
 
     return (
         <div style={{ width: width, height: height }}>
             {title && <h2 style={{ fontSize: fontSettings.titleFontSize, textAlign: 'center', marginBottom: 20, color: '#ffffff' }}>{title}</h2>}
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" aspect={maintainAspectRatio ? 1 : 2}>
                 <RadarChart data={data}>
                     {showGrid && (
                         <PolarGrid
@@ -158,8 +159,6 @@ export const radarGraphConfig = {
     fillGrid: true,
     showLegend: true,
     responsive: true,
-    width: 800,
-    height: 500,
     title: 'Radar Chart Example',
     fontSettings: {
         titleFontSize: 24,
