@@ -1,5 +1,9 @@
 
-  
+  .quiz-title {
+    font-family: "Gilroy-ExtraBold", Arial, sans-serif;
+    color: #e74c3c;
+  }
+
   .form-container {
     display: flex;
     flex-wrap: wrap;

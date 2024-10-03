@@ -19,7 +19,7 @@
   margin-top: 20%;
   text-align: center;
   padding: 20px;
-  background-color: #34495e;
+  background-color: #353c45;
   border-radius: 15px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   width: 90vw;
@@ -106,7 +106,7 @@
 }
 
 .modal {
-  background-color: #34495e;
+  background-color: #353c45;
   padding: 20px;
   border-radius: 10px;
   width: 80vw;
@@ -117,7 +117,7 @@
 }
 
 .modal-content {
-  background: #34495e;
+  background: #353c45;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
