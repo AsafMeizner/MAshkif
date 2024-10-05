@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label, Text,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label,
 } from 'recharts';
 
 const CustomBarShape = (props) => {
@@ -119,7 +119,7 @@ const BarGraph = ({ config }) => {
     xAxisLabelRotation,
   } = finalConfig;
 
-  // Sort data by average score in descending order
+  // Sort data by the yKey (default: averageScore) in descending order
   const sortedData = [...data].sort((a, b) => b[yKey] - a[yKey]);
 
   return (
@@ -166,8 +166,10 @@ const BarGraph = ({ config }) => {
             <Bar
               key={type.key}
               dataKey={type.key}
-              fill={type.color} // Use color from config
+              fill={type.color}
+              name={type.name}  // Use the readable name here
               shape={<CustomBarShape />}
+              stackId={type.stacked ? 'a' : undefined}  // Stack bars if the 'stacked' property is true
             />
           ))}
         </BarChart>

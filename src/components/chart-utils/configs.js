@@ -1,4 +1,7 @@
-import { teleopTeamAverages, teleopTeamMax, matchTeamAverages, matchTeamMax, autonomousMovedTeamAverages, autonomousSpeakerTeamAverages, autonomousSpeakerTeamMax, autonomousFoulTeamAverages, autonomousFoulTeamMax, autonomousSpeakerAccuracyTeamAverages } from './functions.js';
+import {teleopTeamAverages, teleopTeamMax, matchTeamAverages, matchTeamMax, autonomousMovedTeamAverages, 
+        autonomousSpeakerTeamAverages, autonomousSpeakerTeamMax, autonomousFoulTeamAverages, autonomousFoulTeamMax, 
+        autonomousSpeakerAccuracyTeam, teleopSpeakerTeamAverage, teleopSpeakerTeamMax, teleopAmpTeamAverage,
+        teleopAmpTeamMax, teleopAmpAccuracyTeam, teleopSpeakerAccuracyTeam, endgameClimbData, endgameTrapTeamAverage } from './functions.js';
 import scoutingData from '../../scouting_data_dcmp.json'; 
 
 export const averageTeleopScoreConfig = {
@@ -9,6 +12,7 @@ export const averageTeleopScoreConfig = {
             key: 'averageScore',
             label: 'Average Score',
             color: '#70dbed',
+            name: 'Tele-Op Average Cycles',
         },
     ],
     chartSettings: {
@@ -46,6 +50,7 @@ export const maxTeleopScoreConfig = {
             key: 'maxScore',
             label: 'Max Score',
             color: '#f2495c',
+            name: 'Tele-Op Max Cycles',
         },
     ],
     chartSettings: {
@@ -83,6 +88,7 @@ export const averageMatchScoreConfig = {
             key: 'averageScore',
             label: 'Average Score',
             color: '#3498db',
+            name: 'Match Average Score',
         },
     ],
     chartSettings: {
@@ -120,6 +126,7 @@ export const maxMatchScoreConfig = {
             key: 'maxScore',
             label: 'Max Score',
             color: '#e74c3c',
+            name: 'Match Max Score',
         },
     ],
     chartSettings: {
@@ -157,6 +164,7 @@ export const averageAutonomousScoreConfig = {
             key: 'averageScore',
             label: 'Average Score',
             color: '#8ab8ff',
+            name: 'Autonomous Average Score',
         },
     ],
     chartSettings: {
@@ -194,6 +202,7 @@ export const maxAutonomousScoreConfig = {
             key: 'maxScore',
             label: 'Max Score',
             color: '#fa6400',
+            name: 'Autonomous Max Score',
         },
     ],
     chartSettings: {
@@ -231,6 +240,7 @@ export const averageAutonomousMovedConfig = {
             key: 'averageScore',
             label: 'Average Score',
             color: '#fade2a',
+            name: 'Autonomous Moved Average Score',
         },
     ],
     chartSettings: {
@@ -268,6 +278,7 @@ export const averageAutonomousFoulConfig = {
             key: 'averageScore',
             label: 'Average Score',
             color: '#ff0000',
+            name: 'Autonomous Foul Average Score',
         },
     ],
     chartSettings: {
@@ -305,6 +316,7 @@ export const maxAutonomousFoulConfig = {
             key: 'maxScore',
             label: 'Max Score',
             color: '#ff0000',
+            name: 'Autonomous Foul Max Score',
         },
     ],
     chartSettings: {
@@ -335,13 +347,14 @@ export const maxAutonomousFoulConfig = {
 };
 
 export const averageAutonomousSpeakerAccuracyConfig = {
-    data: autonomousSpeakerAccuracyTeamAverages(scoutingData),
+    data: autonomousSpeakerAccuracyTeam(scoutingData),
     title: 'Autonomous Speaker Accuracy Average Notes By Team',
     scoringTypes: [
         {
             key: 'averageScore',
             label: 'Average Score',
             color: '#ff0000',
+            name: 'Autonomous Speaker Percent in',
         },
     ],
     chartSettings: {
@@ -354,6 +367,339 @@ export const averageAutonomousSpeakerAccuracyConfig = {
     yAxisLabel: 'Average Score',
     yAxisMin: 0,
     yAxisMax: 'auto',
+    showTooltip: true,
+    tooltipSettings: {
+        backgroundColor: '#333333',
+        borderRadius: '8px',
+        fontSize: '0.875rem',
+        cursorColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    showLegend: true,
+    interactiveLegend: true,
+    legendPosition: 'top',
+    responsive: true,
+    maintainAspectRatio: true,
+    showDataLabels: false,
+    dataLabelPosition: 'inside',
+    dataLabelRotation: 0,
+};
+
+export const averageTeleopSpeakerByTeamConfig = {
+    data: teleopSpeakerTeamAverage(scoutingData),
+    title: 'Teleop Speaker Average By Team',
+    scoringTypes: [
+        {
+            key: 'averageScore',
+            label: 'Average Score',
+            color: '#b877d9',
+            name: 'Teleop Speaker Average',
+        },
+    ],
+    chartSettings: {
+        showGridlines: true,
+        gridlineColor: '#444444',
+    },
+    xKey: 'teamNumber',
+    yKey: 'averageScore',
+    xAxisLabel: 'Team Number',
+    yAxisLabel: 'Average Score',
+    yAxisMin: 0,
+    yAxisMax: 'auto',
+    showTooltip: true,
+    tooltipSettings: {
+        backgroundColor: '#333333',
+        borderRadius: '8px',
+        fontSize: '0.875rem',
+        cursorColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    showLegend: true,
+    interactiveLegend: true,
+    legendPosition: 'top',
+    responsive: true,
+    maintainAspectRatio: true,
+    showDataLabels: false,
+    dataLabelPosition: 'inside',
+    dataLabelRotation: 0,
+};
+
+export const maxTeleopSpeakerByTeamConfig = {
+    data: teleopSpeakerTeamMax(scoutingData),
+    title: 'Teleop Speaker Max By Team',
+    scoringTypes: [
+        {
+            key: 'maxScore',
+            label: 'Max Score',
+            color: '#f9934e',
+            name: 'Teleop Speaker Max',
+        },
+    ],
+    chartSettings: {
+        showGridlines: true,
+        gridlineColor: '#444444',
+    },
+    xKey: 'teamNumber',
+    yKey: 'maxScore',
+    xAxisLabel: 'Team Number',
+    yAxisLabel: 'Max Score',
+    yAxisMin: 0,
+    yAxisMax: 'auto',
+    showTooltip: true,
+    tooltipSettings: {
+        backgroundColor: '#333333',
+        borderRadius: '8px',
+        fontSize: '0.875rem',
+        cursorColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    showLegend: true,
+    interactiveLegend: true,
+    legendPosition: 'top',
+    responsive: true,
+    maintainAspectRatio: true,
+    showDataLabels: false,
+    dataLabelPosition: 'inside',
+    dataLabelRotation: 0,
+};
+
+export const averageTeleopAmpByTeamConfig = {
+    data: teleopAmpTeamAverage(scoutingData),
+    title: 'Teleop Amp Average By Team',
+    scoringTypes: [
+        {
+            key: 'averageScore',
+            label: 'Average Score',
+            color: '#fa6400',
+            name: 'Teleop Amp Average',
+        },
+    ],
+    chartSettings: {
+        showGridlines: true,
+        gridlineColor: '#444444',
+    },
+    xKey: 'teamNumber',
+    yKey: 'averageScore',
+    xAxisLabel: 'Team Number',
+    yAxisLabel: 'Average Score',
+    yAxisMin: 0,
+    yAxisMax: 'auto',
+    showTooltip: true,
+    tooltipSettings: {
+        backgroundColor: '#333333',
+        borderRadius: '8px',
+        fontSize: '0.875rem',
+        cursorColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    showLegend: true,
+    interactiveLegend: true,
+    legendPosition: 'top',
+    responsive: true,
+    maintainAspectRatio: true,
+    showDataLabels: false,
+    dataLabelPosition: 'inside',
+    dataLabelRotation: 0,
+};
+
+export const maxTeleopAmpByTeamConfig = {
+    data: teleopAmpTeamMax(scoutingData),
+    title: 'Teleop Amp Max By Team',
+    scoringTypes: [
+        {
+            key: 'maxScore',
+            label: 'Max Score',
+            color: '#8ab8ff',
+            name: 'Teleop Amp Max',
+        },
+    ],
+    chartSettings: {
+        showGridlines: true,
+        gridlineColor: '#444444',
+    },
+    xKey: 'teamNumber',
+    yKey: 'maxScore',
+    xAxisLabel: 'Team Number',
+    yAxisLabel: 'Max Score',
+    yAxisMin: 0,
+    yAxisMax: 'auto',
+    showTooltip: true,
+    tooltipSettings: {
+        backgroundColor: '#333333',
+        borderRadius: '8px',
+        fontSize: '0.875rem',
+        cursorColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    showLegend: true,
+    interactiveLegend: true,
+    legendPosition: 'top',
+    responsive: true,
+    maintainAspectRatio: true,
+    showDataLabels: false,
+    dataLabelPosition: 'inside',
+    dataLabelRotation: 0,
+};
+
+export const teleopSpeakerPercentInByTeamConfig = {
+    data: teleopSpeakerAccuracyTeam(scoutingData),
+    title: 'Teleop Speaker Percent In By Team',
+    scoringTypes: [
+        {
+            key: 'averageScore',
+            label: 'Average Score',
+            color: '#65fe65',
+            name: 'Teleop Speaker Percent In',
+        },
+    ],
+    chartSettings: {
+        showGridlines: true,
+        gridlineColor: '#444444',
+    },
+    xKey: 'teamNumber',
+    yKey: 'averageScore',
+    xAxisLabel: 'Team Number',
+    yAxisLabel: 'Average Score',
+    yAxisMin: 0,
+    yAxisMax: 'auto',
+    showTooltip: true,
+    tooltipSettings: {
+        backgroundColor: '#333333',
+        borderRadius: '8px',
+        fontSize: '0.875rem',
+        cursorColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    showLegend: true,
+    interactiveLegend: true,
+    legendPosition: 'top',
+    responsive: true,
+    maintainAspectRatio: true,
+    showDataLabels: false,
+    dataLabelPosition: 'inside',
+    dataLabelRotation: 0,
+};
+
+export const teleopAmpPercentInByTeamConfig = {
+    data: teleopAmpAccuracyTeam(scoutingData),
+    title: 'Teleop Amp Percent In By Team',
+    scoringTypes: [
+        {
+            key: 'averageScore',
+            label: 'Average Score',
+            color: '#97fa97',
+            name: 'Teleop Amp Percent In',
+        },
+    ],
+    chartSettings: {
+        showGridlines: true,
+        gridlineColor: '#444444',
+    },
+    xKey: 'teamNumber',
+    yKey: 'averageScore',
+    xAxisLabel: 'Team Number',
+    yAxisLabel: 'Average Score',
+    yAxisMin: 0,
+    yAxisMax: 'auto',
+    showTooltip: true,
+    tooltipSettings: {
+        backgroundColor: '#333333',
+        borderRadius: '8px',
+        fontSize: '0.875rem',
+        cursorColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    showLegend: true,
+    interactiveLegend: true,
+    legendPosition: 'top',
+    responsive: true,
+    maintainAspectRatio: true,
+    showDataLabels: false,
+    dataLabelPosition: 'inside',
+    dataLabelRotation: 0,
+};
+
+export const averageEndgameTrapByTeamConfig = {
+    data: endgameTrapTeamAverage(scoutingData),
+    title: 'Endgame Trap Average By Team',
+    scoringTypes: [
+        {
+            key: 'averageScore',
+            label: 'Average Score',
+            color: '#f2495c',
+            name: 'Trap Average',
+        },
+    ],
+    chartSettings: {
+        showGridlines: true,
+        gridlineColor: '#444444',
+    },
+    xKey: 'teamNumber',
+    yKey: 'Average Score',
+    xAxisLabel: 'Team Number',
+    yAxisLabel: 'Average Score',
+    yAxisMin: 0,
+    yAxisMax: 1,
+    showTooltip: true,
+    tooltipSettings: {
+        backgroundColor: '#333333',
+        borderRadius: '8px',
+        fontSize: '0.875rem',
+        cursorColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    showLegend: true,
+    interactiveLegend: true,
+    legendPosition: 'top',
+    responsive: true,
+    maintainAspectRatio: true,
+    showDataLabels: false,
+    dataLabelPosition: 'inside',
+    dataLabelRotation: 0,
+};
+
+export const endgameClimbPercentByTeamConfig = {
+    data: endgameClimbData(scoutingData),
+    title: 'Endgame Climb Percent By Team',
+    scoringTypes: [
+        {
+            key: 'No',
+            label: 'No Climb',
+            color: '#8884d8',
+            stacked: true, 
+            name: 'No Climb', 
+        },
+        {
+            key: 'P',
+            label: 'Parked',
+            color: '#82ca9d',
+            stacked: true,
+            name: 'Parked', 
+        },
+        {
+            key: 'Os',
+            label: 'Onstage',
+            color: '#ffc658',
+            stacked: true,
+            name: 'Onstage',
+        },
+        {
+            key: 'Hm',
+            label: 'Harmony',
+            color: '#ff8042',
+            stacked: true,
+            name: 'Harmony', 
+        },
+        {
+            key: 'Fh',
+            label: 'Failed Harmony',
+            color: '#ff4444',
+            stacked: true,
+            name: 'Failed Harmony',
+        },
+    ],
+    chartSettings: {
+        showGridlines: true,
+        gridlineColor: '#444444',
+    },
+    xKey: 'teamNumber',
+    yKey: 'No',
+    xAxisLabel: 'Team Number',
+    yAxisLabel: 'Percentage',
+    yAxisMin: 0,
+    yAxisMax: 100,
     showTooltip: true,
     tooltipSettings: {
         backgroundColor: '#333333',
