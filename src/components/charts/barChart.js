@@ -74,7 +74,7 @@ const BarGraph = ({ config }) => {
     sortDataBy: 'averageScore',
     width: 800,
     height: 500,
-    title: 'Average Scores by Team',
+    title: 'Title',
     fontSettings: {
       titleFontSize: '1.5rem',
       axisLabelFontSize: '1.125rem',
