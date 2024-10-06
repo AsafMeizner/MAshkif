@@ -651,7 +651,7 @@ export const averageEndgameTrapByTeamConfig = {
 };
 
 export const endgameClimbPercentByTeamConfig = {
-    data: endgameClimbData(scoutingData),
+    data: endgameClimbData(scoutingData),  // The data here is already sorted by weighted score
     title: 'Endgame Climb Percent By Team',
     scoringTypes: [
         {
@@ -694,8 +694,8 @@ export const endgameClimbPercentByTeamConfig = {
         showGridlines: true,
         gridlineColor: '#444444',
     },
-    xKey: 'teamNumber',
-    yKey: 'No',
+    xKey: 'teamNumber',  // Keeps the x-axis based on team numbers
+    yKey: 'No',  // yKey remains the same, indicating the percentage
     xAxisLabel: 'Team Number',
     yAxisLabel: 'Percentage',
     yAxisMin: 0,
