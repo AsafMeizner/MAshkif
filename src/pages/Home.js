@@ -5,9 +5,6 @@ import './HomePage.css';
 Modal.setAppElement('#root');
 
 function HomePage() {
-    const isMobile = window.innerWidth < window.innerHeight;
-    const homePageClass = isMobile ? "home-page-mobile" : "home-page";
-
     return (
         <div className="home-page">
             <header className="home-header">

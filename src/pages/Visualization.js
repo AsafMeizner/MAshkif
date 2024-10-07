@@ -294,7 +294,9 @@ const Visualization = () => {
             </div>
             {specificTeamRenderGeneralSection()}
             {specificTeamRenderAutonomousSection()}
-            {allTeamsRenderTeleopSection()}
+            {specificTeamRenderTeleopSection()}
+            {specificTeamRenderEndgameSection()}
+            {specificTeamRenderSummarySection()}
         </>
     );
 

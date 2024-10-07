@@ -57,7 +57,6 @@ const PieGraph = ({ config }) => {
     responsive,
     maintainAspectRatio,
     showLabels,
-    dataLabelPosition,
     legendPosition,
     legendLayout, 
     scoringTypes,  
