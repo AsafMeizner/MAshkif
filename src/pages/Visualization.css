@@ -119,11 +119,18 @@ body {
         border-radius: 8px;
         padding: 10px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        height: 100%; 
+        height: calc(26vw); 
         display: flex;
         justify-content: center;
         align-items: center;
         font-family: 'Gilroy-Light', Arial, sans-serif;
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #111217;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-corner { background: #1e1e1e; }
     }
 
     .graph-item canvas, .graph-item > div {

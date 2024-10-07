@@ -191,3 +191,50 @@ export function autoPathPieData(scoutingData, teamNumber) {
         value: pathCounts[pathKey], 
     }));
 }
+
+export function commentsPerTeamTable(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
+
+    if (!teamData.length) {
+        return [];
+    }
+
+    const formattedData = teamData.map((entry) => ({
+        submissionTime: new Date(entry.submissionTime / 1_000_000).toLocaleString(),
+        matchNumber: entry.matchNumber,
+        scouter: entry.scouter,
+        comment: entry.co || 'No Comment',
+        card: entry.yc || 'No Card',
+        showedUp: entry.noShow ? 'No' : 'Yes',
+        diedOrTippedOver: entry.dto ? 'Yes' : 'No',
+    }));
+
+    formattedData.sort((a, b) => a.matchNumber - b.matchNumber);
+
+    return formattedData;
+}
+
+export function startPositionPieData(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+
+    if (!teamData.length) {
+        return [];
+    }
+
+    const positionCounts = {
+        Source: 0,
+        Middle: 0,
+        Amp: 0,
+    };
+
+    teamData.forEach((entry) => {
+        positionCounts.Source += entry.Prsp === "Source" ? 1 : 0;
+        positionCounts.Middle += entry.Prsp === "Middle" ? 1 : 0;
+        positionCounts.Amp += entry.Prsp === "Amp" ? 1 : 0;
+    });
+
+    return Object.keys(positionCounts).map((positionKey) => ({
+        name: positionKey,  
+        value: positionCounts[positionKey], 
+    }));
+}

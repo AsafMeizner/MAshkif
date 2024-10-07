@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import BarGraph from '../components/charts/barChart'; 
 import NumberDisplay from '../components/charts/numberDisplay';
 import PieGraph from '../components/charts/pieChart';
+import TableChart from '../components/charts/tableChart';
 import './Visualization.css'; 
 import * as allTeamsConfigs from '../components/chart-utils/allTeams/configs';
 import * as specificTeamConfigs from '../components/chart-utils/specificTeam/configs';
@@ -160,6 +161,12 @@ const Visualization = () => {
                     </div>
                     <div className="graph-item">
                         <NumberDisplay config={specificTeamConfigs.averageScoreConfig(scoutingData, teamNumber)} />
+                    </div>
+                    <div className="graph-item">
+                        <TableChart config={specificTeamConfigs.commentsPerTeamTableConfig(scoutingData, teamNumber)} />
+                    </div>
+                    <div className="graph-item">
+                        <PieGraph config={specificTeamConfigs.startPositionUsagePieConfig(scoutingData, teamNumber)} />
                     </div>
                 </div>
             )}

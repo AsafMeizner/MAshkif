@@ -183,32 +183,6 @@
             "name": "Postmatch",
             "fields": [
                 {
-                    "code": "or",
-                    "title": "Offense Skill",
-                    "type": "select",
-                    "choices": {
-                    "1": "Not Effective",
-                    "2": "Average",
-                    "3": "Very Effective",
-                    "x": "Not Observed"
-                    },
-                    "defaultValue": "x",
-                    "required": false
-                },
-                {
-                    "code": "dr",
-                    "title": "Defense Skill",
-                    "type": "select",
-                    "choices": {
-                    "1": "Not Effective",
-                    "2": "Average",
-                    "3": "Very Effective",
-                    "x": "Not Observed"
-                    },
-                    "defaultValue": "x",
-                    "required": false
-                },
-                {
                     "code": "dto",
                     "title": "Died/Tipped Over",
                     "type": "boolean",

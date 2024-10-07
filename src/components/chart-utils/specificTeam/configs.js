@@ -377,3 +377,103 @@ export const autoPathUsagePieConfig = (scoutingData, teamNumber) => ({
     },
     responsive: true,
 });
+
+export const commentsPerTeamTableConfig = (scoutingData, teamNumber) => {
+    return {
+        data: specificTeamFunctions.commentsPerTeamTable(scoutingData, teamNumber),
+        title: `General data for Team ${teamNumber}`,
+        columns: [
+            {
+                key: 'submissionTime',
+                label: 'Submission Time',
+            },
+            {
+                key: 'matchNumber',
+                label: 'Match Number',
+            },
+            {
+                key: 'scouter',
+                label: 'Scouter Name',
+            },
+            {
+                key: 'comment',
+                label: 'Comments',
+            },
+            {
+                key: 'card',
+                label: 'Card',
+            },
+            {
+                key: 'showedUp',
+                label: 'Showed Up',
+            },
+            {
+                key: 'diedOrTippedOver',
+                label: 'Died/Tipped Over',
+            },
+        ],
+        tableSettings: {
+            showGridlines: true,
+            responsive: true,
+            maintainAspectRatio: true,
+            enableSorting: true, // Enable sorting on columns
+            sortBy: 'matchNumber', // Default sorting by match number
+            sortOrder: 'ascending', // Ascending sorting order
+        },
+        columnResizeSettings: {
+            resizable: true,
+            minColumnWidth: 100,
+        },
+        pagination: true,
+        rowsPerPage: 10,
+        paginationSettings: {
+            showPaginationControls: true,
+            paginationControlPosition: 'bottom',
+        },
+    };
+};
+
+export const startPositionUsagePieConfig = (scoutingData, teamNumber) => ({
+    data: specificTeamFunctions.startPositionPieData(scoutingData, teamNumber),
+    title: `Starting Position Usage Percentages for Team ${teamNumber}`,
+    scoringTypes: [
+        {
+            key: 'Source',
+            label: 'Source',
+            color: '#8884d8',
+            name: 'Source',
+        },
+        {
+            key: 'Middle',
+            label: 'Middle',
+            color: '#82ca9d',
+            name: 'Middle',
+        },
+        {
+            key: 'Amp',
+            label: 'Amp',
+            color: '#ff4444',
+            name: 'Amp',
+        },
+    ],
+    chartSettings: {
+        showTooltip: true,
+        tooltipSettings: {
+            backgroundColor: '#333333',
+            borderRadius: '8px',
+            fontSize: '0.875rem',
+            textColor: '#ffffff',
+            cursorColor: 'rgba(255, 255, 255, 0.1)',
+        },
+        showLegend: true,
+        legendPosition: 'top',
+        legendLayout: 'horizontal', 
+        maintainAspectRatio: true,
+        colors: [
+            '#8884d8', '#82ca9d', '#ff4444'
+        ],
+        showLabels: true,
+        labelPosition: 'outside',
+    },
+    responsive: true,
+});

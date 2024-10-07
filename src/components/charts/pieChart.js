@@ -13,7 +13,7 @@ const PieGraph = ({ config }) => {
       outlineColor: '#ffffff',
       outlineWidth: 1,
       innerRadius: 0,
-      outerRadius: '70%',  // Explicitly set outerRadius
+      outerRadius: '70%',  
     },
     showTooltip: true,
     tooltipSettings: {
@@ -24,8 +24,8 @@ const PieGraph = ({ config }) => {
       cursorColor: 'rgba(255, 255, 255, 0.1)',
     },
     showLegend: true,
-    legendPosition: 'top',  // Default legend position
-    legendLayout: 'horizontal',  // Default to horizontal layout
+    legendPosition: 'top', 
+    legendLayout: 'horizontal',  
     responsive: true,
     maintainAspectRatio: true,
     fontSettings: {
@@ -59,11 +59,10 @@ const PieGraph = ({ config }) => {
     showLabels,
     dataLabelPosition,
     legendPosition,
-    legendLayout,  // Layout for legend: vertical or horizontal
-    scoringTypes,  // Add scoringTypes for more descriptive names
+    legendLayout, 
+    scoringTypes,  
   } = finalConfig;
 
-  // Use scoringTypes to map names to data entries
   const updatedData = data.map((entry) => {
     const correspondingType = scoringTypes.find((type) => type.key === entry[nameKey]);
     return {
@@ -88,7 +87,7 @@ const PieGraph = ({ config }) => {
             fill={colors[0]}
             stroke={chartSettings.outlineColor}
             strokeWidth={chartSettings.outlineWidth}
-            label={showLabels ? ({ name, value }) => `${name}: ${value}%` : null}
+            label={showLabels ? ({ name, value }) => `${name}: ${value}` : null}
             labelLine={true}
           >
             {updatedData.map((entry, index) => (
