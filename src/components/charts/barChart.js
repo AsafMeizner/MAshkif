@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label, LabelList
 } from 'recharts';
 
 const CustomBarShape = (props) => {
@@ -71,10 +71,11 @@ const BarGraph = ({ config }) => {
     gradientFills: {},
     xAxisLabelRotation: -90,
     thresholdLines: [],
-    sortDataBy: 'averageScore',
+    sortDataBy: 'yKey', 
     width: 800,
     height: 500,
     title: 'Title',
+    sortOrder: 'descending',
     fontSettings: {
       titleFontSize: '1.5rem',
       axisLabelFontSize: '1.125rem',
@@ -117,10 +118,19 @@ const BarGraph = ({ config }) => {
     dataLabelRotation,
     gradientFills,
     xAxisLabelRotation,
+    sortDataBy,  
+    sortOrder,
   } = finalConfig;
 
-  // Sort data by the yKey (default: averageScore) in descending order
-  const sortedData = [...data].sort((a, b) => b[yKey] - a[yKey]);
+  try {
+    const sortKey = sortDataBy === 'xKey' ? xKey : yKey;
+    const sortedData = [...data].sort((a, b) => {
+      if (sortOrder === 'ascending') {
+        return a[sortKey] - b[sortKey]; 
+      } else {
+        return b[sortKey] - a[sortKey];  
+      }
+    });
 
   return (
     <div style={{ width: responsive ? '100%' : width, height: responsive ? '100%' : height }}>
@@ -134,7 +144,7 @@ const BarGraph = ({ config }) => {
             <CartesianGrid stroke={chartSettings.gridlineColor} />
           )}
           <XAxis
-            dataKey={xKey}
+            dataKey={xKey} 
             angle={xAxisLabelRotation || 0}
             textAnchor={xAxisLabelRotation ? 'end' : 'middle'}
             interval={0}
@@ -167,15 +177,28 @@ const BarGraph = ({ config }) => {
               key={type.key}
               dataKey={type.key}
               fill={type.color}
-              name={type.name}  // Use the readable name here
+              name={type.name}  
               shape={<CustomBarShape />}
-              stackId={type.stacked ? 'a' : undefined}  // Stack bars if the 'stacked' property is true
-            />
+              stackId={type.stacked ? 'a' : undefined}  
+            >
+              {showDataLabels && (
+                <LabelList 
+                  dataKey={yKey} 
+                  position={dataLabelPosition} 
+                  angle={dataLabelRotation}
+                  fill={fontSettings.defaultLabelColor} 
+                  fontSize={fontSettings.dataLabelFontSize}
+                />
+              )}
+            </Bar>
           ))}
         </BarChart>
       </ResponsiveContainer>
     </div>
   );
+  } catch (error) {
+    console.error(`Error sorting data by ${sortDataBy}:`, error);
+  }
 };
 
 export default BarGraph;

@@ -81,6 +81,35 @@ body {
     padding-bottom: 10px;
 }
 
+.team-number-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.team-number-input label {
+    font-size: 1.2rem;
+    margin-right: 10px;
+    color: white;
+}
+
+.team-number-input input {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 2px solid #e74c3c;
+    border-radius: 5px;
+    background-color: #1e1e1e;
+    color: white;
+    outline: none;
+    width: 150px;
+    text-align: center;
+}
+
+.team-number-input input:focus {
+    border-color: #ff6b6b;
+}
+
 @media (min-width: 1000px) {
     .graph-item {
         font-family: Arial, sans-serif;

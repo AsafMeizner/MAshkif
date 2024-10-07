@@ -384,7 +384,7 @@ export const endgameClimbData = (scoutingData) => {
         const position = entry.epo;
 
         if (!acc[team]) {
-            acc[team] = { teamNumber: team, No: 0, P: 0, Os: 0, Hm: 0, Fh: 0, total: 0 };
+            acc[team] = { teamNumber: team, No: 0, P: 0, Fh: 0, Os: 0, Hm: 0, total: 0 };
         }
 
         acc[team][position] += 1;
@@ -393,17 +393,12 @@ export const endgameClimbData = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(teamData)
-        .map(team => ({
-            teamNumber: team.teamNumber,
-            No: Math.round((team.No / team.total) * 100 * 100) / 100,
-            P: Math.round((team.P / team.total) * 100 * 100) / 100,
-            Os: Math.round((team.Os / team.total) * 100 * 100) / 100,
-            Hm: Math.round((team.Hm / team.total) * 100 * 100) / 100,
-            Fh: Math.round((team.Fh / team.total) * 100 * 100) / 100,
-            // Calculate weighted score
-            weightedScore: (team.Hm / team.total) * 2 + (team.Os / team.total) * 1.5 + (team.P / team.total) * 1
-        }))
-        // Sort by weighted score in descending order
-        .sort((a, b) => b.weightedScore - a.weightedScore);
+    return Object.values(teamData).map(team => ({
+        teamNumber: team.teamNumber,
+        No: Math.round((team.No / team.total) * 100 * 100) / 100,
+        P: Math.round((team.P / team.total) * 100 * 100) / 100,
+        Fh: Math.round((team.Fh / team.total) * 100 * 100) / 100,
+        Os: Math.round((team.Os / team.total) * 100 * 100) / 100,
+        Hm: Math.round((team.Hm / team.total) * 100 * 100) / 100,
+    }));
 };
