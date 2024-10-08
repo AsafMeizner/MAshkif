@@ -211,10 +211,10 @@ const Visualization = () => {
             {isSectionOpen('teleop') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageTeleopScoreConfig} />
+                        <BarGraph config={specificTeamConfigs.teleopScoreByRoundConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.maxTeleopScoreConfig} />
+                        <BarGraph config={specificTeamConfigs.teleopScoreByRoundCombinedConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
                         <BarGraph config={allTeamsConfigs.averageTeleopSpeakerByTeamConfig} />

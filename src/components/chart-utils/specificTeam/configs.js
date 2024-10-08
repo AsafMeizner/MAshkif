@@ -477,3 +477,106 @@ export const startPositionUsagePieConfig = (scoutingData, teamNumber) => ({
     },
     responsive: true,
 });
+
+
+export const teleopScoreByRoundConfig = (scoutingData, teamNumber) => {
+    return {
+        data: specificTeamFunctions.teleopScoreByRoundSeperated(scoutingData, teamNumber),
+        title: `Teleop Score by Round for Team ${teamNumber}`,
+        scoringTypes: [
+            {
+                key: 'teleopSpeaker',
+                label: 'Teleop Speaker',
+                color: '#f2cc0c',
+                name: 'Tele-Op Speaker',
+            },
+            {
+                key: 'teleopAmps',
+                label: 'Teleop Amps',
+                color: '#73bf69',
+                name: 'Tele-Op Amp',
+            },
+        ],
+        chartSettings: {
+            showGridlines: true,
+            gridlineColor: '#444444',
+        },
+        xKey: 'roundNumber',
+        yKey: 'teleopScore',
+        xAxisLabel: 'Round Number',
+        sortDataBy: 'xKey',
+        yAxisLabel: 'Teleop Score',
+        yAxisMin: 0,
+        yAxisMax: 'auto',
+        showTooltip: true,
+        tooltipSettings: {
+            backgroundColor: '#333333',
+            borderRadius: '8px',
+            fontSize: '0.875rem',
+            cursorColor: 'rgba(255, 255, 255, 0.1)',
+        },
+        showLegend: true,
+        interactiveLegend: true,
+        legendPosition: 'top',
+        responsive: true,
+        maintainAspectRatio: true,
+        showDataLabels: true,
+        dataLabelPosition: 'inside',
+        dataLabelRotation: 0,
+        sortOrder: 'ascending',
+        xAxisLabelRotation: 0,
+        xAxisSettings: {
+            tickRotation: 0,
+            tickSize: 5,
+            tickPadding: 10,
+        },
+    };
+};
+
+export const teleopScoreByRoundCombinedConfig = (scoutingData, teamNumber) => {
+    return {
+        data: specificTeamFunctions.teleopScoreByRound(scoutingData, teamNumber),
+        title: `Teleop Cycles by Round for Team ${teamNumber}`,
+        scoringTypes: [
+            {
+                key: 'teleopScore',
+                label: 'Teleop Score',
+                color: '#ea6460',
+                name: 'Tele-Op Cycles',
+            },
+        ],
+        chartSettings: {
+            showGridlines: true,
+            gridlineColor: '#444444',
+        },
+        xKey: 'roundNumber',
+        yKey: 'teleopScore',
+        xAxisLabel: 'Round Number',
+        sortDataBy: 'xKey',
+        yAxisLabel: 'Tele-Op Cycles',
+        yAxisMin: 0,
+        yAxisMax: 'auto',
+        showTooltip: true,
+        tooltipSettings: {
+            backgroundColor: '#333333',
+            borderRadius: '8px',
+            fontSize: '0.875rem',
+            cursorColor: 'rgba(255, 255, 255, 0.1)',
+        },
+        showLegend: true,
+        interactiveLegend: true,
+        legendPosition: 'top',
+        responsive: true,
+        maintainAspectRatio: true,
+        showDataLabels: true,
+        dataLabelPosition: 'inside',
+        dataLabelRotation: 0,
+        sortOrder: 'ascending',
+        xAxisLabelRotation: 0,
+        xAxisSettings: {
+            tickRotation: 0,
+            tickSize: 5,
+            tickPadding: 10,
+        },
+    };
+}

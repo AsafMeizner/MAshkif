@@ -238,3 +238,46 @@ export function startPositionPieData(scoutingData, teamNumber) {
         value: positionCounts[positionKey], 
     }));
 }
+
+export function teleopScoreByRoundSeperated(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
+
+    // stacked graph with each scoring type seperated
+    if (!teamData.length) {return [];}
+
+    const scoresByRound = teamData.map((entry) => {
+        const roundNumber = entry.matchNumber; 
+        const teleopSpeaker = entry.tsc || 0;
+        const teleopAmps = entry.tamps || 0;
+
+        return {
+            roundNumber,
+            teleopSpeaker,
+            teleopAmps,
+        };
+    });
+
+    scoresByRound.sort((a, b) => a.roundNumber - b.roundNumber);
+
+    return scoresByRound;
+}
+
+export function teleopScoreByRound(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
+
+    if (!teamData.length) {return [];}
+
+    const scoresByRound = teamData.map((entry) => {
+        const roundNumber = entry.matchNumber; 
+        const teleopScore = (entry.tsc || 0) + (entry.tamps || 0);
+
+        return {
+            roundNumber,
+            teleopScore,
+        };
+    });
+
+    scoresByRound.sort((a, b) => a.roundNumber - b.roundNumber);
+
+    return scoresByRound;
+}
