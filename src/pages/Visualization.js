@@ -3,6 +3,7 @@ import BarGraph from '../components/charts/barChart';
 import NumberDisplay from '../components/charts/numberDisplay';
 import PieGraph from '../components/charts/pieChart';
 import TableChart from '../components/charts/tableChart';
+import MultiNumberDisplay from '../components/charts/MultiNumberDisplay';
 import './Visualization.css'; 
 import * as allTeamsConfigs from '../components/chart-utils/allTeams/configs';
 import * as specificTeamConfigs from '../components/chart-utils/specificTeam/configs';
@@ -217,13 +218,13 @@ const Visualization = () => {
                         <BarGraph config={specificTeamConfigs.teleopScoreByRoundCombinedConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageTeleopSpeakerByTeamConfig} />
+                        <BarGraph config={specificTeamConfigs.teleopAccuracyPerRoundConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.maxTeleopSpeakerByTeamConfig} />
+                        <BarGraph config={specificTeamConfigs.teleopFoulPerMatchConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageTeleopAmpByTeamConfig} />
+                        <MultiNumberDisplay config={specificTeamConfigs.multiNumberConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
                         <BarGraph config={allTeamsConfigs.maxTeleopAmpByTeamConfig} />

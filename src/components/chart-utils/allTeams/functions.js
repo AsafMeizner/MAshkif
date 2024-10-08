@@ -224,7 +224,7 @@ export const teleopSpeakerAccuracyTeam = (scoutingData) => {
             acc[team] = { teamNumber: team, totalScore: 0, count: 0 };
         }
 
-        const totalAttempts = entry.tsc + entry.tsm;
+        const totalAttempts = (entry.tsc || 0) + (entry.tsm || 0);
 
         if (totalAttempts > 0) {
             const totalScore = entry.tsc / totalAttempts;

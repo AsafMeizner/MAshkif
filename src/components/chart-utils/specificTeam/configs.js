@@ -481,7 +481,7 @@ export const startPositionUsagePieConfig = (scoutingData, teamNumber) => ({
 
 export const teleopScoreByRoundConfig = (scoutingData, teamNumber) => {
     return {
-        data: specificTeamFunctions.teleopScoreByRoundSeperated(scoutingData, teamNumber),
+        data: specificTeamFunctions.teleopNotesByRoundSeperated(scoutingData, teamNumber),
         title: `Teleop Score by Round for Team ${teamNumber}`,
         scoringTypes: [
             {
@@ -496,6 +496,12 @@ export const teleopScoreByRoundConfig = (scoutingData, teamNumber) => {
                 color: '#73bf69',
                 name: 'Tele-Op Amp',
             },
+            {
+                key: 'teleopFeeder',
+                label: 'Teleop Feeder',
+                color: '#82b5d8',
+                name: 'Tele-Op Feeding',
+            }
         ],
         chartSettings: {
             showGridlines: true,
@@ -543,7 +549,15 @@ export const teleopScoreByRoundCombinedConfig = (scoutingData, teamNumber) => {
                 label: 'Teleop Score',
                 color: '#ea6460',
                 name: 'Tele-Op Cycles',
+                stacked: true,
             },
+            {
+                key: 'teleopFeeder',
+                label: 'Teleop Feeder',
+                color: '#82b5d8',
+                name: 'Tele-Op Feeding',
+                stacked: true,
+            }
         ],
         chartSettings: {
             showGridlines: true,
@@ -580,3 +594,150 @@ export const teleopScoreByRoundCombinedConfig = (scoutingData, teamNumber) => {
         },
     };
 }
+
+export const teleopFoulPerMatchConfig = (scoutingData, teamNumber) => {
+    return {
+        data: specificTeamFunctions.teleopFoulPerMatch(scoutingData, teamNumber),
+        title: `Teleop Fouls by Round for Team ${teamNumber}`,
+        scoringTypes: [
+            {
+                key: 'teleopScore',
+                label: 'Teleop Fouls',
+                color: '#ff4444',
+                name: 'Tele-Op Fouls',
+            },
+        ],
+        chartSettings: {
+            showGridlines: true,
+            gridlineColor: '#444444',
+        },
+        xKey: 'roundNumber',
+        yKey: 'teleopScore',
+        xAxisLabel: 'Round Number',
+        sortDataBy: 'xKey',
+        yAxisLabel: 'Teleop Fouls',
+        yAxisMin: 0,
+        yAxisMax: 'auto',
+        showTooltip: true,
+        tooltipSettings: {
+            backgroundColor: '#333333',
+            borderRadius: '8px',
+            fontSize: '0.875rem',
+            cursorColor: 'rgba(255, 255, 255, 0.1)',
+        },
+        showLegend: true,
+        interactiveLegend: true,
+        legendPosition: 'top',
+        responsive: true,
+        maintainAspectRatio: true,
+        showDataLabels: true,
+        dataLabelPosition: 'inside',
+        dataLabelRotation: 0,
+        sortOrder: 'ascending',
+        xAxisLabelRotation: 0,
+        xAxisSettings: {
+            tickRotation: 0,
+            tickSize: 5,
+            tickPadding: 10,
+        },
+    };
+}
+
+export const teleopAccuracyPerRoundConfig = (scoutingData, teamNumber) => {
+    return {
+        data: specificTeamFunctions.teleopAccuracyPerRound(scoutingData, teamNumber),
+        title: `Teleop Accuracy by Round for Team ${teamNumber}`,
+        scoringTypes: [
+            {
+                key: 'teleopSpeakerAccuracy',
+                label: 'Teleop Speaker Accuracy (%)',
+                color: '#f2cc0c',
+                name: 'Tele-Op Speaker Accuracy',
+            },
+            {
+                key: 'teleopAmpAccuracy',
+                label: 'Teleop Amp Accuracy (%)',
+                color: '#73bf69',
+                name: 'Tele-Op Amp Accuracy',
+            },
+        ],
+        chartSettings: {
+            showGridlines: true,
+            gridlineColor: '#444444',
+        },
+        xKey: 'roundNumber',
+        yKey: 'teleopAccuracy',  
+        xAxisLabel: 'Round Number',
+        yAxisLabel: 'Accuracy (%)',
+        yAxisMin: 0,
+        yAxisMax: 100,  
+        showTooltip: true,
+        tooltipSettings: {
+            backgroundColor: '#333333',
+            borderRadius: '8px',
+            fontSize: '0.875rem',
+            cursorColor: 'rgba(255, 255, 255, 0.1)',
+        },
+        showLegend: true,
+        interactiveLegend: true,
+        legendPosition: 'top',
+        responsive: true,
+        maintainAspectRatio: true,
+        showDataLabels: true,
+        dataLabelPosition: 'inside',
+        dataLabelRotation: 0,
+        sortOrder: 'ascending',
+        xAxisLabelRotation: 0,
+        xAxisSettings: {
+            tickRotation: 0,
+            tickSize: 5,
+            tickPadding: 10,
+        },
+    };
+};
+
+export const multiNumberConfig = (scoutingData, teamNumber) => {
+    const ampTeleOpAverage = specificTeamFunctions.ampTeleOpAverage(scoutingData, teamNumber);
+    const speakerTeleOpAverage = specificTeamFunctions.speakerTeleOpAverage(scoutingData, teamNumber);
+    const ampTeleOpMax = specificTeamFunctions.ampTeleOpMax(scoutingData, teamNumber);
+    const speakerTeleOpMax = specificTeamFunctions.speakerTeleOpMax(scoutingData, teamNumber);
+
+    const speakerAccuracyAvarage = specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, teamNumber);
+    const ampAccuracyAvarage = specificTeamFunctions.ampTeleOpAccuracyAverage(scoutingData, teamNumber);
+    const speakerAccuracyMax = specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, teamNumber);
+    const ampAccuracyMax = specificTeamFunctions.ampTeleOpAccuracyMax(scoutingData, teamNumber);
+
+    return {
+        mainTitle: `Tele-Op Stats for Team ${teamNumber}`, 
+        values: [
+            {
+                color: '#73bf69',
+                title: 'Average TeleOp Speaker / Max',
+                min: 0,
+                max: Math.round(speakerTeleOpMax * 100) / 100,
+                value: Math.round(speakerTeleOpAverage * 100) / 100,
+            },
+            {
+                color: '#ffab40',
+                title: 'Average TeleOp Amp / Max',
+                min: 0,
+                max: Math.round(ampTeleOpMax * 100) / 100,
+                value: Math.round(ampTeleOpAverage * 100) / 100,
+            },
+            {
+                color: '#40c4ff',
+                title: 'Average Speaker Accurecy / Max',
+                min: 0,
+                max: Math.round(speakerAccuracyMax * 100) / 100,
+                value: Math.round(speakerAccuracyAvarage * 100) / 100,
+            },
+            {
+                color: '#c4162a',
+                title: 'Average Amp Accurecy / Max',
+                min: 0,
+                max: Math.round(ampAccuracyMax * 100) / 100,
+                value: Math.round(ampAccuracyAvarage * 100) / 100,
+            },
+        ],
+    };
+};

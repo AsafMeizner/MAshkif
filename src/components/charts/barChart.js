@@ -130,70 +130,70 @@ const BarGraph = ({ config }) => {
       }
     });
 
-  return (
-    <div style={{ width: responsive ? '100%' : width, height: responsive ? '100%' : height }}>
-      {title && <h2 style={{ fontSize: fontSettings.titleFontSize, textAlign: 'center', marginBottom: 20, color: '#ffffff' }}>{title}</h2>}
-      <ResponsiveContainer width="100%" height="100%" aspect={maintainAspectRatio ? 2 : 1}>
-        <BarChart
-          data={sortedData}
-          margin={margin}
-        >
-          {chartSettings.showGridlines && (
-            <CartesianGrid stroke={chartSettings.gridlineColor} />
-          )}
-          <XAxis
-            dataKey={xKey} 
-            angle={xAxisLabelRotation || 0}
-            textAnchor={xAxisLabelRotation ? 'end' : 'middle'}
-            interval={0}
-            tick={{ fontSize: fontSettings.axisTickFontSize, fill: fontSettings.defaultLabelColor }}
+    return (
+      <div style={{ width: responsive ? '100%' : width, height: responsive ? '100%' : height }}>
+        {title && <h2 style={{ fontSize: fontSettings.titleFontSize, textAlign: 'center', marginBottom: 20, color: '#ffffff' }}>{title}</h2>}
+        <ResponsiveContainer width="100%" height="100%" aspect={maintainAspectRatio ? 2 : 1}>
+          <BarChart
+            data={sortedData}
+            margin={margin}
           >
-            <Label value={xAxisLabel} offset={-40} position="insideBottom" fontSize={fontSettings.axisLabelFontSize} fill={fontSettings.defaultLabelColor} />
-          </XAxis>
-          <YAxis domain={[yAxisMin, yAxisMax]}>
-            <Label value={yAxisLabel} angle={-90} position="insideLeft" fontSize={fontSettings.axisLabelFontSize} fill={fontSettings.defaultLabelColor} />
-          </YAxis>
-          {showTooltip && (
-            <Tooltip
-              contentStyle={{
-                backgroundColor: tooltipSettings.backgroundColor,
-                borderRadius: tooltipSettings.borderRadius,
-                fontSize: tooltipSettings.fontSize,
-                color: '#ffffff',
-              }}
-              cursor={{ fill: tooltipSettings.cursorColor }}
-            />
-          )}
-          {showLegend && (
-            <Legend
-              verticalAlign={legendPosition}
-              wrapperStyle={{ fontSize: fontSettings.legendFontSize, color: '#ffffff' }}
-            />
-          )}
-          {scoringTypes.map((type, index) => (
-            <Bar
-              key={type.key}
-              dataKey={type.key}
-              fill={type.color}
-              name={type.name}  
-              shape={<CustomBarShape />}
-              stackId={type.stacked ? 'a' : undefined}  
+            {chartSettings.showGridlines && (
+              <CartesianGrid stroke={chartSettings.gridlineColor} />
+            )}
+            <XAxis
+              dataKey={xKey} 
+              angle={xAxisLabelRotation || 0}
+              textAnchor={xAxisLabelRotation ? 'end' : 'middle'}
+              interval={0}
+              tick={{ fontSize: fontSettings.axisTickFontSize, fill: fontSettings.defaultLabelColor }}
             >
-              {showDataLabels && (
-                <LabelList 
-                  dataKey={yKey} 
-                  position={dataLabelPosition} 
-                  angle={dataLabelRotation}
-                  fill={fontSettings.defaultLabelColor} 
-                  fontSize={fontSettings.dataLabelFontSize}
-                />
-              )}
-            </Bar>
-          ))}
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-  );
+              <Label value={xAxisLabel} offset={-40} position="insideBottom" fontSize={fontSettings.axisLabelFontSize} fill={fontSettings.defaultLabelColor} />
+            </XAxis>
+            <YAxis domain={[yAxisMin, yAxisMax]}>
+              <Label value={yAxisLabel} angle={-90} position="insideLeft" fontSize={fontSettings.axisLabelFontSize} fill={fontSettings.defaultLabelColor} />
+            </YAxis>
+            {showTooltip && (
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: tooltipSettings.backgroundColor,
+                  borderRadius: tooltipSettings.borderRadius,
+                  fontSize: tooltipSettings.fontSize,
+                  color: '#ffffff',
+                }}
+                cursor={{ fill: tooltipSettings.cursorColor }}
+              />
+            )}
+            {showLegend && (
+              <Legend
+                verticalAlign={legendPosition}
+                wrapperStyle={{ fontSize: fontSettings.legendFontSize, color: '#ffffff' }}
+              />
+            )}
+            {scoringTypes.map((type, index) => (
+              <Bar
+                key={type.key}
+                dataKey={type.key}
+                fill={type.color}
+                name={type.name}  
+                shape={<CustomBarShape />}
+                stackId={type.stacked ? 'a' : undefined}  
+              >
+                {showDataLabels && (
+                  <LabelList 
+                    dataKey={type.key} // Ensure each LabelList uses the correct dataKey for the bar
+                    position={dataLabelPosition} 
+                    angle={dataLabelRotation}
+                    fill={fontSettings.defaultLabelColor} 
+                    fontSize={fontSettings.dataLabelFontSize}
+                  />
+                )}
+              </Bar>
+            ))}
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    );
   } catch (error) {
     console.error(`Error sorting data by ${sortDataBy}:`, error);
   }
