@@ -380,7 +380,7 @@ export const autoPathUsagePieConfig = (scoutingData, teamNumber) => ({
 
 export const commentsPerTeamTableConfig = (scoutingData, teamNumber) => {
     return {
-        data: specificTeamFunctions.commentsPerTeamTable(scoutingData, teamNumber),
+        data: specificTeamFunctions.generalPerTeamTable(scoutingData, teamNumber),
         title: `General data for Team ${teamNumber}`,
         columns: [
             {
@@ -696,7 +696,7 @@ export const teleopAccuracyPerRoundConfig = (scoutingData, teamNumber) => {
     };
 };
 
-export const multiNumberConfig = (scoutingData, teamNumber) => {
+export const teamTeleopStatsMultiNumberConfig = (scoutingData, teamNumber) => {
     const ampTeleOpAverage = specificTeamFunctions.ampTeleOpAverage(scoutingData, teamNumber);
     const speakerTeleOpAverage = specificTeamFunctions.speakerTeleOpAverage(scoutingData, teamNumber);
     const ampTeleOpMax = specificTeamFunctions.ampTeleOpMax(scoutingData, teamNumber);
@@ -741,3 +741,161 @@ export const multiNumberConfig = (scoutingData, teamNumber) => {
         ],
     };
 };
+
+export const endgameClimbDataPerRoundConfig = (scoutingData, teamNumber) => ({
+    data: specificTeamFunctions.endgameClimbDataPerRound(scoutingData, teamNumber),
+    title: `Endgame Climb Data by Round for Team ${teamNumber}`,
+    scoringTypes: [
+        {
+            key: 'No',
+            label: 'No Climb',
+            color: '#8884d8',
+            stacked: true,
+            name: 'No Climb',
+        },
+        {
+            key: 'P',
+            label: 'Parked',
+            color: '#82ca9d',
+            stacked: true,
+            name: 'Parked',
+        },
+        {
+            key: 'Fh',
+            label: 'Failed Harmony',
+            color: '#ff4444',
+            stacked: true,
+            name: 'Failed Harmony',
+        },
+        {
+            key: 'Os',
+            label: 'Onstage',
+            color: '#ffc658',
+            stacked: true,
+            name: 'Onstage',
+        },
+        {
+            key: 'Hm',
+            label: 'Harmony',
+            color: '#ff8042',
+            stacked: true,
+            name: 'Harmony',
+        },
+    ],
+    chartSettings: {
+        showGridlines: true,
+        gridlineColor: '#444444',
+    },
+    xKey: 'roundNumber',
+    yAxisLabel: 'Climb Status',
+    yAxisMin: 0,
+    yAxisMax: 1,
+    xAxisLabelRotation: 0,
+    showTooltip: true,
+    tooltipSettings: {
+        backgroundColor: '#333333',
+        borderRadius: '8px',
+        fontSize: '0.875rem',
+        cursorColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    showLegend: true,
+    interactiveLegend: true,
+    legendPosition: 'top',
+    responsive: true,
+    maintainAspectRatio: true,
+    showDataLabels: false,
+    sortOrder: 'ascending',
+});
+
+export const endgameClimbUsagePieConfig = (scoutingData, teamNumber) => ({
+    data: specificTeamFunctions.endgameClimbPieData(scoutingData, teamNumber),
+    title: `Endgame Climb Usage Percentages for Team ${teamNumber}`,
+    scoringTypes: [
+        {
+            key: 'No',
+            label: 'No Climb',
+            color: '#8884d8',
+            name: 'No Climb',
+        },
+        {
+            key: 'P',
+            label: 'Parked',
+            color: '#82ca9d',
+            name: 'Parked',
+        },
+        {
+            key: 'Fh',
+            label: 'Failed Harmony',
+            color: '#ff4444',
+            name: 'Failed Harmony',
+        },
+        {
+            key: 'Os',
+            label: 'Onstage',
+            color: '#ffc658',
+            name: 'Onstage',
+        },
+        {
+            key: 'Hm',
+            label: 'Harmony',
+            color: '#ff8042',
+            name: 'Harmony',
+        },
+    ],
+    chartSettings: {
+        showTooltip: true,
+        tooltipSettings: {
+            backgroundColor: '#333333',
+            borderRadius: '8px',
+            fontSize: '0.875rem',
+            textColor: '#ffffff',
+            cursorColor: 'rgba(255, 255, 255, 0.1)',
+        },
+        showLegend: true,
+        legendPosition: 'top',
+        legendLayout: 'horizontal',
+        maintainAspectRatio: true,
+        colors: ['#8884d8', '#82ca9d', '#ff4444', '#ffc658', '#ff8042'],
+        showLabels: true,
+        labelPosition: 'outside',
+    },
+    responsive: true,
+});
+
+export const trapPerRoundConfig = (scoutingData, teamNumber) => ({
+    data: specificTeamFunctions.endgameTrapPerRound(scoutingData, teamNumber),
+    title: `Endgame Trap Per Round for Team ${teamNumber}`,
+    scoringTypes: [
+        {
+            key: 'trapScore',
+            label: 'Trap Score',
+            color: '#f2495c',
+            name: 'Trap Score',
+        },
+    ],
+    chartSettings: {
+        showGridlines: true,
+        gridlineColor: '#444444',
+    },
+    xKey: 'roundNumber',
+    yKey: 'trapScore',
+    xAxisLabel: 'Round Number',
+    yAxisLabel: 'Trap Score',
+    yAxisMin: 0,
+    yAxisMax: 1,
+    showTooltip: true,
+    tooltipSettings: {
+        backgroundColor: '#333333',
+        borderRadius: '8px',
+        fontSize: '0.875rem',
+        cursorColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    showLegend: true,
+    interactiveLegend: true,
+    legendPosition: 'top',
+    responsive: true,
+    maintainAspectRatio: true,
+    showDataLabels: false,
+    dataLabelPosition: 'inside',
+    dataLabelRotation: 0,
+});

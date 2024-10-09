@@ -5,8 +5,8 @@ import PieGraph from '../components/charts/pieChart';
 import TableChart from '../components/charts/tableChart';
 import MultiNumberDisplay from '../components/charts/MultiNumberDisplay';
 import './Visualization.css'; 
-import * as allTeamsConfigs from '../components/chart-utils/allTeams/configs';
-import * as specificTeamConfigs from '../components/chart-utils/specificTeam/configs';
+import * as allTeamsConfigs from '../components/chart-configs/allTeams/configs';
+import * as specificTeamConfigs from '../components/chart-configs/specificTeam/configs';
 import scoutingData from '../scouting_data_dcmp.json'; 
 
 const Visualization = () => {
@@ -224,16 +224,10 @@ const Visualization = () => {
                         <BarGraph config={specificTeamConfigs.teleopFoulPerMatchConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.multiNumberConfig(scoutingData, teamNumber)} />
+                        <MultiNumberDisplay config={specificTeamConfigs.teamTeleopStatsMultiNumberConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.maxTeleopAmpByTeamConfig} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopSpeakerPercentInByTeamConfig} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopAmpPercentInByTeamConfig} />
+                        <MultiNumberDisplay config={allTeamsConfigs.competitionMultiNumberConfig(scoutingData, teamNumber)} />
                     </div>
                 </div>
             )}
@@ -248,10 +242,13 @@ const Visualization = () => {
             {isSectionOpen('endgame') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig} />
+                        <BarGraph config={specificTeamConfigs.endgameClimbDataPerRoundConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageEndgameTrapByTeamConfig} />
+                        <PieGraph config={specificTeamConfigs.endgameClimbUsagePieConfig(scoutingData, teamNumber)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.trapPerRoundConfig(scoutingData, teamNumber)} />
                     </div>
                 </div>
             )}

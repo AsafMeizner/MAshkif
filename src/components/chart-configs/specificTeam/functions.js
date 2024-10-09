@@ -192,7 +192,7 @@ export function autoPathPieData(scoutingData, teamNumber) {
     }));
 }
 
-export function commentsPerTeamTable(scoutingData, teamNumber) {
+export function generalPerTeamTable(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
 
     if (!teamData.length) {
@@ -200,7 +200,7 @@ export function commentsPerTeamTable(scoutingData, teamNumber) {
     }
 
     const formattedData = teamData.map((entry) => ({
-        submissionTime: new Date(entry.submissionTime / 1_000_000).toLocaleString(),
+        submissionTime: new Date(entry.submissionTime).toLocaleString(),
         matchNumber: entry.matchNumber,
         scouter: entry.scouter,
         comment: entry.co || 'No Comment',
@@ -463,4 +463,72 @@ export function ampTeleOpAccuracyMax(scoutingData, teamNumber) {
     }, 0);
 
     return maxAccuracy;
+}
+
+export function endgameClimbDataPerRound(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+
+    if (!teamData.length) { return []; }
+
+    const climbData = teamData.map((entry) => {
+        const roundNumber = entry.matchNumber;
+        return {
+            roundNumber,
+            No: entry.epo === "No" ? 1 : 0,
+            P: entry.epo === "P" ? 1 : 0,
+            Fh: entry.epo === "Fh" ? 1 : 0,
+            Os: entry.epo === "Os" ? 1 : 0,
+            Hm: entry.epo === "Hm" ? 1 : 0,
+        };
+    });
+
+    climbData.sort((a, b) => a.roundNumber - b.roundNumber);
+
+    return climbData;
+}
+
+export function endgameClimbPieData(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+
+    if (!teamData.length) {
+        return [];
+    }
+
+    const climbCounts = {
+        No: 0,
+        P: 0,
+        Fh: 0,
+        Os: 0,
+        Hm: 0,
+    };
+
+    teamData.forEach((entry) => {
+        climbCounts.No += entry.epo === "No" ? 1 : 0;
+        climbCounts.P += entry.epo === "P" ? 1 : 0;
+        climbCounts.Fh += entry.epo === "Fh" ? 1 : 0;
+        climbCounts.Os += entry.epo === "Os" ? 1 : 0;
+        climbCounts.Hm += entry.epo === "Hm" ? 1 : 0;
+    });
+
+    return Object.keys(climbCounts).map((climbKey) => ({
+        name: climbKey,
+        value: climbCounts[climbKey],
+    }));
+}
+
+export function endgameTrapPerRound(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+
+    if (!teamData.length) {
+        return [];
+    }
+
+    const trapData = teamData.map((entry) => ({
+        roundNumber: entry.matchNumber,
+        trapScore: entry.cn || 0,
+    }));
+
+    trapData.sort((a, b) => a.roundNumber - b.roundNumber);
+
+    return trapData;
 }

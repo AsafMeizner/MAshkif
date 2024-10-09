@@ -1,7 +1,9 @@
 import {teleopTeamAverages, teleopTeamMax, matchTeamAverages, matchTeamMax, autonomousMovedTeamAverages, 
     autonomousSpeakerTeamAverages, autonomousSpeakerTeamMax, autonomousFoulTeamAverages, autonomousFoulTeamMax, 
     autonomousSpeakerAccuracyTeam, teleopSpeakerTeamAverage, teleopSpeakerTeamMax, teleopAmpTeamAverage,
-    teleopAmpTeamMax, teleopAmpAccuracyTeam, teleopSpeakerAccuracyTeam, endgameClimbData, endgameTrapTeamAverage } from './functions.js';
+    teleopAmpTeamMax, teleopAmpAccuracyTeam, teleopSpeakerAccuracyTeam, endgameClimbData, endgameTrapTeamAverage,
+    ampTeleOpAccuracyAverage, ampTeleOpAccuracyMax, ampTeleOpAverage, ampTeleOpMax, speakerTeleOpAccuracyAverage,
+    speakerTeleOpAccuracyMax, speakerTeleOpAverage, speakerTeleOpMax } from './functions.js';
 
 export const averageTeleopScoreConfig= (scoutingData) => ({
     data: teleopTeamAverages(scoutingData),
@@ -716,3 +718,39 @@ export const endgameClimbPercentByTeamConfig= (scoutingData) => ({
     dataLabelRotation: 0,
     sortOrder: 'ascending',
 });
+
+export const competitionMultiNumberConfig = (scoutingData) => {
+    return {
+        mainTitle: `Competition Tele-Op Stats`, 
+        values: [
+            {
+                color: '#73bf69',
+                title: 'Average TeleOp Speaker / Max',
+                min: 0,
+                max: Math.round(speakerTeleOpMax(scoutingData) * 100) / 100,
+                value: Math.round(speakerTeleOpAverage(scoutingData) * 100) / 100,
+            },
+            {
+                color: '#ffab40',
+                title: 'Average TeleOp Amp / Max',
+                min: 0,
+                max: Math.round(ampTeleOpMax(scoutingData) * 100) / 100,
+                value: Math.round(ampTeleOpAverage(scoutingData) * 100) / 100,
+            },
+            {
+                color: '#40c4ff',
+                title: 'Average Speaker Accurecy / Max',
+                min: 0,
+                max: Math.round(speakerTeleOpAccuracyMax(scoutingData) * 100) / 100,
+                value: Math.round(speakerTeleOpAccuracyAverage(scoutingData) * 100) / 100,
+            },
+            {
+                color: '#c4162a',
+                title: 'Average Amp Accurecy / Max',
+                min: 0,
+                max: Math.round(ampTeleOpAccuracyMax(scoutingData) * 100) / 100,
+                value: Math.round(ampTeleOpAccuracyAverage(scoutingData) * 100) / 100,
+            },
+        ],
+    };
+};

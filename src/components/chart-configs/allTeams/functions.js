@@ -402,3 +402,107 @@ export const endgameClimbData = (scoutingData) => {
         Hm: Math.round((team.Hm / team.total) * 100 * 100) / 100,
     }));
 };
+
+export function ampTeleOpAverage(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const totalScore = scoutingData.reduce((acc, entry) => {
+        const matchScore = entry.tamps || 0;
+        return acc + matchScore;
+    }, 0);
+
+    return totalScore / scoutingData.length;
+}
+
+export function ampTeleOpMax(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const maxScore = scoutingData.reduce((acc, entry) => {
+        const matchScore = entry.tamps || 0;
+        return Math.max(acc, matchScore);
+    }, 0);
+
+    return maxScore;
+}
+
+export function speakerTeleOpAverage(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const totalScore = scoutingData.reduce((acc, entry) => {
+        const matchScore = entry.tsc || 0;
+        return acc + matchScore;
+    }, 0);
+
+    return totalScore / scoutingData.length;
+}
+
+export function speakerTeleOpMax(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const maxScore = scoutingData.reduce((acc, entry) => {
+        const matchScore = entry.tsc || 0;
+        return Math.max(acc, matchScore);
+    }, 0);
+
+    return maxScore;
+}
+
+export function speakerTeleOpAccuracyAverage(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const totalShotsMade = scoutingData.reduce((acc, entry) => {
+        const scored = entry.tsc || 0;
+        return acc + scored;
+    }, 0);
+
+    const totalShotsAttempted = scoutingData.reduce((acc, entry) => {
+        const missed = entry.tsm || 0;
+        const scored = entry.tsc || 0;
+        return acc + missed + scored;
+    }, 0);
+
+    return totalShotsAttempted ? (totalShotsMade / totalShotsAttempted) * 100 : 0;
+}
+
+export function speakerTeleOpAccuracyMax(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const maxAccuracy = scoutingData.reduce((acc, entry) => {
+        const scored = entry.tsc || 0;
+        const attempted = (entry.tsc || 0) + (entry.tsm || 0);
+        const accuracy = attempted ? (scored / attempted) * 100 : 0;
+        return Math.max(acc, accuracy);
+    }, 0);
+
+    return maxAccuracy;
+}
+
+export function ampTeleOpAccuracyAverage(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const totalShotsMade = scoutingData.reduce((acc, entry) => {
+        const scored = entry.tamps || 0;
+        return acc + scored;
+    }, 0);
+
+    const totalShotsAttempted = scoutingData.reduce((acc, entry) => {
+        const missed = entry.tampm || 0;
+        const scored = entry.tamps || 0;
+        return acc + missed + scored;
+    }, 0);
+
+    return totalShotsAttempted ? (totalShotsMade / totalShotsAttempted) * 100 : 0;
+}
+
+export function ampTeleOpAccuracyMax(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const maxAccuracy = scoutingData.reduce((acc, entry) => {
+        const scored = entry.tamps || 0;
+        const attempted = (entry.tamps || 0) + (entry.tampm || 0);
+        const accuracy = attempted ? (scored / attempted) * 100 : 0;
+        return Math.max(acc, accuracy);
+    }, 0);
+
+    return maxAccuracy;
+}
