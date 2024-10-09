@@ -899,3 +899,96 @@ export const trapPerRoundConfig = (scoutingData, teamNumber) => ({
     dataLabelPosition: 'inside',
     dataLabelRotation: 0,
 });
+
+// export const teamPerformanceRadarConfig = (scoutingData, teamNumber) => {
+//     // Calculate the max values across all teams for normalization
+//     const maxSpeakerTeleOp = specificTeamFunctions.maxSpeakerTeleOp(scoutingData);
+//     const maxAmpTeleOp = specificTeamFunctions.maxAmpTeleOp(scoutingData);
+//     const maxSpeakerAuto = specificTeamFunctions.maxSpeakerAuto(scoutingData);
+//     const maxFeeding = specificTeamFunctions.maxFeeding(scoutingData);
+//     const maxFouls = specificTeamFunctions.maxFouls(scoutingData);
+
+//     // Calculate the specific team's stats
+//     const speakerTeleOp = specificTeamFunctions.speakerTeleOpAverage(scoutingData, teamNumber);
+//     const ampTeleOp = specificTeamFunctions.ampTeleOpAverage(scoutingData, teamNumber);
+//     const speakerAuto = specificTeamFunctions.speakerAuto(scoutingData, teamNumber);
+//     const feeding = specificTeamFunctions.feeding(scoutingData, teamNumber);
+//     const fouls = specificTeamFunctions.fouls(scoutingData, teamNumber);
+
+//     // Normalize values (center is 0, edge is the max value)
+//     const normalizedSpeakerTeleOp = (speakerTeleOp / maxSpeakerTeleOp) * 100;
+//     const normalizedAmpTeleOp = (ampTeleOp / maxAmpTeleOp) * 100;
+//     const normalizedSpeakerAuto = (speakerAuto / maxSpeakerAuto) * 100;
+//     const normalizedFeeding = (feeding / maxFeeding) * 100;
+//     const normalizedFouls = (fouls / maxFouls) * 100; // You might want to reverse this for fouls to show fewer fouls as better.
+
+//     return {
+//         data: [
+//             {
+//                 category: 'Speaker TeleOp',
+//                 value: normalizedSpeakerTeleOp,
+//                 maxValue: 100,
+//             },
+//             {
+//                 category: 'Amp TeleOp',
+//                 value: normalizedAmpTeleOp,
+//                 maxValue: 100,
+//             },
+//             {
+//                 category: 'Speaker Auto',
+//                 value: normalizedSpeakerAuto,
+//                 maxValue: 100,
+//             },
+//             {
+//                 category: 'Feeding',
+//                 value: normalizedFeeding,
+//                 maxValue: 100,
+//             },
+//             {
+//                 category: 'Fouls',
+//                 value: normalizedFouls,
+//                 maxValue: 100,
+//             },
+//         ],
+//         radars: [
+//             {
+//                 key: 'value',
+//                 label: `Team ${teamNumber}`,
+//                 color: '#8884d8',
+//             },
+//         ],
+//         radarSettings: {
+//             strokeWidth: 2,
+//             dot: true,
+//         },
+//         angleKey: 'category',
+//         radiusKey: 'value',
+//         showRadiusAxis: true,
+//         customLabels: {
+//             'Speaker TeleOp': 'TeleOp Speaker',
+//             'Amp TeleOp': 'TeleOp Amp',
+//             'Speaker Auto': 'Auto Speaker',
+//             'Feeding': 'Feeding',
+//             'Fouls': 'Fouls Committed',
+//         },
+//         showGrid: true,
+//         gridType: 'polygon', // You can also use 'circle'
+//         fillGrid: true,
+//         showLegend: true,
+//         responsive: true,
+//         title: `Performance Overview for Team ${teamNumber}`,
+//         fontSettings: {
+//             titleFontSize: '1.5rem',
+//             labelFontSize: '1rem',
+//             legendFontSize: '1rem',
+//             defaultLabelColor: '#ffffff',
+//         },
+//         tooltipSettings: {
+//             backgroundColor: '#333333',
+//             borderRadius: '8px',
+//             fontSize: '0.875rem',
+//             textColor: '#ffffff',
+//             cursorColor: 'rgba(255, 255, 255, 0.1)',
+//         },
+//     };
+// };

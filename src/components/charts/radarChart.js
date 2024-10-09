@@ -19,16 +19,28 @@ const RadarGraph = ({ config }) => {
         gridType: 'polygon', // or 'circle'
         fillGrid: false,
         showLegend: true,
+        legendPosition: 'top',
         responsive: true,
-        width: '100%', // Use 100% width for responsiveness
-        height: '100%', // Use 100% height for responsiveness
+        maintainAspectRatio: false,
+        width: 800,
+        height: 500,
         title: 'Radar Chart',
+        tooltipSettings: {
+            backgroundColor: '#333333',
+            borderRadius: '10px',
+            fontSize: '0.875rem',
+            textColor: '#ffffff',
+            cursorColor: 'rgba(255, 255, 255, 0.1)',
+        },
         fontSettings: {
-            titleFontSize: 24,
-            labelFontSize: 16,
-            legendFontSize: 16,
+            titleFontSize: '1.5rem',
+            axisLabelFontSize: '1.125rem',
+            axisTickFontSize: '1rem',
+            legendFontSize: '1rem',
+            tooltipFontSize: '0.875rem',
             defaultLabelColor: '#ffffff',
         },
+        margin: { top: 20, right: 20, left: 20, bottom: 120 },
     };
 
     const finalConfig = { ...defaultConfig, ...config };
@@ -44,18 +56,21 @@ const RadarGraph = ({ config }) => {
         gridType,
         fillGrid,
         showLegend,
+        legendPosition,
         width,
         height,
         title,
+        tooltipSettings,
         fontSettings,
         maintainAspectRatio,
+        margin,
     } = finalConfig;
 
     return (
-        <div style={{ width: width, height: height }}>
+        <div style={{ width: finalConfig.responsive ? '100%' : width, height: finalConfig.responsive ? '100%' : height }}>
             {title && <h2 style={{ fontSize: fontSettings.titleFontSize, textAlign: 'center', marginBottom: 20, color: '#ffffff' }}>{title}</h2>}
             <ResponsiveContainer width="100%" height="100%" aspect={maintainAspectRatio ? 1 : 2}>
-                <RadarChart data={data}>
+                <RadarChart data={data} margin={margin}>
                     {showGrid && (
                         <PolarGrid
                             gridType={gridType}
@@ -66,13 +81,13 @@ const RadarGraph = ({ config }) => {
                     )}
                     <PolarAngleAxis
                         dataKey={angleKey}
-                        tick={{ fontSize: fontSettings.labelFontSize, fill: fontSettings.defaultLabelColor }}
-                        tickFormatter={tick => customLabels[tick] || tick}
+                        tick={{ fontSize: fontSettings.axisTickFontSize, fill: fontSettings.defaultLabelColor }}
+                        tickFormatter={(tick) => customLabels[tick] || tick}
                     />
                     {showRadiusAxis && (
                         <PolarRadiusAxis
                             angle={30}
-                            tick={{ fontSize: fontSettings.labelFontSize, fill: fontSettings.defaultLabelColor }}
+                            tick={{ fontSize: fontSettings.axisTickFontSize, fill: fontSettings.defaultLabelColor }}
                         />
                     )}
                     {radars.map(radar => (
@@ -89,16 +104,18 @@ const RadarGraph = ({ config }) => {
                     ))}
                     {showLegend && (
                         <Legend
+                            verticalAlign={legendPosition}
                             wrapperStyle={{ fontSize: fontSettings.legendFontSize, color: '#ffffff' }}
                         />
                     )}
                     <Tooltip
                         contentStyle={{
-                            backgroundColor: '#333333',
-                            borderRadius: '8px',
-                            fontSize: fontSettings.labelFontSize,
-                            color: '#ffffff',
+                            backgroundColor: tooltipSettings.backgroundColor,
+                            borderRadius: tooltipSettings.borderRadius,
+                            fontSize: tooltipSettings.fontSize,
+                            color: tooltipSettings.textColor,
                         }}
+                        cursor={{ fill: tooltipSettings.cursorColor }}
                     />
                 </RadarChart>
             </ResponsiveContainer>
@@ -106,72 +123,4 @@ const RadarGraph = ({ config }) => {
     );
 };
 
-// Example radar graph configuration
-export const radarGraphConfig = {
-    data: [
-        {
-            subject: 'Math', A: 120, B: 110, fullMark: 150,
-        },
-        {
-            subject: 'Chinese', A: 98, B: 130, fullMark: 150,
-        },
-        {
-            subject: 'English', A: 86, B: 130, fullMark: 150,
-        },
-        {
-            subject: 'Geography', A: 99, B: 100, fullMark: 150,
-        },
-        {
-            subject: 'Physics', A: 85, B: 90, fullMark: 150,
-        },
-        {
-            subject: 'History', A: 65, B: 85, fullMark: 150,
-        },
-    ],
-    radars: [
-        {
-            key: 'A',
-            label: 'Student A',
-            color: '#8884d8',
-        },
-        {
-            key: 'B',
-            label: 'Student B',
-            color: '#82ca9d',
-        },
-    ],
-    radarSettings: {
-        strokeWidth: 2,
-        dot: true,
-    },
-    angleKey: 'subject',
-    showRadiusAxis: false,
-    customLabels: {
-        Math: 'Mathematics',
-        Chinese: 'Chinese Language',
-        English: 'English Language',
-        Geography: 'Geography Studies',
-        Physics: 'Physics Studies',
-        History: 'History Studies',
-    },
-    showGrid: true,
-    gridType: 'polygon', // Options: 'polygon', 'circle'
-    fillGrid: true,
-    showLegend: true,
-    responsive: true,
-    title: 'Radar Chart Example',
-    fontSettings: {
-        titleFontSize: 24,
-        labelFontSize: 16,
-        legendFontSize: 16,
-        defaultLabelColor: '#ffffff',
-    },
-};
-
-const RadarGraphExample = () => (
-    <div>
-        <RadarGraph config={radarGraphConfig} />
-    </div>
-);
-
-export default RadarGraphExample;
+export default RadarGraph;
