@@ -85,6 +85,63 @@
     background-color: #c0392b;
 }
 
+/* New API URL input and button */
+.api-url-section {
+  margin-top: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.api-url-section label {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.api-url-section input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  font-size: 16px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  background-color: #2c2f33;
+  color: white;
+  text-align: center;
+}
+
+.api-url-section input[type="text"]::placeholder {
+  color: #7f8c8d;
+}
+
+.api-url-section input[type="text"]:focus {
+  outline: none;
+  border-color: #e74c3c;
+}
+
+.save-url-button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.save-url-button:hover {
+  background-color: #c0392b;
+}
+
+.api-url-section p {
+  color: #ecf0f1;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
 /* Modal styles */
 .overlay {
   background-color: rgba(0, 0, 0, 0.5); /* Adjusted for less harsh black */

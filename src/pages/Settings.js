@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import './Settings.css';
+import { saveAPIURLToLocalStorage } from '../components/utils';
 
 Modal.setAppElement('#root'); // Required for accessibility
 
@@ -8,11 +9,19 @@ function SettingsPage() {
     const [, setFileContent] = useState('');
     const [uploadedConfig, setUploadedConfig] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [apiUrl, setApiUrl] = useState('');
+    const [savedApiUrl, setSavedApiUrl] = useState('');
 
     useEffect(() => {
         const savedConfig = localStorage.getItem('config');
         if (savedConfig) {
             setUploadedConfig(JSON.parse(savedConfig));
+        }
+
+        const storedApiUrl = localStorage.getItem('scouting_data_url');
+        if (storedApiUrl) {
+            setSavedApiUrl(storedApiUrl);
+            setApiUrl(storedApiUrl);
         }
     }, []);
 
@@ -45,10 +54,21 @@ function SettingsPage() {
         setIsModalOpen(false);
     }
 
+    function handleSaveApiUrl() {
+        if (apiUrl) {
+            saveAPIURLToLocalStorage(apiUrl);
+            setSavedApiUrl(apiUrl);
+        } else {
+            alert('Please enter a valid API URL.');
+        }
+    }
+
     return (
         <div className='settings-page'>
             <div className="settings-container">
                 <h1>Settings</h1>
+                
+                {/* File upload section */}
                 <div className="form-group">
                     <label htmlFor="formJson" className="custom-file-upload">
                         Choose File
@@ -70,8 +90,27 @@ function SettingsPage() {
                         </>
                     )}
                 </div>
+
+                {/* API URL input and save button */}
+                <div className="api-url-section">
+                    <label htmlFor="apiUrl">API URL:</label>
+                    <input
+                        type="text"
+                        id="apiUrl"
+                        value={apiUrl}
+                        onChange={(e) => setApiUrl(e.target.value)}
+                        placeholder="Enter API URL"
+                    />
+                    <button onClick={handleSaveApiUrl} className="save-url-button">
+                        Save API URL
+                    </button>
+                    {savedApiUrl && (
+                        <p>Saved API URL: {savedApiUrl}</p>
+                    )}
+                </div>
             </div>
 
+            {/* Modal for configuration */}
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={closeModal}

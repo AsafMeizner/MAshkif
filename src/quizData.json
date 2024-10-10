@@ -2,17 +2,17 @@
     "page_title": "Crescendo",
     "sections": [
         {
-            "name": "Prematch",
+            "name": "לפני המשחק",
             "preserveDataOnReset": true,
             "fields": [
             {
-                "title": "Scouter Initials",
+                "title": "שם סקאוטר",
                 "type": "text",
                 "required": true,
                 "code": "scouter"
             },
             {
-                "title": "Match Number",
+                "title": "מספר מקצה",
                 "type": "number",
                 "required": true,
                 "code": "matchNumber",
@@ -20,13 +20,13 @@
                 "autoIncrementOnReset": true
             },
             {
-                "title": "Team Number",
+                "title": "מספר קבוצה",
                 "type": "number",
                 "required": true,
                 "code": "teamNumber"
             },
             {
-                "title": "Starting Position",
+                "title": "עמדת התחלה",
                 "type": "select",
                 "required": true,
                 "code": "Prsp",
@@ -38,7 +38,7 @@
                 "defaultValue": "Source"
             },
             {
-                "title": "No Show",
+                "title": "לא הגיע",
                 "type": "boolean",
                 "defaultValue": false,
                 "required": false,
@@ -47,10 +47,10 @@
             ]
         },
         {
-            "name": "Autonomous",
+            "name": "אוטונומי",
             "fields": [
                 {
-                    "title": "Moved?",
+                    "title": "האם זז?",
                     "type": "boolean",
                     "defaultValue": false,
                     "required": false,
@@ -58,7 +58,7 @@
                 },
                 {
                     "code": "ausc",
-                    "title": "Speaker Scored",
+                    "title": "ניקוד לספיקר",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -66,7 +66,7 @@
                 },
                 {
                     "code": "auskpm",
-                    "title": "Speaker Missed",
+                    "title": "החמצות לספיקר",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -74,24 +74,24 @@
                 },
                 {
                     "code": "a_gp_Path",
-                    "title": "Auto Game Piece Path",
+                    "title": "מסלול האוטונומי",
                     "type": "select",
                     "multiSelect": true,
                     "choices": {
-                    "1": "Speaker 3 (Source Side)",
-                    "2": "Speaker 2 (Middle)",
-                    "3": "Speaker 1 (Amp Side)",
-                    "4": "Midline 5 (Source Edge)",
-                    "5": "Midline 4",
-                    "6": "Midline 3 (Middle)",
-                    "7": "Midline 2",
-                    "8": "Midline 1 (Amp Edge)"
+                    "1": "ספיקר 3 (צד מקור)",
+                    "2": "ספיקר 2 (אמצע)",
+                    "3": "ספיקר 1 (צד אמפ)",
+                    "4": "קו אמצע 5 (קצה מקור)",
+                    "5": "קו אמצע 4",
+                    "6": "קו אמצע 3 (אמצע)",
+                    "7": "קו אמצע 2",
+                    "8": "קו אמצע 1 (קצה אמפ)"
                     },
                     "defaultValue": 1
                 },
                 {
                     "code": "auf",
-                    "title": "Auto Foul",
+                    "title": "עבירות אוטונומי",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -100,11 +100,11 @@
             ]
         },
         {
-            "name": "Teleop",
+            "name": "טלאופ",
             "fields": [
                 {
                     "code": "tsc",
-                    "title": "Speaker Scored",
+                    "title": "ניקוד לספיקר",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -112,7 +112,7 @@
                 },
                 {
                     "code": "tsm",
-                    "title": "Speaker Missed",
+                    "title": "החמצות לספיקר",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -120,7 +120,7 @@
                 },
                 {
                     "code": "tamps",
-                    "title": "Amp Scored",
+                    "title": "ניקוד לאמפ",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -128,7 +128,7 @@
                 },
                 {
                     "code": "tampm",
-                    "title": "Amp Missed",
+                    "title": "החמצות לאמפ",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -136,7 +136,7 @@
                 },
                 {
                     "code": "tfs",
-                    "title": "Feeder Shots",
+                    "title": "ירי פידינג",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -144,7 +144,7 @@
                 },
                 {
                     "code": "Fou",
-                    "title": "Teleop Foul",
+                    "title": "עבירות טלאופ",
                     "type": "counter",
                     "defaultValue": 0,
                     "required": false
@@ -152,25 +152,25 @@
             ]
         },
         {
-            "name": "Endgame",
+            "name": "אנד גיים",
             "fields": [
                 {
-                    "title": "End Position",
+                    "title": "מצב סיום",
                     "type": "select",
                     "required": true,
                     "code": "epo",
                     "choices": {
-                    "No": "No Climb",
-                    "P": "Parked",
-                    "Os": "Onstage",
-                    "Hm": "Harmony",
-                    "Fh": "Failed Harmony"
+                    "No": "ללא טיפוס",
+                    "P": "חנה",
+                    "Os": "טיפס",
+                    "Hm": "הרמוניה",
+                    "Fh": "הרמוניה נכשלה"
                     },
                     "defaultValue": "No"
                 },
                 {
                     "code": "cn",
-                    "title": "Note in Trap?",
+                    "title": "כמה טראפ",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -179,30 +179,30 @@
             ]
         },
         {
-            "name": "Postmatch",
+            "name": "אחרי המשחק",
             "fields": [
                 {
                     "code": "dto",
-                    "title": "Died/Tipped Over",
+                    "title": "התהפך/נפל",
                     "type": "boolean",
                     "defaultValue": false,
                     "required": false
                 },
                 {
                     "code": "yc",
-                    "title": "Yellow/Red Card",
+                    "title": "כרטיס צהוב/אדום",
                     "type": "select",
-                    "defaultValue": "No Card",
+                    "defaultValue": "ללא כרטיס",
                     "required": true,
                     "choices": {
-                    "No Card": "No Card",
-                    "Yellow": "Yellow Card",
-                    "Red": "Red Card"
+                    "No Card": "ללא כרטיס",
+                    "Yellow": "כרטיס צהוב",
+                    "Red": "כרטיס אדום"
                     }
                 },
                 {
                     "code": "co",
-                    "title": "Comments",
+                    "title": "הערות",
                     "type": "text",
                     "min": 0,
                     "max": 50,

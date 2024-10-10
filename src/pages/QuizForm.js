@@ -22,8 +22,9 @@ const QuizForm = () => {
   const { handleSubmit, reset, control } = useForm();
 
   useEffect(() => {
-    const savedConfig = localStorage.getItem('config');
-    const quizData = savedConfig ? JSON.parse(savedConfig) : defaultQuizData;
+    // const savedConfig = localStorage.getItem('config');
+    // const quizData = savedConfig ? JSON.parse(savedConfig) : defaultQuizData;
+    const quizData = defaultQuizData;
 
     setSections(quizData.sections);
     setPageTitle(quizData.page_title || defaultQuizData.page_title);
@@ -43,12 +44,19 @@ const QuizForm = () => {
                 acc[field.code] = Number(fieldValue); 
             } else if (field.type === "boolean") {
                 acc[field.code] = fieldValue === "true" || fieldValue === true; 
+            } else if (field.type === "string") {
+                acc[field.code] = String(fieldValue); // Convert to string
             } else {
                 acc[field.code] = fieldValue; 
             }
         });
         return acc;
     }, {});
+
+    // Ensure specific fields are strings (like a_gp_Path)
+    if (sanitizedData.a_gp_Path !== undefined) {
+        sanitizedData.a_gp_Path = String(sanitizedData.a_gp_Path);
+    }
 
     sanitizedData.submissionTime = new Date().getTime();
     
@@ -62,12 +70,6 @@ const QuizForm = () => {
     setModalIsOpen(true);
     setFormSubmitted(true); 
 };
-
-  useEffect(() => {
-    if (formSubmitted) {
-      setFormSubmitted(false);
-    }
-  }, [formSubmitted]);
 
   const handleDelete = (index) => {
     const updatedSubmissions = submissions.filter((_, i) => i !== index);

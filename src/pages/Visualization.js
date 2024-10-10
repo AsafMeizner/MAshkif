@@ -8,7 +8,7 @@ import RadarGraph from '../components/charts/radarChart';
 import './Visualization.css'; 
 import * as allTeamsConfigs from '../components/chart-configs/allTeams/configs';
 import * as specificTeamConfigs from '../components/chart-configs/specificTeam/configs';
-import scoutingData from '../scouting_data_dcmp.json'; 
+import { getScoutingData } from '../components/utils';
 
 const Visualization = () => {
     const [isPortrait, setIsPortrait] = useState(window.matchMedia("(orientation: portrait)").matches);
@@ -17,6 +17,7 @@ const Visualization = () => {
     const [teamNumber, setTeamNumber] = useState(5951);
     const [team1Number, setTeam1Number] = useState(5951);
     const [team2Number, setTeam2Number] = useState(5951);
+    const scoutingData = getScoutingData();
 
     useEffect(() => {
         const handleOrientationChange = (e) => {
