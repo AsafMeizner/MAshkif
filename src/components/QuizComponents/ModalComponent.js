@@ -14,7 +14,7 @@ const ModalComponent = ({ isOpen, closeModal, qrContent }) => (
         level="L" 
         includeMargin={true} 
       />
-      <p>{qrContent}</p>
+      {/* <p>{qrContent}</p> */}
       <p>Decompressed and Decoded: {decompressAndDecode(qrContent)}</p>
       <button onClick={closeModal} className="close-button">Close</button>
     </div>

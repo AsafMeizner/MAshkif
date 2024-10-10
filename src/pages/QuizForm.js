@@ -24,20 +24,35 @@ const QuizForm = () => {
   useEffect(() => {
     const savedConfig = localStorage.getItem('config');
     const quizData = savedConfig ? JSON.parse(savedConfig) : defaultQuizData;
-    
+
     setSections(quizData.sections);
     setPageTitle(quizData.page_title || defaultQuizData.page_title);
-    
+
     const savedSubmissions = JSON.parse(localStorage.getItem('submissions')) || [];
     setSubmissions(savedSubmissions);
   }, []);
 
   const onSubmit = (data) => {
-    let content = JSON.stringify({
-      ...data,
-      submissionTime: new Date().getTime()
-    });
-    content = compressAndEncode(content);
+    const sanitizedData = sections.reduce((acc, section) => {
+        section.fields.forEach(field => {
+            const fieldValue = data[field.code];
+            
+            if (fieldValue === undefined || fieldValue === "") {
+                acc[field.code] = field.defaultValue !== undefined ? field.defaultValue : "";
+            } else if (field.type === "number") {
+                acc[field.code] = Number(fieldValue); 
+            } else if (field.type === "boolean") {
+                acc[field.code] = fieldValue === "true" || fieldValue === true; 
+            } else {
+                acc[field.code] = fieldValue; 
+            }
+        });
+        return acc;
+    }, {});
+
+    sanitizedData.submissionTime = new Date().getTime();
+    
+    let content = compressAndEncode(JSON.stringify(sanitizedData));
     setQrContent(content);
 
     const newSubmissions = [...submissions, content];
@@ -46,7 +61,7 @@ const QuizForm = () => {
 
     setModalIsOpen(true);
     setFormSubmitted(true); 
-  };
+};
 
   useEffect(() => {
     if (formSubmitted) {
@@ -84,8 +99,8 @@ const QuizForm = () => {
 
   const handleReset = () => {
     reset();
-    setResetFeedback(true); 
-    setTimeout(() => setResetFeedback(false), 2000); 
+    setResetFeedback(true);
+    setTimeout(() => setResetFeedback(false), 2000);
   };
 
   return (
@@ -103,9 +118,14 @@ const QuizForm = () => {
                   <Controller
                     name={field.code}
                     control={control}
-                    defaultValue={field.defaultValue || ''}
+                    defaultValue={field.type === 'number' ? 0 : field.defaultValue || ''}
                     render={({ field: controllerField }) => (
-                      <FieldRenderer field={field} onChange={controllerField.onChange} value={controllerField.value} />
+                      <FieldRenderer 
+                        field={field} 
+                        onChange={controllerField.onChange} 
+                        value={controllerField.value} 
+                        valueAsNumber={field.type === 'number'} 
+                      />
                     )}
                   />
                 </div>

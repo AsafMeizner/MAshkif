@@ -532,3 +532,110 @@ export function endgameTrapPerRound(scoutingData, teamNumber) {
 
     return trapData;
 }
+
+export function speakerAutoAverage(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+  
+    if (!teamData.length) {return 0;}
+  
+    const totalScore = teamData.reduce((acc, entry) => {
+      const matchScore = (entry.ausc || 0); 
+      return acc + matchScore;
+    }, 0);
+  
+    return totalScore / teamData.length;
+}
+
+export function speakerAutoMax(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+  
+    if (!teamData.length) {return 0;}
+  
+    const maxScore = teamData.reduce((acc, entry) => {
+      const matchScore = (entry.ausc || 0); 
+      return Math.max(acc, matchScore);
+    }, 0);
+  
+    return maxScore;
+}
+
+export function feedingAverage(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+  
+    if (!teamData.length) {return 0;}
+  
+    const totalScore = teamData.reduce((acc, entry) => {
+      const matchScore = (entry.tfs || 0); 
+      return acc + matchScore;
+    }, 0);
+  
+    return totalScore / teamData.length;
+}
+
+export function feedingMax(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+  
+    if (!teamData.length) {return 0;}
+  
+    const maxScore = teamData.reduce((acc, entry) => {
+      const matchScore = (entry.tfs || 0); 
+      return Math.max(acc, matchScore);
+    }, 0);
+  
+    return maxScore;
+}
+
+export function foulsAverage(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+  
+    if (!teamData.length) {return 0;}
+  
+    const totalScore = teamData.reduce((acc, entry) => {
+      const matchScore = (entry.Fou || 0); 
+      return acc + matchScore;
+    }, 0);
+  
+    return totalScore / teamData.length;
+}
+
+export function endPositionAverage(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+  
+    if (!teamData.length) {return 0;}
+
+    const positionScores = {
+      "Hm": 4,  // Harmony
+      "Os": 3,  // Onstage
+      "Fh": 2,  // Failed Harmony
+      "P": 1,   // Parked
+      "No": 0   // No Climb
+    };
+  
+    const totalScore = teamData.reduce((acc, entry) => {
+      const positionCode = entry.epo || "No"; 
+      return acc + (positionScores[positionCode] || 0); 
+    }, 0);
+  
+    return totalScore / teamData.length;
+}
+
+export function maxEndPositionForMatch(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+  
+    if (!teamData.length) {return 0;}
+
+    const positionScores = {
+      "Hm": 4,  // Harmony
+      "Os": 3,  // Onstage
+      "Fh": 2,  // Failed Harmony
+      "P": 1,   // Parked
+      "No": 0   // No Climb
+    };
+  
+    const maxScore = teamData.reduce((acc, entry) => {
+      const positionCode = entry.epo || "No"; 
+      return Math.max(acc, positionScores[positionCode] || 0); 
+    }, 0);
+  
+    return maxScore;
+}

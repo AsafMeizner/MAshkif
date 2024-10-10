@@ -12,8 +12,7 @@ const RadarGraph = ({ config }) => {
             dot: true,
         },
         angleKey: 'subject',
-        radiusKey: 'value',
-        showRadiusAxis: true,
+        showRadiusAxis: true, // Toggle to show/hide the radius axis
         customLabels: {},
         showGrid: true,
         gridType: 'polygon', // or 'circle'
@@ -41,6 +40,8 @@ const RadarGraph = ({ config }) => {
             defaultLabelColor: '#ffffff',
         },
         margin: { top: 20, right: 20, left: 20, bottom: 120 },
+        maxGridValue: 100, // Default max grid value (can be overridden in the config)
+        showTooltip: true, // Default to showing the tooltip
     };
 
     const finalConfig = { ...defaultConfig, ...config };
@@ -51,6 +52,7 @@ const RadarGraph = ({ config }) => {
         radarSettings,
         angleKey,
         showRadiusAxis,
+        showTooltip, // Toggle to show/hide the tooltip
         customLabels,
         showGrid,
         gridType,
@@ -64,6 +66,7 @@ const RadarGraph = ({ config }) => {
         fontSettings,
         maintainAspectRatio,
         margin,
+        maxGridValue, // Max value for the edge of the grid
     } = finalConfig;
 
     return (
@@ -84,12 +87,15 @@ const RadarGraph = ({ config }) => {
                         tick={{ fontSize: fontSettings.axisTickFontSize, fill: fontSettings.defaultLabelColor }}
                         tickFormatter={(tick) => customLabels[tick] || tick}
                     />
-                    {showRadiusAxis && (
-                        <PolarRadiusAxis
-                            angle={30}
-                            tick={{ fontSize: fontSettings.axisTickFontSize, fill: fontSettings.defaultLabelColor }}
-                        />
-                    )}
+                    <PolarRadiusAxis
+                        angle={30}
+                        domain={[0, maxGridValue]}  // Ensure the correct domain is used
+                        tick={{
+                            fontSize: fontSettings.axisTickFontSize,
+                            fill: showRadiusAxis ? fontSettings.defaultLabelColor : 'rgba(255, 255, 255, 0)', // Make labels invisible if showRadiusAxis is false
+                        }}
+                        axisLine={{ stroke: showRadiusAxis ? '#ffffff' : 'rgba(255, 255, 255, 0)' }} // Hide the axis line if needed
+                    />
                     {radars.map(radar => (
                         <Radar
                             key={radar.key}
@@ -100,6 +106,7 @@ const RadarGraph = ({ config }) => {
                             fillOpacity={radarSettings.dot ? 0.1 : 0}
                             strokeWidth={radarSettings.strokeWidth}
                             dot={radarSettings.dot}
+                            domain={[0, maxGridValue]} // Force domain to use maxGridValue
                         />
                     ))}
                     {showLegend && (
@@ -108,15 +115,17 @@ const RadarGraph = ({ config }) => {
                             wrapperStyle={{ fontSize: fontSettings.legendFontSize, color: '#ffffff' }}
                         />
                     )}
-                    <Tooltip
-                        contentStyle={{
-                            backgroundColor: tooltipSettings.backgroundColor,
-                            borderRadius: tooltipSettings.borderRadius,
-                            fontSize: tooltipSettings.fontSize,
-                            color: tooltipSettings.textColor,
-                        }}
-                        cursor={{ fill: tooltipSettings.cursorColor }}
-                    />
+                    {showTooltip && ( // Conditionally render the tooltip based on showTooltip
+                        <Tooltip
+                            contentStyle={{
+                                backgroundColor: tooltipSettings.backgroundColor,
+                                borderRadius: tooltipSettings.borderRadius,
+                                fontSize: tooltipSettings.fontSize,
+                                color: tooltipSettings.textColor,
+                            }}
+                            cursor={{ fill: tooltipSettings.cursorColor }}
+                        />
+                    )}
                 </RadarChart>
             </ResponsiveContainer>
         </div>

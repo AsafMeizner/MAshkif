@@ -4,6 +4,7 @@ import NumberDisplay from '../components/charts/numberDisplay';
 import PieGraph from '../components/charts/pieChart';
 import TableChart from '../components/charts/tableChart';
 import MultiNumberDisplay from '../components/charts/MultiNumberDisplay';
+import RadarGraph from '../components/charts/radarChart';
 import './Visualization.css'; 
 import * as allTeamsConfigs from '../components/chart-configs/allTeams/configs';
 import * as specificTeamConfigs from '../components/chart-configs/specificTeam/configs';
@@ -262,7 +263,9 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('summary') && (
                 <div className="graph-container">
-                    <p>Summary content goes here.</p>
+                    <div className="graph-item">
+                        <RadarGraph config={specificTeamConfigs.teamPerformanceRadarConfig(scoutingData, teamNumber)} />
+                    </div>
                 </div>
             )}
         </div>

@@ -1,4 +1,5 @@
 import * as specificTeamFunctions from './functions.js';
+import * as allTeamsFunctions from '../allTeams/functions.js';
 
 export const matchScoreByRoundConfig = (scoutingData, teamNumber) => {
     return {
@@ -900,95 +901,134 @@ export const trapPerRoundConfig = (scoutingData, teamNumber) => ({
     dataLabelRotation: 0,
 });
 
-// export const teamPerformanceRadarConfig = (scoutingData, teamNumber) => {
-//     // Calculate the max values across all teams for normalization
-//     const maxSpeakerTeleOp = specificTeamFunctions.maxSpeakerTeleOp(scoutingData);
-//     const maxAmpTeleOp = specificTeamFunctions.maxAmpTeleOp(scoutingData);
-//     const maxSpeakerAuto = specificTeamFunctions.maxSpeakerAuto(scoutingData);
-//     const maxFeeding = specificTeamFunctions.maxFeeding(scoutingData);
-//     const maxFouls = specificTeamFunctions.maxFouls(scoutingData);
+export const teamPerformanceRadarConfig = (scoutingData, teamNumber) => {
+    // Calculate the max values across all teams for each category
+    const maxSpeakerTeleOp = allTeamsFunctions.speakerTeleOpMax(scoutingData);  // Max for Teleop Speaker Score
+    const maxAmpTeleOp = allTeamsFunctions.ampTeleOpMax(scoutingData);  // Max for Teleop Amp Score
+    const maxSpeakerAuto = allTeamsFunctions.autoSpeakerMax(scoutingData);  // Max for Autonomous Speaker Score
+    const maxFeeding = allTeamsFunctions.maxFeeding(scoutingData);  // Max for Feeder Interactions
+    const maxEndPosition = 4;  // Max for End Position
+    const maxSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyMax(scoutingData);  // Max for Teleop Speaker
 
-//     // Calculate the specific team's stats
-//     const speakerTeleOp = specificTeamFunctions.speakerTeleOpAverage(scoutingData, teamNumber);
-//     const ampTeleOp = specificTeamFunctions.ampTeleOpAverage(scoutingData, teamNumber);
-//     const speakerAuto = specificTeamFunctions.speakerAuto(scoutingData, teamNumber);
-//     const feeding = specificTeamFunctions.feeding(scoutingData, teamNumber);
-//     const fouls = specificTeamFunctions.fouls(scoutingData, teamNumber);
+    // Calculate the specific team's stats (averages)
+    const speakerTeleOp = specificTeamFunctions.speakerTeleOpAverage(scoutingData, teamNumber);
+    const ampTeleOp = specificTeamFunctions.ampTeleOpAverage(scoutingData, teamNumber);
+    const speakerAuto = specificTeamFunctions.speakerAutoAverage(scoutingData, teamNumber);
+    const feeding = specificTeamFunctions.feedingAverage(scoutingData, teamNumber);
+    const endPosition = specificTeamFunctions.endPositionAverage(scoutingData, teamNumber);
+    const speakerAccuracyTeleop = specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, teamNumber);
 
-//     // Normalize values (center is 0, edge is the max value)
-//     const normalizedSpeakerTeleOp = (speakerTeleOp / maxSpeakerTeleOp) * 100;
-//     const normalizedAmpTeleOp = (ampTeleOp / maxAmpTeleOp) * 100;
-//     const normalizedSpeakerAuto = (speakerAuto / maxSpeakerAuto) * 100;
-//     const normalizedFeeding = (feeding / maxFeeding) * 100;
-//     const normalizedFouls = (fouls / maxFouls) * 100; // You might want to reverse this for fouls to show fewer fouls as better.
+    // Calculate competition-wide averages
+    const avgSpeakerTeleOp = allTeamsFunctions.speakerTeleOpAverage(scoutingData);
+    const avgAmpTeleOp = allTeamsFunctions.ampTeleOpAverage(scoutingData);
+    const avgSpeakerAuto = allTeamsFunctions.autoSpeakerAverage(scoutingData);
+    const avgFeeding = allTeamsFunctions.feedingAverage(scoutingData);
+    const avgEndPosition = allTeamsFunctions.competitionEndPositionAverage(scoutingData);
+    const avgSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyAverage(scoutingData);
 
-//     return {
-//         data: [
-//             {
-//                 category: 'Speaker TeleOp',
-//                 value: normalizedSpeakerTeleOp,
-//                 maxValue: 100,
-//             },
-//             {
-//                 category: 'Amp TeleOp',
-//                 value: normalizedAmpTeleOp,
-//                 maxValue: 100,
-//             },
-//             {
-//                 category: 'Speaker Auto',
-//                 value: normalizedSpeakerAuto,
-//                 maxValue: 100,
-//             },
-//             {
-//                 category: 'Feeding',
-//                 value: normalizedFeeding,
-//                 maxValue: 100,
-//             },
-//             {
-//                 category: 'Fouls',
-//                 value: normalizedFouls,
-//                 maxValue: 100,
-//             },
-//         ],
-//         radars: [
-//             {
-//                 key: 'value',
-//                 label: `Team ${teamNumber}`,
-//                 color: '#8884d8',
-//             },
-//         ],
-//         radarSettings: {
-//             strokeWidth: 2,
-//             dot: true,
-//         },
-//         angleKey: 'category',
-//         radiusKey: 'value',
-//         showRadiusAxis: true,
-//         customLabels: {
-//             'Speaker TeleOp': 'TeleOp Speaker',
-//             'Amp TeleOp': 'TeleOp Amp',
-//             'Speaker Auto': 'Auto Speaker',
-//             'Feeding': 'Feeding',
-//             'Fouls': 'Fouls Committed',
-//         },
-//         showGrid: true,
-//         gridType: 'polygon', // You can also use 'circle'
-//         fillGrid: true,
-//         showLegend: true,
-//         responsive: true,
-//         title: `Performance Overview for Team ${teamNumber}`,
-//         fontSettings: {
-//             titleFontSize: '1.5rem',
-//             labelFontSize: '1rem',
-//             legendFontSize: '1rem',
-//             defaultLabelColor: '#ffffff',
-//         },
-//         tooltipSettings: {
-//             backgroundColor: '#333333',
-//             borderRadius: '8px',
-//             fontSize: '0.875rem',
-//             textColor: '#ffffff',
-//             cursorColor: 'rgba(255, 255, 255, 0.1)',
-//         },
-//     };
-// };
+    // calculate the specific team's stats (max)
+    const maxSpeakerTeleOpTeam = specificTeamFunctions.speakerTeleOpMax(scoutingData, teamNumber);
+    const maxAmpTeleOpTeam = specificTeamFunctions.ampTeleOpMax(scoutingData, teamNumber);
+    const maxSpeakerAutoTeam = specificTeamFunctions.speakerAutoMax(scoutingData, teamNumber);
+    const maxFeedingTeam = specificTeamFunctions.feedingMax(scoutingData, teamNumber);
+    const maxEndPositionTeam = specificTeamFunctions.maxEndPositionForMatch(scoutingData, teamNumber);
+    const maxSpeakerAccuracy = specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, teamNumber);
+
+    // Normalize each category's data to its own maximum value
+    const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
+
+    // Prepare the normalized data
+    const data = [
+        {
+            subject: 'Autonomous Speaker Score',
+            [`Team ${teamNumber} Average`]: normalizeValue(speakerAuto, maxSpeakerAuto),
+            'Competition Average': normalizeValue(avgSpeakerAuto, maxSpeakerAuto),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerAutoTeam, maxSpeakerAuto),
+        },
+        {
+            subject: 'Teleop Speaker Score',
+            [`Team ${teamNumber} Average`]: normalizeValue(speakerTeleOp, maxSpeakerTeleOp),
+            'Competition Average': normalizeValue(avgSpeakerTeleOp, maxSpeakerTeleOp),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerTeleOpTeam, maxSpeakerTeleOp),
+        },
+        {
+            subject: 'Teleop Amp Score',
+            [`Team ${teamNumber} Average`]: normalizeValue(ampTeleOp, maxAmpTeleOp),
+            'Competition Average': normalizeValue(avgAmpTeleOp, maxAmpTeleOp),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxAmpTeleOpTeam, maxAmpTeleOp),
+        },
+        {
+            subject: 'Feeder Interactions',
+            [`Team ${teamNumber} Average`]: normalizeValue(feeding, maxFeeding),
+            'Competition Average': normalizeValue(avgFeeding, maxFeeding),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxFeedingTeam, maxFeeding)
+        },
+        {
+            subject: 'End Position',
+            [`Team ${teamNumber} Average`]: normalizeValue(endPosition, maxEndPosition),
+            'Competition Average': normalizeValue(avgEndPosition, maxEndPosition),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxEndPositionTeam, maxEndPosition),
+        },
+        {
+            subject: 'Teleop Speaker Accuracy',
+            [`Team ${teamNumber} Average`]: normalizeValue(speakerAccuracyTeleop, maxSpeakerAccuracyTeleop),
+            'Competition Average': normalizeValue(avgSpeakerAccuracyTeleop, maxSpeakerAccuracyTeleop),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerAccuracy, maxSpeakerAccuracyTeleop),
+        },
+    ];
+
+    return {
+        data,
+        radars: [
+            {
+                key: `Team ${teamNumber} Average`,
+                label: `Team ${teamNumber} Average`,
+                color: '#8884d8',
+            },
+            {
+                key: 'Competition Average',
+                label: 'Competition Average',
+                color: '#82ca9d',
+            },
+            {
+                key: `Team ${teamNumber} Max`,
+                label: `Team ${teamNumber} Max`,
+                color: '#ff4444',
+            },
+        ],
+        radarSettings: {
+            strokeWidth: 2,
+            dot: true,
+        },
+        angleKey: 'subject',
+        showRadiusAxis: false,
+        customLabels: {
+            'Autonomous Speaker Score': 'Autonomous Speaker',
+            'Teleop Speaker Score': 'Teleop Speaker',
+            'Teleop Amp Score': 'Teleop Amp',
+            'Feeder Interactions': 'Feeder Interactions',
+            'End Position': 'End Position',
+            'Teleop Speaker Accuracy': 'Teleop Speaker Accuracy',
+        },
+        showGrid: true,
+        gridType: 'polygon',
+        fillGrid: true,
+        showLegend: true,
+        showTooltip: false,
+        responsive: true,
+        title: 'Team Performance Comparison',
+        fontSettings: {
+            titleFontSize: '1.5rem',
+            labelFontSize: '1rem',
+            legendFontSize: '1rem',
+            defaultLabelColor: '#ffffff',
+        },
+        tooltipSettings: {
+            backgroundColor: '#333333',
+            borderRadius: '8px',
+            fontSize: '0.875rem',
+            textColor: '#ffffff',
+            cursorColor: 'rgba(255, 255, 255, 0.1)',
+        },
+    };
+};

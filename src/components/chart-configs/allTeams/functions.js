@@ -506,3 +506,88 @@ export function ampTeleOpAccuracyMax(scoutingData) {
 
     return maxAccuracy;
 }
+
+export function autoSpeakerAverage(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const totalScore = scoutingData.reduce((acc, entry) => {
+        const matchScore = entry.ausc || 0;
+        return acc + matchScore;
+    }, 0);
+
+    return totalScore / scoutingData.length;
+}
+
+export function autoSpeakerMax(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const maxScore = scoutingData.reduce((acc, entry) => {
+        const matchScore = entry.ausc || 0;
+        return Math.max(acc, matchScore);
+    }, 0);
+
+    return maxScore;
+}
+
+export function maxFeeding(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const maxScore = scoutingData.reduce((acc, entry) => {
+        const matchScore = entry.auf || 0;
+        return Math.max(acc, matchScore);
+    }, 0);
+
+    return maxScore;
+}
+
+export function maxFouls(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const maxScore = scoutingData.reduce((acc, entry) => {
+        const matchScore = entry.auf || 0;
+        return Math.max(acc, matchScore);
+    }, 0);
+
+    return maxScore;
+}
+
+export function feedingAverage(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const totalScore = scoutingData.reduce((acc, entry) => {
+        const matchScore = entry.auf || 0;
+        return acc + matchScore;
+    }, 0);
+
+    return totalScore / scoutingData.length;
+}
+
+export function foulsAverage(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const totalScore = scoutingData.reduce((acc, entry) => {
+        const matchScore = entry.auf || 0;
+        return acc + matchScore;
+    }, 0);
+
+    return totalScore / scoutingData.length;
+}
+
+export function competitionEndPositionAverage(scoutingData) {
+    if (!scoutingData.length) { return 0; }
+
+    const positionScores = {
+      "Hm": 4,  // Harmony
+      "Os": 3,  // Onstage
+      "Fh": 2,  // Failed Harmony
+      "P": 1,   // Parked
+      "No": 0   // No Climb
+    };
+
+    const totalScore = scoutingData.reduce((acc, entry) => {
+        const positionCode = entry.epo || "No";
+        return acc + (positionScores[positionCode] || 0); 
+    }, 0);
+
+    return totalScore / scoutingData.length;
+}
