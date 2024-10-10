@@ -15,6 +15,8 @@ const Visualization = () => {
     const [activeTab, setActiveTab] = useState('AllTeams'); 
     const [openSections, setOpenSections] = useState(['general', 'autonomous', 'teleop', 'endgame', 'summary']);
     const [teamNumber, setTeamNumber] = useState(5951);
+    const [team1Number, setTeam1Number] = useState(5951);
+    const [team2Number, setTeam2Number] = useState(5951);
 
     useEffect(() => {
         const handleOrientationChange = (e) => {
@@ -271,6 +273,134 @@ const Visualization = () => {
         </div>
     );
 
+    const handleTeam1NumberChange = (e) => {
+        setTeam1Number(parseInt(e.target.value, 10));
+    };
+
+    const handleTeam2NumberChange = (e) => {
+        setTeam2Number(parseInt(e.target.value, 10));
+    };
+
+    const comparisonSectionRenderGeneral = () => (
+        <div className="section">
+            <h2 className="chart-section-title" onClick={() => toggleSection('general')}>
+                General Comparison {isSectionOpen('general') ? '▲' : '▼'}
+            </h2>
+            {isSectionOpen('general') && (
+                <div className="graph-container">
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.matchScoreByRoundConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.matchScoreByRoundConfig(scoutingData, team2Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <NumberDisplay config={specificTeamConfigs.averageScoreConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <NumberDisplay config={specificTeamConfigs.averageScoreConfig(scoutingData, team2Number)} />
+                    </div>
+                </div>
+            )}
+        </div>
+    );    
+    
+    const comparisonSectionRenderAutonomous = () => (
+        <div className="section">
+            <h2 className="chart-section-title" onClick={() => toggleSection('autonomous')}>
+                Autonomous Comparison {isSectionOpen('autonomous') ? '▲' : '▼'}
+            </h2>
+            {isSectionOpen('autonomous') && (
+                <div className="graph-container">
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.autonomousSpeakerConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.autonomousSpeakerConfig(scoutingData, team2Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <PieGraph config={specificTeamConfigs.autoPathUsagePieConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <PieGraph config={specificTeamConfigs.autoPathUsagePieConfig(scoutingData, team2Number)} />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+    
+    const comparisonSectionRenderTeleop = () => (
+        <div className="section">
+            <h2 className="chart-section-title" onClick={() => toggleSection('teleop')}>
+                Tele-Op Comparison {isSectionOpen('teleop') ? '▲' : '▼'}
+            </h2>
+            {isSectionOpen('teleop') && (
+                <div className="graph-container">
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.teleopScoreByRoundConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.teleopScoreByRoundConfig(scoutingData, team2Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.teleopAccuracyPerRoundConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.teleopAccuracyPerRoundConfig(scoutingData, team2Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={specificTeamConfigs.teamTeleopStatsMultiNumberConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={specificTeamConfigs.teamTeleopStatsMultiNumberConfig(scoutingData, team2Number)} />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+    
+    const comparisonSectionRenderEndgame = () => (
+        <div className="section">
+            <h2 className="chart-section-title" onClick={() => toggleSection('endgame')}>
+                Endgame Comparison {isSectionOpen('endgame') ? '▲' : '▼'}
+            </h2>
+            {isSectionOpen('endgame') && (
+                <div className="graph-container">
+                    <div className="graph-item">
+                        <PieGraph config={specificTeamConfigs.endgameClimbUsagePieConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <PieGraph config={specificTeamConfigs.endgameClimbUsagePieConfig(scoutingData, team2Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.trapPerRoundConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.trapPerRoundConfig(scoutingData, team2Number)} />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
+    const comparisonSectionRenderSummary = () => (
+        <div className="section">
+            <h2 className="chart-section-title" onClick={() => toggleSection('summary')}>
+                Summary Comparison {isSectionOpen('summary') ? '▲' : '▼'}
+            </h2>
+            {isSectionOpen('summary') && (
+                <div className="graph-container">
+                    <div className="graph-item">
+                        <RadarGraph config={specificTeamConfigs.compareTeamsAverageRadarConfig(scoutingData, team1Number, team2Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <RadarGraph config={specificTeamConfigs.compareTeamsMaxRadarConfig(scoutingData, team1Number, team2Number)} />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
     const renderAllTeams = () => (
         <>
             {allTeamsRenderGeneralSection()}
@@ -303,9 +433,33 @@ const Visualization = () => {
 
     const renderComparison = () => (
         <>
-            {allTeamsRenderGeneralSection()}
-            {allTeamsRenderAutonomousSection()}
-            {allTeamsRenderTeleopSection()}
+            <div className="team-number-input">
+                <label htmlFor="teamNumber">Select Team 1 Number:</label>
+                <input
+                    type="number"
+                    id="team1Number"
+                    value={team1Number}
+                    onChange={handleTeam1NumberChange}
+                    min="0"
+                    placeholder="Enter team number"
+                />
+            </div>
+            <div className="team-number-input">
+                <label htmlFor="teamNumber">Select Team 2 Number:</label>
+                <input
+                    type="number"
+                    id="team2Number"
+                    value={team2Number}
+                    onChange={handleTeam2NumberChange}
+                    min="0"
+                    placeholder="Enter team number"
+                />
+            </div>
+            {comparisonSectionRenderGeneral()}
+            {comparisonSectionRenderAutonomous()}
+            {comparisonSectionRenderTeleop()}
+            {comparisonSectionRenderEndgame()}
+            {comparisonSectionRenderSummary()}
         </>
     );
 
