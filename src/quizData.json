@@ -192,7 +192,7 @@
                     "code": "yc",
                     "title": "כרטיס צהוב/אדום",
                     "type": "select",
-                    "defaultValue": "ללא כרטיס",
+                    "defaultValue": "No Card",
                     "required": true,
                     "choices": {
                     "No Card": "ללא כרטיס",
