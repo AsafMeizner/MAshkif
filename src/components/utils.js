@@ -44,8 +44,8 @@ export const updateScoutingDataFromAPI = async (password) => {
     }
 
     const data = await response.json();
-    if (data.entries && Array.isArray(data.entries)) {
-      saveScoutingData(data.entries);
+    if (data && Array.isArray(data)) {
+      saveScoutingData(data);
       console.log('Scouting data updated successfully');
     } else {
       console.error('Invalid data format received from API');
