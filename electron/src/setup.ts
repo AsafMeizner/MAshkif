@@ -52,8 +52,8 @@ export class ElectronCapacitorApp {
     new MenuItem({ label: 'Quit App', role: 'quit' }),
   ];
   private AppMenuBarMenuTemplate: (MenuItem | MenuItemConstructorOptions)[] = [
-    { role: process.platform === 'darwin' ? 'appMenu' : 'fileMenu' },
-    { role: 'viewMenu' },
+    // { role: process.platform === 'darwin' ? 'appMenu' : 'fileMenu' },
+    // { role: 'viewMenu' },
   ];
   private mainWindowState;
   private loadWebApp;
@@ -224,8 +224,8 @@ export function setupContentSecurityPolicy(customScheme: string): void {
         ...details.responseHeaders,
         'Content-Security-Policy': [
           electronIsDev
-            ? `default-src ${customScheme}://* 'unsafe-inline' devtools://* 'unsafe-eval' data:`
-            : `default-src ${customScheme}://* 'unsafe-inline' data:`,
+            ? `default-src ${customScheme}://* 'unsafe-inline' devtools://* 'unsafe-eval' data:; connect-src *`
+            : `default-src ${customScheme}://* 'unsafe-inline' data:; connect-src *`,
         ],
       },
     });

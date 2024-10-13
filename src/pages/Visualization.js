@@ -17,6 +17,7 @@ const Visualization = () => {
     const [teamNumber, setTeamNumber] = useState(5951);
     const [team1Number, setTeam1Number] = useState(5951);
     const [team2Number, setTeam2Number] = useState(5951);
+    const [selectedTeams, setSelectedTeams] = useState([]);
     const scoutingData = getScoutingData();
 
     useEffect(() => {
@@ -48,6 +49,28 @@ const Visualization = () => {
 
     const isSectionOpen = (sectionId) => openSections.includes(sectionId);
 
+    const teamNumbers = [...new Set(scoutingData.map(entry => entry.teamNumber))];
+
+    const handleTeamSelection = (teamNumber) => {
+        setSelectedTeams(prevSelected => 
+            prevSelected.includes(teamNumber)
+                ? prevSelected.filter(num => num !== teamNumber)
+                : [...prevSelected, teamNumber]
+        );
+    };
+
+    const selectAllTeams = () => {
+        setSelectedTeams(teamNumbers); 
+    };
+
+    const deselectAllTeams = () => {
+        setSelectedTeams([]); 
+    };
+
+    const filteredScoutingData = scoutingData.filter(entry => 
+        selectedTeams.length === 0 || selectedTeams.includes(entry.teamNumber)
+    );
+
     const allTeamsRenderGeneralSection = () => (
         <div className="section">
             <h2 className="chart-section-title" onClick={() => toggleSection('general')}>
@@ -56,10 +79,10 @@ const Visualization = () => {
             {isSectionOpen('general') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageMatchScoreConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.averageMatchScoreConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.maxMatchScoreConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.maxMatchScoreConfig(filteredScoutingData)} />
                     </div>
                 </div>
             )}
@@ -74,22 +97,22 @@ const Visualization = () => {
             {isSectionOpen('autonomous') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageAutonomousScoreConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.averageAutonomousScoreConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.maxAutonomousScoreConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.maxAutonomousScoreConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageAutonomousMovedConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.averageAutonomousMovedConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageAutonomousSpeakerAccuracyConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.averageAutonomousSpeakerAccuracyConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageAutonomousFoulConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.averageAutonomousFoulConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.maxAutonomousFoulConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.maxAutonomousFoulConfig(filteredScoutingData)} />
                     </div>
                 </div>
             )}
@@ -104,28 +127,28 @@ const Visualization = () => {
             {isSectionOpen('teleop') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageTeleopScoreConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.averageTeleopScoreConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.maxTeleopScoreConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.maxTeleopScoreConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageTeleopSpeakerByTeamConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.averageTeleopSpeakerByTeamConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.maxTeleopSpeakerByTeamConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.maxTeleopSpeakerByTeamConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageTeleopAmpByTeamConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.averageTeleopAmpByTeamConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.maxTeleopAmpByTeamConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.maxTeleopAmpByTeamConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopSpeakerPercentInByTeamConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.teleopSpeakerPercentInByTeamConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopAmpPercentInByTeamConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.teleopAmpPercentInByTeamConfig(filteredScoutingData)} />
                     </div>
                 </div>
             )}
@@ -140,10 +163,10 @@ const Visualization = () => {
             {isSectionOpen('endgame') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.averageEndgameTrapByTeamConfig(scoutingData)} />
+                        <BarGraph config={allTeamsConfigs.averageEndgameTrapByTeamConfig(filteredScoutingData)} />
                     </div>
                 </div>
             )}
@@ -196,6 +219,9 @@ const Visualization = () => {
                     </div>
                     <div className="graph-item">
                         <PieGraph config={specificTeamConfigs.autoPathUsagePieConfig(scoutingData, teamNumber)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.actualVsExpectedConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
                         <BarGraph config={specificTeamConfigs.autoHasMovedConfig(scoutingData, teamNumber)} />
@@ -253,6 +279,9 @@ const Visualization = () => {
                     </div>
                     <div className="graph-item">
                         <BarGraph config={specificTeamConfigs.trapPerRoundConfig(scoutingData, teamNumber)} />
+                    </div>
+                    <div className="graph-item">
+                        <PieGraph config={specificTeamConfigs.endgameTrapUsagePieConfig(scoutingData, teamNumber)} />
                     </div>
                 </div>
             )}
@@ -325,6 +354,12 @@ const Visualization = () => {
                     <div className="graph-item">
                         <PieGraph config={specificTeamConfigs.autoPathUsagePieConfig(scoutingData, team2Number)} />
                     </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.actualVsExpectedConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.actualVsExpectedConfig(scoutingData, team2Number)} />
+                    </div>  
                 </div>
             )}
         </div>
@@ -404,6 +439,25 @@ const Visualization = () => {
 
     const renderAllTeams = () => (
         <>
+            <div className="team-selection-container">
+                <div className="team-selection-buttons">
+                    <button onClick={selectAllTeams}>Select All</button>
+                    <button onClick={deselectAllTeams}>Deselect All</button>
+                </div>
+
+                <div className="team-selection">
+                    {teamNumbers.map(teamNumber => (
+                        <label key={teamNumber}>
+                            <input 
+                                type="checkbox" 
+                                checked={selectedTeams.includes(teamNumber)}
+                                onChange={() => handleTeamSelection(teamNumber)} 
+                            />
+                            Team {teamNumber}
+                        </label>
+                    ))}
+                </div>
+            </div>
             {allTeamsRenderGeneralSection()}
             {allTeamsRenderAutonomousSection()}
             {allTeamsRenderTeleopSection()}

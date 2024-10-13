@@ -18,12 +18,15 @@ const CustomBarShape = (props) => {
     gradient,
   } = props;
 
+  const adjustedY = height < 0 ? y + height : y;
+  const adjustedHeight = Math.abs(height); 
+
   return (
     <rect
       x={x}
-      y={y}
+      y={adjustedY}
       width={width}
-      height={height}
+      height={adjustedHeight}
       fill={gradient ? `url(#${gradient})` : fill}
       stroke={stroke}
       strokeWidth={strokeWidth}

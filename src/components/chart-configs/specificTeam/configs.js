@@ -277,6 +277,20 @@ export const autoPathPerRoundConfig = (scoutingData, teamNumber) => ({
             stacked: true,
             name: 'Midline 1 (Amp Edge)',
         },
+        {
+            key: 'Path9',
+            label: 'Path 9',
+            color: '#82b5d8',
+            stacked: true,
+            name: 'Other',
+        },
+        {
+            key: 'Path10',
+            label: 'Path 10',
+            color: '#c4162a',
+            stacked: true,
+            name: "Didn't Move",
+        }
     ],
     chartSettings: {
         showGridlines: true,
@@ -286,6 +300,7 @@ export const autoPathPerRoundConfig = (scoutingData, teamNumber) => ({
     yAxisLabel: 'Autonomous Path Taken',
     yAxisMin: 0,
     yAxisMax: 1,  
+    xAxisLabel: 'Round Number',
     xAxisLabelRotation: 0,
     showTooltip: true,
     tooltipSettings: {
@@ -300,6 +315,57 @@ export const autoPathPerRoundConfig = (scoutingData, teamNumber) => ({
     responsive: true,
     maintainAspectRatio: true,
     showDataLabels: false,
+    sortOrder: 'ascending',
+});
+
+export const actualVsExpectedConfig = (scoutingData, teamNumber) => ({
+    data: specificTeamFunctions.actualVsExpectedData(scoutingData, teamNumber),
+    title: `Actual vs. Expected Autonomous Scores for Team ${teamNumber}`,
+    scoringTypes: [
+        {
+            key: 'actualScore',
+            label: 'Actual Score',
+            color: '#73bf69',
+            name: 'Actual Score',
+        },
+        {
+            key: 'expectedScore',
+            label: 'Expected Score',
+            color: '#ff8042',
+            name: 'Expected Score',
+        },
+        {
+            key: 'deviation',
+            label: 'Deviation',
+            color: '#ff4444',
+            name: 'Score Deviation',
+        },
+    ],
+    chartSettings: {
+        showGridlines: true,
+        gridlineColor: '#444444',
+    },
+    xKey: 'roundNumber',
+    yAxisLabel: 'Score',
+    yAxisMin: 'auto',
+    yAxisMax: 'auto',  
+    xAxisLabel: 'Round Number',
+    xAxisLabelRotation: 0,
+    showTooltip: true,
+    tooltipSettings: {
+        backgroundColor: '#333333',
+        borderRadius: '8px',
+        fontSize: '0.875rem',
+        cursorColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    showLegend: true,
+    interactiveLegend: true,
+    legendPosition: 'top',
+    responsive: true,
+    maintainAspectRatio: true,
+    showDataLabels: true,
+    dataLabelPosition: 'inside',
+    dataLabelRotation: 0,
     sortOrder: 'ascending',
 });
 
@@ -355,6 +421,18 @@ export const autoPathUsagePieConfig = (scoutingData, teamNumber) => ({
             color: '#d0ed57',
             name: 'Midline 1 (Amp Edge)',
         },
+        {
+            key: 'Path9',
+            label: 'Path 9',
+            color: '#82b5d8',
+            name: 'Other',
+        },
+        {
+            key: 'Path10',
+            label: 'Path 10',
+            color: '#c4162a',
+            name: "Didn't Move",
+        }
     ],
     chartSettings: {
         showTooltip: true,
@@ -371,7 +449,8 @@ export const autoPathUsagePieConfig = (scoutingData, teamNumber) => ({
         maintainAspectRatio: true,
         colors: [
             '#8884d8', '#82ca9d', '#ff4444', '#ffc658', 
-            '#ff8042', '#73bf69', '#a4de6c', '#d0ed57'
+            '#ff8042', '#73bf69', '#a4de6c', '#d0ed57',
+            '#82b5d8', '#c4162a'
         ],
         showLabels: true,
         labelPosition: 'outside',
@@ -792,6 +871,7 @@ export const endgameClimbDataPerRoundConfig = (scoutingData, teamNumber) => ({
     yAxisMin: 0,
     yAxisMax: 1,
     xAxisLabelRotation: 0,
+    xAxisLabel: 'Round Number',
     showTooltip: true,
     tooltipSettings: {
         backgroundColor: '#333333',
@@ -899,6 +979,55 @@ export const trapPerRoundConfig = (scoutingData, teamNumber) => ({
     showDataLabels: false,
     dataLabelPosition: 'inside',
     dataLabelRotation: 0,
+});
+
+export const endgameTrapUsagePieConfig = (scoutingData, teamNumber) => ({
+    data: specificTeamFunctions.endgameTrapPieData(scoutingData, teamNumber),
+    title: `Endgame Trap Score for Team ${teamNumber}`,
+    scoringTypes: [
+        {
+            key: '0',
+            label: 'Note 0',
+            color: '#8884d8',
+            name: '0 Note',
+        },
+        {
+            key: '1',
+            label: 'Note 1',
+            color: '#82ca9d',
+            name: '1 Note',
+        },
+        {
+            key: '2',
+            label: 'Note 2',
+            color: '#ff4444',
+            name: '2 Note',
+        },
+        {
+            key: '3',
+            label: 'Note 3',
+            color: '#ffc658',
+            name: '3 Note',
+        },
+    ],
+    chartSettings: {
+        showTooltip: true,
+        tooltipSettings: {
+            backgroundColor: '#333333',
+            borderRadius: '8px',
+            fontSize: '0.875rem',
+            textColor: '#ffffff',
+            cursorColor: 'rgba(255, 255, 255, 0.1)',
+        },
+        showLegend: true,
+        legendPosition: 'top',
+        legendLayout: 'horizontal',
+        maintainAspectRatio: true,
+        colors: ['#8884d8', '#82ca9d', '#ff4444', '#ffc658'],
+        showLabels: true,
+        labelPosition: 'outside',
+    },
+    responsive: true,
 });
 
 export const teamPerformanceRadarConfig = (scoutingData, teamNumber) => {

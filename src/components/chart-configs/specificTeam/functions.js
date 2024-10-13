@@ -149,6 +149,8 @@ export function autoPathStackedData(scoutingData, teamNumber) {
             Path6: entry.a_gp_Path === "6" ? 1 : 0,
             Path7: entry.a_gp_Path === "7" ? 1 : 0,
             Path8: entry.a_gp_Path === "8" ? 1 : 0,
+            Path9: entry.a_gp_Path === "9" ? 1 : 0,
+            Path10: entry.a_gp_Path === "10" ? 1 : 0,
         };
     });
 
@@ -173,6 +175,8 @@ export function autoPathPieData(scoutingData, teamNumber) {
         Path6: 0,
         Path7: 0,
         Path8: 0,
+        Path9: 0,
+        Path10: 0,
     };
 
     teamData.forEach((entry) => {
@@ -184,6 +188,8 @@ export function autoPathPieData(scoutingData, teamNumber) {
         pathCounts.Path6 += entry.a_gp_Path === "6" ? 1 : 0;
         pathCounts.Path7 += entry.a_gp_Path === "7" ? 1 : 0;
         pathCounts.Path8 += entry.a_gp_Path === "8" ? 1 : 0;
+        pathCounts.Path9 += entry.a_gp_Path === "9" ? 1 : 0;
+        pathCounts.Path10 += entry.a_gp_Path === "10" ? 1 : 0;
     });
 
     return Object.keys(pathCounts).map((pathKey) => ({
@@ -533,6 +539,33 @@ export function endgameTrapPerRound(scoutingData, teamNumber) {
     return trapData;
 }
 
+export function endgameTrapPieData(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+
+    if (!teamData.length) {
+        return [];
+    }
+
+    const trapCounts = {
+        '0': 0,
+        '1': 0,
+        '2': 0,
+        '3': 0,
+    };
+
+    teamData.forEach((entry) => {
+        const trapScore = entry.cn || 0; // assuming cn represents the trap score
+        if (trapScore >= 0 && trapScore <= 3) {
+            trapCounts[trapScore] += 1;
+        }
+    });
+
+    return Object.keys(trapCounts).map((trapKey) => ({
+        name: `${trapKey} Note`,
+        value: trapCounts[trapKey],
+    }));
+}
+
 export function speakerAutoAverage(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
   
@@ -638,4 +671,39 @@ export function maxEndPositionForMatch(scoutingData, teamNumber) {
     }, 0);
   
     return maxScore;
+}
+
+
+export function actualVsExpectedData(scoutingData, teamNumber) {
+    const expectedScoresByPath = {
+        Path1: 3, // Speaker 3 (Source Side)
+        Path2: 2, // Speaker 2 (Middle)
+        Path3: 1, // Speaker 1 (Amp Side)
+        Path4: 5, // Midline 5 (Source Edge)
+        Path5: 4, // Midline 4
+        Path6: 3, // Midline 3 (Middle)
+        Path7: 2, // Midline 2
+        Path8: 1, // Midline 1 (Amp Edge)
+        Path9: 1, // Other
+        Path10: 0, // Didn't Move
+    };
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+
+    if (!teamData.length) { return []; }
+
+    return teamData.map((entry) => {
+        const roundNumber = entry.matchNumber;
+        const actualScore = entry.ausc || 0;  // Autonomous Speaker Score
+
+        // Find the path taken and expected score
+        let pathTaken = Object.keys(expectedScoresByPath).find(path => entry.a_gp_Path === path.slice(4));
+        let expectedScore = expectedScoresByPath[pathTaken] || 0;
+
+        return {
+            roundNumber,
+            actualScore,
+            expectedScore,
+            deviation: actualScore - expectedScore  // Calculate the deviation
+        };
+    });
 }

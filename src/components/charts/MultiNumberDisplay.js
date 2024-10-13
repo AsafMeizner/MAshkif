@@ -3,7 +3,7 @@ import { ResponsiveContainer } from 'recharts';
 
 const MultiNumberDisplay = ({ config }) => {
   const defaultConfig = {
-    mainTitle: '', // New main title in config
+    mainTitle: '', 
     values: [
       {
         color: '#00acc1',
@@ -60,6 +60,9 @@ const MultiNumberDisplay = ({ config }) => {
                   </text>
                 </svg>
               </ResponsiveContainer>
+              <p style={{ fontSize: '1.5rem', marginTop: '10px', color: '#ffffff' }}>
+                {`${percentage.toFixed(2)}%`}
+              </p>
             </div>
           );
         })}
