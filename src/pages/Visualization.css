@@ -191,7 +191,7 @@
     background-color: #cf9191;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 1200px) {
     .graph-item {
         font-family: Arial, sans-serif;
         flex: 1 1 calc(45vw);
@@ -229,7 +229,7 @@
     }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
     .graph-item {
         font-family: Arial, sans-serif;
         flex: 1 1 90vw;
