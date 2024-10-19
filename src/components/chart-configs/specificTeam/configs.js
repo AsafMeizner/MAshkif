@@ -841,6 +841,13 @@ export const endgameClimbDataPerRoundConfig = (scoutingData, teamNumber) => ({
             name: 'Parked',
         },
         {
+            key: 'Fo',
+            label: 'Failed Climb',
+            color: '#01a2f0',
+            stacked: true,
+            name: 'Failed Climb', 
+        },
+        {
             key: 'Fh',
             label: 'Failed Harmony',
             color: '#ff4444',
@@ -903,6 +910,12 @@ export const endgameClimbUsagePieConfig = (scoutingData, teamNumber) => ({
             label: 'Parked',
             color: '#82ca9d',
             name: 'Parked',
+        },
+        {
+            key: 'Fo',
+            label: 'Failed Climb',
+            color: '#01a2f0',
+            name: 'Failed Climb', 
         },
         {
             key: 'Fh',

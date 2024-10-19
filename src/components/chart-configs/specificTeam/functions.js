@@ -482,6 +482,7 @@ export function endgameClimbDataPerRound(scoutingData, teamNumber) {
             roundNumber,
             No: entry.epo === "No" ? 1 : 0,
             P: entry.epo === "P" ? 1 : 0,
+            Fo: entry.epo === "Fo" ? 1 : 0,
             Fh: entry.epo === "Fh" ? 1 : 0,
             Os: entry.epo === "Os" ? 1 : 0,
             Hm: entry.epo === "Hm" ? 1 : 0,
@@ -503,6 +504,7 @@ export function endgameClimbPieData(scoutingData, teamNumber) {
     const climbCounts = {
         No: 0,
         P: 0,
+        Fo: 0,
         Fh: 0,
         Os: 0,
         Hm: 0,
@@ -511,6 +513,7 @@ export function endgameClimbPieData(scoutingData, teamNumber) {
     teamData.forEach((entry) => {
         climbCounts.No += entry.epo === "No" ? 1 : 0;
         climbCounts.P += entry.epo === "P" ? 1 : 0;
+        climbCounts.Fo += entry.epo === "Fo" ? 1 : 0;
         climbCounts.Fh += entry.epo === "Fh" ? 1 : 0;
         climbCounts.Os += entry.epo === "Os" ? 1 : 0;
         climbCounts.Hm += entry.epo === "Hm" ? 1 : 0;
@@ -637,9 +640,10 @@ export function endPositionAverage(scoutingData, teamNumber) {
     if (!teamData.length) {return 0;}
 
     const positionScores = {
-      "Hm": 4,  // Harmony
-      "Os": 3,  // Onstage
-      "Fh": 2,  // Failed Harmony
+      "Hm": 5,  // Harmony
+      "Os": 4,  // Onstage
+      "Fh": 3,  // Failed Harmony
+      "Fo": 2,  // Failed Onstage
       "P": 1,   // Parked
       "No": 0   // No Climb
     };
@@ -658,11 +662,12 @@ export function maxEndPositionForMatch(scoutingData, teamNumber) {
     if (!teamData.length) {return 0;}
 
     const positionScores = {
-      "Hm": 4,  // Harmony
-      "Os": 3,  // Onstage
-      "Fh": 2,  // Failed Harmony
-      "P": 1,   // Parked
-      "No": 0   // No Climb
+        "Hm": 5,  // Harmony
+        "Os": 4,  // Onstage
+        "Fh": 3,  // Failed Harmony
+        "Fo": 2,  // Failed Onstage
+        "P": 1,   // Parked
+        "No": 0   // No Climb
     };
   
     const maxScore = teamData.reduce((acc, entry) => {

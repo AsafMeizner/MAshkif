@@ -384,7 +384,7 @@ export const endgameClimbData = (scoutingData) => {
         const position = entry.epo;
 
         if (!acc[team]) {
-            acc[team] = { teamNumber: team, No: 0, P: 0, Fh: 0, Os: 0, Hm: 0, total: 0 };
+            acc[team] = { teamNumber: team, No: 0, P: 0, Fo : 0, Fh: 0, Os: 0, Hm: 0, total: 0 };
         }
 
         acc[team][position] += 1;
@@ -397,6 +397,7 @@ export const endgameClimbData = (scoutingData) => {
         teamNumber: team.teamNumber,
         No: Math.round((team.No / team.total) * 100 * 100) / 100,
         P: Math.round((team.P / team.total) * 100 * 100) / 100,
+        Fo: Math.round((team.Fo / team.total) * 100 * 100) / 100,
         Fh: Math.round((team.Fh / team.total) * 100 * 100) / 100,
         Os: Math.round((team.Os / team.total) * 100 * 100) / 100,
         Hm: Math.round((team.Hm / team.total) * 100 * 100) / 100,
@@ -577,11 +578,12 @@ export function competitionEndPositionAverage(scoutingData) {
     if (!scoutingData.length) { return 0; }
 
     const positionScores = {
-      "Hm": 4,  // Harmony
-      "Os": 3,  // Onstage
-      "Fh": 2,  // Failed Harmony
-      "P": 1,   // Parked
-      "No": 0   // No Climb
+        "Hm": 5,  // Harmony
+        "Os": 4,  // Onstage
+        "Fh": 3,  // Failed Harmony
+        "Fo": 2,  // Failed Onstage
+        "P": 1,   // Parked
+        "No": 0   // No Climb
     };
 
     const totalScore = scoutingData.reduce((acc, entry) => {
