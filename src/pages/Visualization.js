@@ -9,6 +9,7 @@ import './Visualization.css';
 import * as allTeamsConfigs from '../components/chart-configs/allTeams/configs';
 import * as specificTeamConfigs from '../components/chart-configs/specificTeam/configs';
 import { getScoutingData } from '../components/utils';
+import * as reportConfigs from '../components/chart-configs/report/configs';
 
 const Visualization = () => {
     const [isPortrait, setIsPortrait] = useState(window.matchMedia("(orientation: portrait)").matches);
@@ -17,6 +18,12 @@ const Visualization = () => {
     const [teamNumber, setTeamNumber] = useState(5951);
     const [team1Number, setTeam1Number] = useState(5951);
     const [team2Number, setTeam2Number] = useState(5951);
+    const [red1Number, setRed1Number] = useState(5951);
+    const [red2Number, setRed2Number] = useState(1577);
+    const [red3Number, setRed3Number] = useState(5990);
+    const [blue1Number, setBlue1Number] = useState(1690);
+    const [blue2Number, setBlue2Number] = useState(1576);
+    const [blue3Number, setBlue3Number] = useState(3339);
     const [selectedTeams, setSelectedTeams] = useState([]);
     const scoutingData = getScoutingData();
 
@@ -437,6 +444,203 @@ const Visualization = () => {
         </div>
     );
 
+    const handleRed1NumberChange = (e) => {
+        setRed1Number(parseInt(e.target.value, 10));
+    };
+
+    const handleRed2NumberChange = (e) => {
+        setRed2Number(parseInt(e.target.value, 10));
+    };
+
+    const handleRed3NumberChange = (e) => {
+        setRed3Number(parseInt(e.target.value, 10));
+    };
+
+    const handleBlue1NumberChange = (e) => {
+        setBlue1Number(parseInt(e.target.value, 10));
+    };
+
+    const handleBlue2NumberChange = (e) => {
+        setBlue2Number(parseInt(e.target.value, 10));
+    };
+
+    const handleBlue3NumberChange = (e) => {
+        setBlue3Number(parseInt(e.target.value, 10));
+    };
+
+    const ReportRenderGeneral = (redAlliance, blueAlliance) => (
+        <div className="section">
+            <h2 className="chart-section-title" onClick={() => toggleSection('general')}>
+                General {isSectionOpen('general') ? '▲' : '▼'}
+            </h2>
+            {isSectionOpen('general') && (
+                <div className="graph-container">
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.alianceNoteAveragMultiNumber(scoutingData, redAlliance, "Average / Max Match notes for red aliance", "#e7492a")} />
+                    </div>
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.alianceNoteAveragMultiNumber(scoutingData, blueAlliance, "Average / Max Match notes for blue aliance", "#1aa3e8")} />
+                    </div>
+                </div>
+            )}
+        </div>
+    );    
+    
+    const ReportRenderAutonomous = (redAlliance, blueAlliance) => (
+        <div className="section">
+            <h2 className="chart-section-title" onClick={() => toggleSection('autonomous')}>
+                Autonomous {isSectionOpen('autonomous') ? '▲' : '▼'}
+            </h2>
+            {isSectionOpen('autonomous') && (
+                <div className="graph-container">
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.averageAutoSpeaker(scoutingData, redAlliance, "Average / Max Auto notes for red aliance", "#e7492a")} />
+                    </div>
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.averageAutoSpeaker(scoutingData, blueAlliance, "Average / Max Auto notes for blue aliance", "#1aa3e8")} />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+    
+    const ReportRenderTeleop = (redAlliance, blueAlliance) => (
+        <div className="section">
+            <h2 className="chart-section-title" onClick={() => toggleSection('teleop')}>
+                Tele-Op {isSectionOpen('teleop') ? '▲' : '▼'}
+            </h2>
+            {isSectionOpen('teleop') && (
+                <div className="graph-container">
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.alianceAmpAveragMultiNumber(scoutingData, redAlliance, "Average / Max TeleOp AMP for red aliance", "#e7492a")} />
+                    </div>
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.alianceAmpAveragMultiNumber(scoutingData, blueAlliance, "Average / Max TeleOp AMP for blue aliance", "#1aa3e8")} />
+                    </div>
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.alianceSpeakerTeleopAveragMultiNumber(scoutingData, redAlliance, "Average / Max TeleOp Speaker for red aliance", "#e7492a")} />
+                    </div>
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.alianceSpeakerTeleopAveragMultiNumber(scoutingData, blueAlliance, "Average / Max TeleOp Speaker for blue aliance", "#1aa3e8")} />
+                    </div>
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.feedingAverage(scoutingData, redAlliance, "Average / Max Feeding for red aliance", "#e7492a")} />
+                    </div>
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.feedingAverage(scoutingData, blueAlliance, "Average / Max Feeding for blue aliance", "#1aa3e8")} />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
+    const ReportRenderEndgame = (redAlliance, blueAlliance, scoutingDataRed, scoutingDataBlue) => (
+
+        <div className="section">
+            <h2 className="chart-section-title" onClick={() => toggleSection('endgame')}>
+                Endgame {isSectionOpen('endgame') ? '▲' : '▼'}
+            </h2>
+            {isSectionOpen('endgame') && (
+                <div className="graph-container">
+                    <div className="graph-item">
+                        <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig(scoutingDataRed)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig(scoutingDataBlue)} />
+                    </div>
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.averageTrap(scoutingData, redAlliance, "Average / Max Trap for red aliance", "#e7492a")} />
+                    </div>
+                    <div className="graph-item">
+                        <MultiNumberDisplay config={reportConfigs.averageTrap(scoutingData, blueAlliance, "Average / Max Trap for blue aliance", "#1aa3e8")} />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
+    const renderReport = () => {
+        const redAlliance = [red1Number, red2Number, red3Number];
+        const blueAlliance = [blue1Number, blue2Number, blue3Number];
+        const scoutingDataRed = scoutingData.filter(entry => redAlliance.includes(entry.teamNumber));
+        const scoutingDataBlue = scoutingData.filter(entry => blueAlliance.includes(entry.teamNumber));
+        return (
+            <>
+                <div className="team-number-input">
+                    <label htmlFor="red1Number">Red 1:</label>
+                    <input
+                        type="number"
+                        id="red1Number"
+                        value={red1Number}
+                        onChange={handleRed1NumberChange}
+                        min="0"
+                        placeholder="Enter team number"
+                    />
+                </div>
+                <div className="team-number-input">
+                    <label htmlFor="red2Number">Red 2:</label>
+                    <input
+                        type="number"
+                        id="red2Number"
+                        value={red2Number}
+                        onChange={handleRed2NumberChange}
+                        min="0"
+                        placeholder="Enter team number"
+                    />
+                </div>
+                <div className="team-number-input">
+                    <label htmlFor="red3Number">Red 3:</label>
+                    <input
+                        type="number"
+                        id="red3Number"
+                        value={red3Number}
+                        onChange={handleRed3NumberChange}
+                        min="0"
+                        placeholder="Enter team number"
+                    />
+                </div>
+                <div className="team-number-input">
+                    <label htmlFor="blue1Number">Blue 1:</label>
+                    <input
+                        type="number"
+                        id="blue1Number"
+                        value={blue1Number}
+                        onChange={handleBlue1NumberChange}
+                        min="0"
+                        placeholder="Enter team number"
+                    />
+                </div>
+                <div className="team-number-input">
+                    <label htmlFor="blue2Number">Blue 2:</label>
+                    <input
+                        type="number"
+                        id="blue2Number"
+                        value={blue2Number}
+                        onChange={handleBlue2NumberChange}
+                        min="0"
+                        placeholder="Enter team number"
+                    />
+                </div>
+                <div className="team-number-input">
+                    <label htmlFor="blue3Number">Blue 3:</label>
+                    <input
+                        type="number"
+                        id="blue3Number"
+                        value={blue3Number}
+                        onChange={handleBlue3NumberChange}
+                        min="0"
+                        placeholder="Enter team number"
+                    />
+                </div>
+                
+                {ReportRenderGeneral(redAlliance, blueAlliance)}
+                {ReportRenderAutonomous(redAlliance, blueAlliance)}
+                {ReportRenderTeleop(redAlliance, blueAlliance)}
+                {ReportRenderEndgame(redAlliance, blueAlliance, scoutingDataRed, scoutingDataBlue)}
+            </>
+        );
+    };
+
     const renderAllTeams = () => (
         <>
             <div className="team-selection-container">
@@ -526,6 +730,8 @@ const Visualization = () => {
                 return renderSpecificTeam();
             case 'Comparison':
                 return renderComparison();
+            case 'Report':
+                return renderReport();
             default:
                 return null;
         }
@@ -540,6 +746,7 @@ const Visualization = () => {
                 <button className={activeTab === 'AllTeams' ? 'active-tab' : ''} onClick={() => setActiveTab('AllTeams')}>All Teams</button>
                 <button className={activeTab === 'SpecificTeam' ? 'active-tab' : ''} onClick={() => setActiveTab('SpecificTeam')}>Specific Team</button>
                 <button className={activeTab === 'Comparison' ? 'active-tab' : ''} onClick={() => setActiveTab('Comparison')}>Comparison</button>
+                <button className={activeTab === 'Report' ? 'active-tab' : ''} onClick={() => setActiveTab('Report')}>Report</button>
             </div>
 
             {renderSection()}

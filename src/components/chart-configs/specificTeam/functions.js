@@ -712,3 +712,18 @@ export function actualVsExpectedData(scoutingData, teamNumber) {
         };
     });
 }
+
+export function avarageMatchNotes(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+    if (!teamData.length) { return 0; }
+
+    // teleop notes (tsc, tamps) + autonomous notes (ausc)
+
+    const totalNotes = teamData.reduce((acc, entry) => {
+        const teleopNotes = (entry.tsc || 0) + (entry.tamps || 0);
+        const autonomousNotes = entry.ausc || 0;
+        return acc + teleopNotes + autonomousNotes;
+    }, 0);
+
+    return totalNotes / teamData.length;
+}
