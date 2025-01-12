@@ -88,6 +88,70 @@
     margin: 0 10px;
     font-size: 16px;
   }
+
+  /* Multi-Counter Field Styling */
+.multi-counter-field {
+  margin-bottom: 20px;
+}
+
+.multi-counter-field label {
+  font-size: 16px;
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.multi-counter {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.multi-counter .counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 22%; /* Adjust based on desired size */
+  max-width: 22%;
+  background-color: #3b3b3b;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.multi-counter .counter span {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.multi-counter .counter button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 8px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 80px;
+}
+
+.multi-counter .counter button:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  .multi-counter .counter {
+    flex: 1 1 45%; /* Adjust for smaller screen sizes */
+    min-width: 45%;
+    max-width: 45%;
+  }
+}
+
   
   .form-buttons {
     display: flex;

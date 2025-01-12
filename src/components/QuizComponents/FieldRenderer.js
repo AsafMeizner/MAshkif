@@ -4,6 +4,7 @@ import NumberField from './QuestionFields/NumberField';
 import SelectField from './QuestionFields/SelectField';
 import BooleanField from './QuestionFields/BooleanField';
 import CounterField from './QuestionFields/CounterField';
+import MultiCounterField from './QuestionFields/MultiCounterField';
 
 const FieldRenderer = ({ field, onChange, value }) => {
   switch (field.type) {
@@ -46,6 +47,15 @@ const FieldRenderer = ({ field, onChange, value }) => {
     case 'counter':
       return (
         <CounterField
+          key={field.code}
+          field={field}
+          value={value}
+          onChange={onChange}
+        />
+      );
+    case 'multi-counter':
+      return (
+        <MultiCounterField
           key={field.code}
           field={field}
           value={value}

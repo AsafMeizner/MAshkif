@@ -22,8 +22,6 @@ const QuizForm = () => {
   const { handleSubmit, reset, control } = useForm();
 
   useEffect(() => {
-    // const savedConfig = localStorage.getItem('config');
-    // const quizData = savedConfig ? JSON.parse(savedConfig) : defaultQuizData;
     const quizData = defaultQuizData;
 
     setSections(quizData.sections);
@@ -35,31 +33,36 @@ const QuizForm = () => {
 
   const onSubmit = (data) => {
     const sanitizedData = sections.reduce((acc, section) => {
-        section.fields.forEach(field => {
-            const fieldValue = data[field.code];
-            
-            if (fieldValue === undefined || fieldValue === "") {
-                acc[field.code] = field.defaultValue !== undefined ? field.defaultValue : "";
-            } else if (field.type === "number") {
-                acc[field.code] = Number(fieldValue); 
-            } else if (field.type === "boolean") {
-                acc[field.code] = fieldValue === "true" || fieldValue === true; 
-            } else if (field.type === "string") {
-                acc[field.code] = String(fieldValue); // Convert to string
-            } else {
-                acc[field.code] = fieldValue; 
-            }
-        });
-        return acc;
+      section.fields.forEach((field) => {
+        if (field.type === 'multi-counter') {
+          // Spread subfields into the main structure with their individual codes
+          field.subFields.forEach((subField) => {
+            acc[subField.code] =
+              data[subField.code] !== undefined && data[subField.code] !== ''
+                ? data[subField.code]
+                : subField.defaultValue !== undefined
+                ? subField.defaultValue
+                : 0; // Default to 0 if no defaultValue is provided
+          });
+        } else {
+          // Handle other field types automatically
+          acc[field.code] =
+            data[field.code] !== undefined && data[field.code] !== ''
+              ? data[field.code]
+              : field.defaultValue !== undefined
+              ? field.defaultValue
+              : field.type === 'number'
+              ? 0
+              : field.type === 'boolean'
+              ? false
+              : ''; // Default fallback for other types
+        }
+      });
+      return acc;
     }, {});
 
-    // Ensure specific fields are strings (like a_gp_Path)
-    if (sanitizedData.a_gp_Path !== undefined) {
-        sanitizedData.a_gp_Path = String(sanitizedData.a_gp_Path);
-    }
-
     sanitizedData.submissionTime = new Date().getTime();
-    
+
     let content = compressAndEncode(JSON.stringify(sanitizedData));
     setQrContent(content);
 
@@ -68,8 +71,8 @@ const QuizForm = () => {
     localStorage.setItem('submissions', JSON.stringify(newSubmissions));
 
     setModalIsOpen(true);
-    setFormSubmitted(true); 
-};
+    setFormSubmitted(true);
+  };
 
   const handleDelete = (index) => {
     const updatedSubmissions = submissions.filter((_, i) => i !== index);
@@ -106,8 +109,22 @@ const QuizForm = () => {
   };
 
   return (
-    <div style={window.innerWidth > window.innerHeight ? {marginTop: "5%", marginBottom: "5%"} : {marginTop: "10%", marginBottom: "5%"}}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100vw", margintop: "10%" }}>
+    <div
+      style={
+        window.innerWidth > window.innerHeight
+          ? { marginTop: '5%', marginBottom: '5%' }
+          : { marginTop: '10%', marginBottom: '5%' }
+      }
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100vw',
+          margintop: '10%',
+        }}
+      >
         <h1 className="quiz-title">{pageTitle}</h1>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="form-container">
@@ -122,11 +139,11 @@ const QuizForm = () => {
                     control={control}
                     defaultValue={field.type === 'number' ? 0 : field.defaultValue || ''}
                     render={({ field: controllerField }) => (
-                      <FieldRenderer 
-                        field={field} 
-                        onChange={controllerField.onChange} 
-                        value={controllerField.value} 
-                        valueAsNumber={field.type === 'number'} 
+                      <FieldRenderer
+                        field={field}
+                        onChange={controllerField.onChange}
+                        value={controllerField.value}
+                        valueAsNumber={field.type === 'number'}
                       />
                     )}
                   />
@@ -136,25 +153,31 @@ const QuizForm = () => {
           </div>
         ))}
         <div className="form-buttons">
-          <button type="submit" className="submit-button">Submit</button>
-          <button type="button" className="reset-button" onClick={handleReset}>Reset Form</button>
-          <button type="button" className="history-button" onClick={openHistoryModal}>View Submissions</button>
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+          <button type="button" className="reset-button" onClick={handleReset}>
+            Reset Form
+          </button>
+          <button type="button" className="history-button" onClick={openHistoryModal}>
+            View Submissions
+          </button>
         </div>
       </form>
       {formSubmitted && <HapticFeedback />}
       {resetFeedback && <div className="reset-feedback">Form reset successfully!</div>}
-      <ModalComponent 
-        isOpen={modalIsOpen} 
-        closeModal={closeQrModal} 
-        qrContent={tempQrContent || qrContent} 
+      <ModalComponent
+        isOpen={modalIsOpen}
+        closeModal={closeQrModal}
+        qrContent={tempQrContent || qrContent}
       />
-      <HistoryModal 
-        isOpen={historyModalIsOpen} 
-        closeModal={closeHistoryModal} 
-        submissions={submissions} 
+      <HistoryModal
+        isOpen={historyModalIsOpen}
+        closeModal={closeHistoryModal}
+        submissions={submissions}
         openQrModal={openQrModal}
-        handleDelete={handleDelete} 
-        handleDeleteAll={handleDeleteAll} 
+        handleDelete={handleDelete}
+        handleDeleteAll={handleDeleteAll}
       />
     </div>
   );

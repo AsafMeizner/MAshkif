@@ -1,99 +1,153 @@
 {
-    "page_title": "Crescendo",
+    "page_title": "ReefScape",
     "sections": [
         {
-            "name": "לפני המשחק",
+            "name": "Pre-Match",
             "preserveDataOnReset": true,
             "fields": [
-            {
-                "title": "שם סקאוטר",
-                "type": "text",
-                "required": true,
-                "code": "scouter"
-            },
-            {
-                "title": "מספר מקצה",
-                "type": "number",
-                "required": true,
-                "code": "matchNumber",
-                "preserveDataOnReset": true,
-                "autoIncrementOnReset": true
-            },
-            {
-                "title": "מספר קבוצה",
-                "type": "number",
-                "required": true,
-                "code": "teamNumber"
-            },
-            {
-                "title": "עמדת התחלה",
-                "type": "select",
-                "required": true,
-                "code": "Prsp",
-                "choices": {
-                    "Source": "Source",
-                    "Middle": "Middle",
-                    "Amp": "Amp"
+                {
+                    "title": "Scouter Name",
+                    "type": "text",
+                    "required": true,
+                    "code": "scouter"
                 },
-                "defaultValue": "Source"
-            },
-            {
-                "title": "לא הגיע",
-                "type": "boolean",
-                "defaultValue": false,
-                "required": false,
-                "code": "noShow"
-            }
+                {
+                    "title": "Match Number",
+                    "type": "number",
+                    "required": true,
+                    "code": "matchNumber",
+                    "preserveDataOnReset": true,
+                    "autoIncrementOnReset": true
+                },
+                {
+                    "title": "Team Number",
+                    "type": "number",
+                    "required": true,
+                    "code": "teamNumber"
+                },
+                {
+                    "title": "No Show?",
+                    "type": "boolean",
+                    "defaultValue": false,
+                    "required": false,
+                    "code": "noShow"
+                }
             ]
         },
         {
-            "name": "אוטונומי",
+            "name": "Autonomous",
             "fields": [
                 {
-                    "title": "האם זז?",
+                    "title": "Left Starting Line",
                     "type": "boolean",
                     "defaultValue": false,
                     "required": false,
                     "code": "Mved"
                 },
                 {
-                    "code": "ausc",
-                    "title": "ניקוד לספיקר",
+                    "title": "Scored Levels",
+                    "type": "multi-counter",
+                    "code": "scoredLevels",
+                    "subFields": [
+                        {
+                            "code": "L1sc",
+                            "title": "L1",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "L2sc",
+                            "title": "L2",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "L3sc",
+                            "title": "L3",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "L4sc",
+                            "title": "L4",
+                            "defaultValue": 0,
+                            "min": 0
+                        }
+                    ]
+                },
+                {
+                    "title": "Missed Levels",
+                    "type": "multi-counter",
+                    "code": "missedLevels",
+                    "subFields": [
+                        {
+                            "code": "L1ms",
+                            "title": "L1",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "L2ms",
+                            "title": "L2",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "L3ms",
+                            "title": "L3",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "L4ms",
+                            "title": "L4",
+                            "defaultValue": 0,
+                            "min": 0
+                        }
+                    ]
+                },
+                {
+                    "title": "Collection",
+                    "type": "multi-counter",
+                    "code": "collectionLevels",
+                    "subFields": [
+                        {
+                            "code": "InG",
+                            "title": "Coral Ground",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "InS",
+                            "title": "Coral Source",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "RmAr",
+                            "title": "Algae Reef",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "RmAg",
+                            "title": "Algae Ground",
+                            "defaultValue": 0,
+                            "min": 0
+                        }
+                    ]
+                },
+                {
+                    "code": "ScAb",
+                    "title": "Scored Algae in Barge",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
                     "required": false
                 },
                 {
-                    "code": "auskpm",
-                    "title": "החמצות לספיקר",
-                    "type": "counter",
-                    "defaultValue": 0,
-                    "min": 0,
-                    "required": false
-                },
-                {
-                    "code": "a_gp_Path",
-                    "title": "מסלול האוטונומי",
-                    "type": "select",
-                    "multiSelect": true,
-                    "choices": {
-                    "1": "ספיקר 3 (צד מקור)",
-                    "2": "ספיקר 2 (אמצע)",
-                    "3": "ספיקר 1 (צד אמפ)",
-                    "4": "קו אמצע 5 (קצה מקור)",
-                    "5": "קו אמצע 4",
-                    "6": "קו אמצע 3 (אמצע)",
-                    "7": "קו אמצע 2",
-                    "8": "קו אמצע 1 (קצה אמפ)",
-                    "9": "אחר",
-                    "10": "לא נסה"
-                    },
-                    "defaultValue": 1
-                },
-                {
-                    "code": "auf",
-                    "title": "עבירות אוטונומי",
+                    "code": "ScAp",
+                    "title": "Scored Algae in Processor",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -102,43 +156,112 @@
             ]
         },
         {
-            "name": "טלאופ",
+            "name": "TeleOp",
             "fields": [
                 {
-                    "code": "tsc",
-                    "title": "ניקוד לספיקר",
+                    "title": "Scored Levels",
+                    "type": "multi-counter",
+                    "code": "tScoredLevels",
+                    "subFields": [
+                        {
+                            "code": "tL1sc",
+                            "title": "L1",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "tL2sc",
+                            "title": "L2",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "tL3sc",
+                            "title": "L3",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "tL4sc",
+                            "title": "L4",
+                            "defaultValue": 0,
+                            "min": 0
+                        }
+                    ]
+                },
+                {
+                    "title": "Missed Levels",
+                    "type": "multi-counter",
+                    "code": "tMissedLevels",
+                    "subFields": [
+                        {
+                            "code": "tL1ms",
+                            "title": "L1",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "tL2ms",
+                            "title": "L2",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "tL3ms",
+                            "title": "L3",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "tL4ms",
+                            "title": "L4",
+                            "defaultValue": 0,
+                            "min": 0
+                        }
+                    ]
+                },
+                {
+                    "title": "Collection",
+                    "type": "multi-counter",
+                    "code": "tCollectionLevels",
+                    "subFields": [
+                        {
+                            "code": "tInG",
+                            "title": "Coral Ground",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "tInS",
+                            "title": "Coral Source",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "tRmAr",
+                            "title": "Algae Reef",
+                            "defaultValue": 0,
+                            "min": 0
+                        },
+                        {
+                            "code": "tRmAg",
+                            "title": "Algae Ground",
+                            "defaultValue": 0,
+                            "min": 0
+                        }
+                    ]
+                },
+                {
+                    "code": "tScAb",
+                    "title": "Scored Algae in Barge",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
                     "required": false
                 },
                 {
-                    "code": "tsm",
-                    "title": "החמצות לספיקר",
-                    "type": "counter",
-                    "defaultValue": 0,
-                    "min": 0,
-                    "required": false
-                },
-                {
-                    "code": "tamps",
-                    "title": "ניקוד לאמפ",
-                    "type": "counter",
-                    "defaultValue": 0,
-                    "min": 0,
-                    "required": false
-                },
-                {
-                    "code": "tampm",
-                    "title": "החמצות לאמפ",
-                    "type": "counter",
-                    "defaultValue": 0,
-                    "min": 0,
-                    "required": false
-                },
-                {
-                    "code": "tfs",
-                    "title": "ירי פידינג",
+                    "code": "tScAp",
+                    "title": "Scored Algae in Processor",
                     "type": "counter",
                     "defaultValue": 0,
                     "min": 0,
@@ -154,58 +277,49 @@
             ]
         },
         {
-            "name": "אנד גיים",
+            "name": "End Game",
             "fields": [
                 {
-                    "title": "מצב סיום",
+                    "title": "End State",
                     "type": "select",
                     "required": true,
                     "code": "epo",
                     "choices": {
-                    "No": "ללא טיפוס",
-                    "P": "חנה",
-                    "Os": "טיפס",
-                    "Fo": "טיפוס נכשל",
-                    "Hm": "הרמוניה",
-                    "Fh": "הרמוניה נכשלה"
+                        "No": "No Climb",
+                        "P": "Park",
+                        "Os": "Shallow Climb",
+                        "Hm": "Deep Climb",
+                        "Fo": "Failed Climb"
                     },
                     "defaultValue": "No"
-                },
-                {
-                    "code": "cn",
-                    "title": "כמה טראפ",
-                    "type": "counter",
-                    "defaultValue": 0,
-                    "min": 0,
-                    "required": false
                 }
             ]
         },
         {
-            "name": "אחרי המשחק",
+            "name": "Post-Match",
             "fields": [
                 {
                     "code": "dto",
-                    "title": "התהפך/נפל",
+                    "title": "Flipped/Fell Over",
                     "type": "boolean",
                     "defaultValue": false,
                     "required": false
                 },
                 {
                     "code": "yc",
-                    "title": "כרטיס צהוב/אדום",
+                    "title": "Yellow/Red Card",
                     "type": "select",
                     "defaultValue": "No Card",
                     "required": true,
                     "choices": {
-                    "No Card": "ללא כרטיס",
-                    "Yellow": "כרטיס צהוב",
-                    "Red": "כרטיס אדום"
+                        "No Card": "No Card",
+                        "Yellow": "Yellow Card",
+                        "Red": "Red Card"
                     }
                 },
                 {
                     "code": "co",
-                    "title": "הערות",
+                    "title": "Notes",
                     "type": "text",
                     "min": 0,
                     "max": 50,
