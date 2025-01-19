@@ -303,7 +303,7 @@ const Visualization = () => {
             {isSectionOpen('summary') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <RadarGraph config={specificTeamConfigs.teamPerformanceRadarConfig(scoutingData, teamNumber)} />
+                        {/* <RadarGraph config={specificTeamConfigs.teamPerformanceRadarConfig(scoutingData, teamNumber)} /> */}
                     </div>
                 </div>
             )}
@@ -434,10 +434,10 @@ const Visualization = () => {
             {isSectionOpen('summary') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <RadarGraph config={specificTeamConfigs.compareTeamsAverageRadarConfig(scoutingData, team1Number, team2Number)} />
+                        {/* <RadarGraph config={specificTeamConfigs.compareTeamsAverageRadarConfig(scoutingData, team1Number, team2Number)} /> */}
                     </div>
                     <div className="graph-item">
-                        <RadarGraph config={specificTeamConfigs.compareTeamsMaxRadarConfig(scoutingData, team1Number, team2Number)} />
+                        {/* <RadarGraph config={specificTeamConfigs.compareTeamsMaxRadarConfig(scoutingData, team1Number, team2Number)} /> */}
                     </div>
                 </div>
             )}

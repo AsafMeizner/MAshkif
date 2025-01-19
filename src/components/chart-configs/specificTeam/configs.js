@@ -1,5 +1,4 @@
 import * as specificTeamFunctions from './functions.js';
-import * as allTeamsFunctions from '../allTeams/functions.js';
 
 export const matchScoreByRoundConfig = (scoutingData, teamNumber) => {
     return {
@@ -1043,354 +1042,354 @@ export const endgameTrapUsagePieConfig = (scoutingData, teamNumber) => ({
     responsive: true,
 });
 
-export const teamPerformanceRadarConfig = (scoutingData, teamNumber) => {
-    // Calculate the max values across all teams for each category
-    const maxSpeakerTeleOp = allTeamsFunctions.speakerTeleOpMax(scoutingData);  // Max for Teleop Speaker Score
-    const maxAmpTeleOp = allTeamsFunctions.ampTeleOpMax(scoutingData);  // Max for Teleop Amp Score
-    const maxSpeakerAuto = allTeamsFunctions.autoSpeakerMax(scoutingData);  // Max for Autonomous Speaker Score
-    const maxFeeding = allTeamsFunctions.maxFeeding(scoutingData);  // Max for Feeder Interactions
-    const maxEndPosition = 4;  // Max for End Position
-    const maxSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyMax(scoutingData);  // Max for Teleop Speaker
+// export const teamPerformanceRadarConfig = (scoutingData, teamNumber) => {
+//     // Calculate the max values across all teams for each category
+//     const maxSpeakerTeleOp = allTeamsFunctions.speakerTeleOpMax(scoutingData);  // Max for Teleop Speaker Score
+//     const maxAmpTeleOp = allTeamsFunctions.ampTeleOpMax(scoutingData);  // Max for Teleop Amp Score
+//     const maxSpeakerAuto = allTeamsFunctions.autoSpeakerMax(scoutingData);  // Max for Autonomous Speaker Score
+//     const maxFeeding = allTeamsFunctions.maxFeeding(scoutingData);  // Max for Feeder Interactions
+//     const maxEndPosition = 4;  // Max for End Position
+//     const maxSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyMax(scoutingData);  // Max for Teleop Speaker
 
-    // Calculate the specific team's stats (averages)
-    const speakerTeleOp = specificTeamFunctions.speakerTeleOpAverage(scoutingData, teamNumber);
-    const ampTeleOp = specificTeamFunctions.ampTeleOpAverage(scoutingData, teamNumber);
-    const speakerAuto = specificTeamFunctions.speakerAutoAverage(scoutingData, teamNumber);
-    const feeding = specificTeamFunctions.feedingAverage(scoutingData, teamNumber);
-    const endPosition = specificTeamFunctions.endPositionAverage(scoutingData, teamNumber);
-    const speakerAccuracyTeleop = specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, teamNumber);
+//     // Calculate the specific team's stats (averages)
+//     const speakerTeleOp = specificTeamFunctions.speakerTeleOpAverage(scoutingData, teamNumber);
+//     const ampTeleOp = specificTeamFunctions.ampTeleOpAverage(scoutingData, teamNumber);
+//     const speakerAuto = specificTeamFunctions.speakerAutoAverage(scoutingData, teamNumber);
+//     const feeding = specificTeamFunctions.feedingAverage(scoutingData, teamNumber);
+//     const endPosition = specificTeamFunctions.endPositionAverage(scoutingData, teamNumber);
+//     const speakerAccuracyTeleop = specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, teamNumber);
 
-    // Calculate competition-wide averages
-    const avgSpeakerTeleOp = allTeamsFunctions.speakerTeleOpAverage(scoutingData);
-    const avgAmpTeleOp = allTeamsFunctions.ampTeleOpAverage(scoutingData);
-    const avgSpeakerAuto = allTeamsFunctions.autoSpeakerAverage(scoutingData);
-    const avgFeeding = allTeamsFunctions.feedingAverage(scoutingData);
-    const avgEndPosition = allTeamsFunctions.competitionEndPositionAverage(scoutingData);
-    const avgSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyAverage(scoutingData);
+//     // Calculate competition-wide averages
+//     const avgSpeakerTeleOp = allTeamsFunctions.speakerTeleOpAverage(scoutingData);
+//     const avgAmpTeleOp = allTeamsFunctions.ampTeleOpAverage(scoutingData);
+//     const avgSpeakerAuto = allTeamsFunctions.autoSpeakerAverage(scoutingData);
+//     const avgFeeding = allTeamsFunctions.feedingAverage(scoutingData);
+//     const avgEndPosition = allTeamsFunctions.competitionEndPositionAverage(scoutingData);
+//     const avgSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyAverage(scoutingData);
 
-    // calculate the specific team's stats (max)
-    const maxSpeakerTeleOpTeam = specificTeamFunctions.speakerTeleOpMax(scoutingData, teamNumber);
-    const maxAmpTeleOpTeam = specificTeamFunctions.ampTeleOpMax(scoutingData, teamNumber);
-    const maxSpeakerAutoTeam = specificTeamFunctions.speakerAutoMax(scoutingData, teamNumber);
-    const maxFeedingTeam = specificTeamFunctions.feedingMax(scoutingData, teamNumber);
-    const maxEndPositionTeam = specificTeamFunctions.maxEndPositionForMatch(scoutingData, teamNumber);
-    const maxSpeakerAccuracy = specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, teamNumber);
+//     // calculate the specific team's stats (max)
+//     const maxSpeakerTeleOpTeam = specificTeamFunctions.speakerTeleOpMax(scoutingData, teamNumber);
+//     const maxAmpTeleOpTeam = specificTeamFunctions.ampTeleOpMax(scoutingData, teamNumber);
+//     const maxSpeakerAutoTeam = specificTeamFunctions.speakerAutoMax(scoutingData, teamNumber);
+//     const maxFeedingTeam = specificTeamFunctions.feedingMax(scoutingData, teamNumber);
+//     const maxEndPositionTeam = specificTeamFunctions.maxEndPositionForMatch(scoutingData, teamNumber);
+//     const maxSpeakerAccuracy = specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, teamNumber);
 
-    // Normalize each category's data to its own maximum value
-    const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
+//     // Normalize each category's data to its own maximum value
+//     const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
 
-    // Prepare the normalized data
-    const data = [
-        {
-            subject: 'Autonomous Speaker Score',
-            [`Team ${teamNumber} Average`]: normalizeValue(speakerAuto, maxSpeakerAuto),
-            'Competition Average': normalizeValue(avgSpeakerAuto, maxSpeakerAuto),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerAutoTeam, maxSpeakerAuto),
-        },
-        {
-            subject: 'Teleop Speaker Score',
-            [`Team ${teamNumber} Average`]: normalizeValue(speakerTeleOp, maxSpeakerTeleOp),
-            'Competition Average': normalizeValue(avgSpeakerTeleOp, maxSpeakerTeleOp),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerTeleOpTeam, maxSpeakerTeleOp),
-        },
-        {
-            subject: 'Teleop Amp Score',
-            [`Team ${teamNumber} Average`]: normalizeValue(ampTeleOp, maxAmpTeleOp),
-            'Competition Average': normalizeValue(avgAmpTeleOp, maxAmpTeleOp),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxAmpTeleOpTeam, maxAmpTeleOp),
-        },
-        {
-            subject: 'Feeder Interactions',
-            [`Team ${teamNumber} Average`]: normalizeValue(feeding, maxFeeding),
-            'Competition Average': normalizeValue(avgFeeding, maxFeeding),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxFeedingTeam, maxFeeding)
-        },
-        {
-            subject: 'End Position',
-            [`Team ${teamNumber} Average`]: normalizeValue(endPosition, maxEndPosition),
-            'Competition Average': normalizeValue(avgEndPosition, maxEndPosition),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxEndPositionTeam, maxEndPosition),
-        },
-        {
-            subject: 'Teleop Speaker Accuracy',
-            [`Team ${teamNumber} Average`]: normalizeValue(speakerAccuracyTeleop, maxSpeakerAccuracyTeleop),
-            'Competition Average': normalizeValue(avgSpeakerAccuracyTeleop, maxSpeakerAccuracyTeleop),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerAccuracy, maxSpeakerAccuracyTeleop),
-        },
-    ];
+//     // Prepare the normalized data
+//     const data = [
+//         {
+//             subject: 'Autonomous Speaker Score',
+//             [`Team ${teamNumber} Average`]: normalizeValue(speakerAuto, maxSpeakerAuto),
+//             'Competition Average': normalizeValue(avgSpeakerAuto, maxSpeakerAuto),
+//             [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerAutoTeam, maxSpeakerAuto),
+//         },
+//         {
+//             subject: 'Teleop Speaker Score',
+//             [`Team ${teamNumber} Average`]: normalizeValue(speakerTeleOp, maxSpeakerTeleOp),
+//             'Competition Average': normalizeValue(avgSpeakerTeleOp, maxSpeakerTeleOp),
+//             [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerTeleOpTeam, maxSpeakerTeleOp),
+//         },
+//         {
+//             subject: 'Teleop Amp Score',
+//             [`Team ${teamNumber} Average`]: normalizeValue(ampTeleOp, maxAmpTeleOp),
+//             'Competition Average': normalizeValue(avgAmpTeleOp, maxAmpTeleOp),
+//             [`Team ${teamNumber} Max`]: normalizeValue(maxAmpTeleOpTeam, maxAmpTeleOp),
+//         },
+//         {
+//             subject: 'Feeder Interactions',
+//             [`Team ${teamNumber} Average`]: normalizeValue(feeding, maxFeeding),
+//             'Competition Average': normalizeValue(avgFeeding, maxFeeding),
+//             [`Team ${teamNumber} Max`]: normalizeValue(maxFeedingTeam, maxFeeding)
+//         },
+//         {
+//             subject: 'End Position',
+//             [`Team ${teamNumber} Average`]: normalizeValue(endPosition, maxEndPosition),
+//             'Competition Average': normalizeValue(avgEndPosition, maxEndPosition),
+//             [`Team ${teamNumber} Max`]: normalizeValue(maxEndPositionTeam, maxEndPosition),
+//         },
+//         {
+//             subject: 'Teleop Speaker Accuracy',
+//             [`Team ${teamNumber} Average`]: normalizeValue(speakerAccuracyTeleop, maxSpeakerAccuracyTeleop),
+//             'Competition Average': normalizeValue(avgSpeakerAccuracyTeleop, maxSpeakerAccuracyTeleop),
+//             [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerAccuracy, maxSpeakerAccuracyTeleop),
+//         },
+//     ];
 
-    return {
-        data,
-        radars: [
-            {
-                key: `Team ${teamNumber} Average`,
-                label: `Team ${teamNumber} Average`,
-                color: '#8884d8',
-            },
-            {
-                key: 'Competition Average',
-                label: 'Competition Average',
-                color: '#82ca9d',
-            },
-            {
-                key: `Team ${teamNumber} Max`,
-                label: `Team ${teamNumber} Max`,
-                color: '#ff4444',
-            },
-        ],
-        radarSettings: {
-            strokeWidth: 2,
-            dot: true,
-        },
-        angleKey: 'subject',
-        showRadiusAxis: false,
-        customLabels: {
-            'Autonomous Speaker Score': 'Autonomous Speaker',
-            'Teleop Speaker Score': 'Teleop Speaker',
-            'Teleop Amp Score': 'Teleop Amp',
-            'Feeder Interactions': 'Feeder Interactions',
-            'End Position': 'End Position',
-            'Teleop Speaker Accuracy': 'Teleop Speaker Accuracy',
-        },
-        showGrid: true,
-        gridType: 'polygon',
-        fillGrid: true,
-        showLegend: true,
-        showTooltip: false,
-        responsive: true,
-        title: 'Team Performance Comparison',
-        fontSettings: {
-            titleFontSize: '1.5rem',
-            labelFontSize: '1rem',
-            legendFontSize: '1rem',
-            defaultLabelColor: '#ffffff',
-        },
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            textColor: '#ffffff',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-    };
-};
+//     return {
+//         data,
+//         radars: [
+//             {
+//                 key: `Team ${teamNumber} Average`,
+//                 label: `Team ${teamNumber} Average`,
+//                 color: '#8884d8',
+//             },
+//             {
+//                 key: 'Competition Average',
+//                 label: 'Competition Average',
+//                 color: '#82ca9d',
+//             },
+//             {
+//                 key: `Team ${teamNumber} Max`,
+//                 label: `Team ${teamNumber} Max`,
+//                 color: '#ff4444',
+//             },
+//         ],
+//         radarSettings: {
+//             strokeWidth: 2,
+//             dot: true,
+//         },
+//         angleKey: 'subject',
+//         showRadiusAxis: false,
+//         customLabels: {
+//             'Autonomous Speaker Score': 'Autonomous Speaker',
+//             'Teleop Speaker Score': 'Teleop Speaker',
+//             'Teleop Amp Score': 'Teleop Amp',
+//             'Feeder Interactions': 'Feeder Interactions',
+//             'End Position': 'End Position',
+//             'Teleop Speaker Accuracy': 'Teleop Speaker Accuracy',
+//         },
+//         showGrid: true,
+//         gridType: 'polygon',
+//         fillGrid: true,
+//         showLegend: true,
+//         showTooltip: false,
+//         responsive: true,
+//         title: 'Team Performance Comparison',
+//         fontSettings: {
+//             titleFontSize: '1.5rem',
+//             labelFontSize: '1rem',
+//             legendFontSize: '1rem',
+//             defaultLabelColor: '#ffffff',
+//         },
+//         tooltipSettings: {
+//             backgroundColor: '#333333',
+//             borderRadius: '8px',
+//             fontSize: '0.875rem',
+//             textColor: '#ffffff',
+//             cursorColor: 'rgba(255, 255, 255, 0.1)',
+//         },
+//     };
+// };
 
-export const compareTeamsAverageRadarConfig = (scoutingData, team1Number, team2Number) => {
-    const maxSpeakerTeleOp = allTeamsFunctions.speakerTeleOpMax(scoutingData);
-    const maxAmpTeleOp = allTeamsFunctions.ampTeleOpMax(scoutingData);
-    const maxSpeakerAuto = allTeamsFunctions.autoSpeakerMax(scoutingData);
-    const maxFeeding = allTeamsFunctions.maxFeeding(scoutingData);
-    const maxEndPosition = 4;
-    const maxSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyMax(scoutingData);
+// export const compareTeamsAverageRadarConfig = (scoutingData, team1Number, team2Number) => {
+//     const maxSpeakerTeleOp = allTeamsFunctions.speakerTeleOpMax(scoutingData);
+//     const maxAmpTeleOp = allTeamsFunctions.ampTeleOpMax(scoutingData);
+//     const maxSpeakerAuto = allTeamsFunctions.autoSpeakerMax(scoutingData);
+//     const maxFeeding = allTeamsFunctions.maxFeeding(scoutingData);
+//     const maxEndPosition = 4;
+//     const maxSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyMax(scoutingData);
 
-    const team1Average = {
-        speakerTeleOp: specificTeamFunctions.speakerTeleOpAverage(scoutingData, team1Number),
-        ampTeleOp: specificTeamFunctions.ampTeleOpAverage(scoutingData, team1Number),
-        speakerAuto: specificTeamFunctions.speakerAutoAverage(scoutingData, team1Number),
-        feeding: specificTeamFunctions.feedingAverage(scoutingData, team1Number),
-        endPosition: specificTeamFunctions.endPositionAverage(scoutingData, team1Number),
-        speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, team1Number),
-    };
+//     const team1Average = {
+//         speakerTeleOp: specificTeamFunctions.speakerTeleOpAverage(scoutingData, team1Number),
+//         ampTeleOp: specificTeamFunctions.ampTeleOpAverage(scoutingData, team1Number),
+//         speakerAuto: specificTeamFunctions.speakerAutoAverage(scoutingData, team1Number),
+//         feeding: specificTeamFunctions.feedingAverage(scoutingData, team1Number),
+//         endPosition: specificTeamFunctions.endPositionAverage(scoutingData, team1Number),
+//         speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, team1Number),
+//     };
 
-    const team2Average = {
-        speakerTeleOp: specificTeamFunctions.speakerTeleOpAverage(scoutingData, team2Number),
-        ampTeleOp: specificTeamFunctions.ampTeleOpAverage(scoutingData, team2Number),
-        speakerAuto: specificTeamFunctions.speakerAutoAverage(scoutingData, team2Number),
-        feeding: specificTeamFunctions.feedingAverage(scoutingData, team2Number),
-        endPosition: specificTeamFunctions.endPositionAverage(scoutingData, team2Number),
-        speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, team2Number),
-    };
+//     const team2Average = {
+//         speakerTeleOp: specificTeamFunctions.speakerTeleOpAverage(scoutingData, team2Number),
+//         ampTeleOp: specificTeamFunctions.ampTeleOpAverage(scoutingData, team2Number),
+//         speakerAuto: specificTeamFunctions.speakerAutoAverage(scoutingData, team2Number),
+//         feeding: specificTeamFunctions.feedingAverage(scoutingData, team2Number),
+//         endPosition: specificTeamFunctions.endPositionAverage(scoutingData, team2Number),
+//         speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, team2Number),
+//     };
 
-    const data = [
-        {
-            subject: 'Autonomous Speaker Score',
-            [`Team ${team1Number} Average`]: (team1Average.speakerAuto / maxSpeakerAuto) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.speakerAuto / maxSpeakerAuto) * 100,
-        },
-        {
-            subject: 'Teleop Speaker Score',
-            [`Team ${team1Number} Average`]: (team1Average.speakerTeleOp / maxSpeakerTeleOp) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.speakerTeleOp / maxSpeakerTeleOp) * 100,
-        },
-        {
-            subject: 'Teleop Amp Score',
-            [`Team ${team1Number} Average`]: (team1Average.ampTeleOp / maxAmpTeleOp) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.ampTeleOp / maxAmpTeleOp) * 100,
-        },
-        {
-            subject: 'Feeder Interactions',
-            [`Team ${team1Number} Average`]: (team1Average.feeding / maxFeeding) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.feeding / maxFeeding) * 100,
-        },
-        {
-            subject: 'End Position',
-            [`Team ${team1Number} Average`]: (team1Average.endPosition / maxEndPosition) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.endPosition / maxEndPosition) * 100,
-        },
-        {
-            subject: 'Teleop Speaker Accuracy',
-            [`Team ${team1Number} Average`]: (team1Average.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
-        },
-    ];
+//     const data = [
+//         {
+//             subject: 'Autonomous Speaker Score',
+//             [`Team ${team1Number} Average`]: (team1Average.speakerAuto / maxSpeakerAuto) * 100,
+//             [`Team ${team2Number} Average`]: (team2Average.speakerAuto / maxSpeakerAuto) * 100,
+//         },
+//         {
+//             subject: 'Teleop Speaker Score',
+//             [`Team ${team1Number} Average`]: (team1Average.speakerTeleOp / maxSpeakerTeleOp) * 100,
+//             [`Team ${team2Number} Average`]: (team2Average.speakerTeleOp / maxSpeakerTeleOp) * 100,
+//         },
+//         {
+//             subject: 'Teleop Amp Score',
+//             [`Team ${team1Number} Average`]: (team1Average.ampTeleOp / maxAmpTeleOp) * 100,
+//             [`Team ${team2Number} Average`]: (team2Average.ampTeleOp / maxAmpTeleOp) * 100,
+//         },
+//         {
+//             subject: 'Feeder Interactions',
+//             [`Team ${team1Number} Average`]: (team1Average.feeding / maxFeeding) * 100,
+//             [`Team ${team2Number} Average`]: (team2Average.feeding / maxFeeding) * 100,
+//         },
+//         {
+//             subject: 'End Position',
+//             [`Team ${team1Number} Average`]: (team1Average.endPosition / maxEndPosition) * 100,
+//             [`Team ${team2Number} Average`]: (team2Average.endPosition / maxEndPosition) * 100,
+//         },
+//         {
+//             subject: 'Teleop Speaker Accuracy',
+//             [`Team ${team1Number} Average`]: (team1Average.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
+//             [`Team ${team2Number} Average`]: (team2Average.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
+//         },
+//     ];
 
-    return {
-        data,
-        radars: [
-            {
-                key: `Team ${team1Number} Average`,
-                label: `Team ${team1Number} Average`,
-                color: '#8884d8',
-            },
-            {
-                key: `Team ${team2Number} Average`,
-                label: `Team ${team2Number} Average`,
-                color: '#82ca9d',
-            },
-        ],
-        radarSettings: {
-            strokeWidth: 2,
-            dot: true,
-        },
-        angleKey: 'subject',
-        showRadiusAxis: false,
-        customLabels: {
-            'Autonomous Speaker Score': 'Autonomous Speaker',
-            'Teleop Speaker Score': 'Teleop Speaker',
-            'Teleop Amp Score': 'Teleop Amp',
-            'Feeder Interactions': 'Feeder Interactions',
-            'End Position': 'End Position',
-            'Teleop Speaker Accuracy': 'Teleop Speaker Accuracy',
-        },
-        showGrid: true,
-        gridType: 'polygon',
-        fillGrid: true,
-        showLegend: true,
-        showTooltip: false,
-        responsive: true,
-        title: 'Team Performance Average Comparison',
-        fontSettings: {
-            titleFontSize: '1.5rem',
-            labelFontSize: '1rem',
-            legendFontSize: '1rem',
-            defaultLabelColor: '#ffffff',
-        },
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            textColor: '#ffffff',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-    };
-};
+//     return {
+//         data,
+//         radars: [
+//             {
+//                 key: `Team ${team1Number} Average`,
+//                 label: `Team ${team1Number} Average`,
+//                 color: '#8884d8',
+//             },
+//             {
+//                 key: `Team ${team2Number} Average`,
+//                 label: `Team ${team2Number} Average`,
+//                 color: '#82ca9d',
+//             },
+//         ],
+//         radarSettings: {
+//             strokeWidth: 2,
+//             dot: true,
+//         },
+//         angleKey: 'subject',
+//         showRadiusAxis: false,
+//         customLabels: {
+//             'Autonomous Speaker Score': 'Autonomous Speaker',
+//             'Teleop Speaker Score': 'Teleop Speaker',
+//             'Teleop Amp Score': 'Teleop Amp',
+//             'Feeder Interactions': 'Feeder Interactions',
+//             'End Position': 'End Position',
+//             'Teleop Speaker Accuracy': 'Teleop Speaker Accuracy',
+//         },
+//         showGrid: true,
+//         gridType: 'polygon',
+//         fillGrid: true,
+//         showLegend: true,
+//         showTooltip: false,
+//         responsive: true,
+//         title: 'Team Performance Average Comparison',
+//         fontSettings: {
+//             titleFontSize: '1.5rem',
+//             labelFontSize: '1rem',
+//             legendFontSize: '1rem',
+//             defaultLabelColor: '#ffffff',
+//         },
+//         tooltipSettings: {
+//             backgroundColor: '#333333',
+//             borderRadius: '8px',
+//             fontSize: '0.875rem',
+//             textColor: '#ffffff',
+//             cursorColor: 'rgba(255, 255, 255, 0.1)',
+//         },
+//     };
+// };
 
-export const compareTeamsMaxRadarConfig = (scoutingData, team1Number, team2Number) => {
-    const maxSpeakerTeleOp = allTeamsFunctions.speakerTeleOpMax(scoutingData);
-    const maxAmpTeleOp = allTeamsFunctions.ampTeleOpMax(scoutingData);
-    const maxSpeakerAuto = allTeamsFunctions.autoSpeakerMax(scoutingData);
-    const maxFeeding = allTeamsFunctions.maxFeeding(scoutingData);
-    const maxEndPosition = 4;
-    const maxSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyMax(scoutingData);
+// export const compareTeamsMaxRadarConfig = (scoutingData, team1Number, team2Number) => {
+//     const maxSpeakerTeleOp = allTeamsFunctions.speakerTeleOpMax(scoutingData);
+//     const maxAmpTeleOp = allTeamsFunctions.ampTeleOpMax(scoutingData);
+//     const maxSpeakerAuto = allTeamsFunctions.autoSpeakerMax(scoutingData);
+//     const maxFeeding = allTeamsFunctions.maxFeeding(scoutingData);
+//     const maxEndPosition = 4;
+//     const maxSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyMax(scoutingData);
 
-    const team1Max = {
-        speakerTeleOp: specificTeamFunctions.speakerTeleOpMax(scoutingData, team1Number),
-        ampTeleOp: specificTeamFunctions.ampTeleOpMax(scoutingData, team1Number),
-        speakerAuto: specificTeamFunctions.speakerAutoMax(scoutingData, team1Number),
-        feeding: specificTeamFunctions.feedingMax(scoutingData, team1Number),
-        endPosition: specificTeamFunctions.maxEndPositionForMatch(scoutingData, team1Number),
-        speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, team1Number),
-    };
+//     const team1Max = {
+//         speakerTeleOp: specificTeamFunctions.speakerTeleOpMax(scoutingData, team1Number),
+//         ampTeleOp: specificTeamFunctions.ampTeleOpMax(scoutingData, team1Number),
+//         speakerAuto: specificTeamFunctions.speakerAutoMax(scoutingData, team1Number),
+//         feeding: specificTeamFunctions.feedingMax(scoutingData, team1Number),
+//         endPosition: specificTeamFunctions.maxEndPositionForMatch(scoutingData, team1Number),
+//         speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, team1Number),
+//     };
 
-    const team2Max = {
-        speakerTeleOp: specificTeamFunctions.speakerTeleOpMax(scoutingData, team2Number),
-        ampTeleOp: specificTeamFunctions.ampTeleOpMax(scoutingData, team2Number),
-        speakerAuto: specificTeamFunctions.speakerAutoMax(scoutingData, team2Number),
-        feeding: specificTeamFunctions.feedingMax(scoutingData, team2Number),
-        endPosition: specificTeamFunctions.maxEndPositionForMatch(scoutingData, team2Number),
-        speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, team2Number),
-    };
+//     const team2Max = {
+//         speakerTeleOp: specificTeamFunctions.speakerTeleOpMax(scoutingData, team2Number),
+//         ampTeleOp: specificTeamFunctions.ampTeleOpMax(scoutingData, team2Number),
+//         speakerAuto: specificTeamFunctions.speakerAutoMax(scoutingData, team2Number),
+//         feeding: specificTeamFunctions.feedingMax(scoutingData, team2Number),
+//         endPosition: specificTeamFunctions.maxEndPositionForMatch(scoutingData, team2Number),
+//         speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, team2Number),
+//     };
 
-    const data = [
-        {
-            subject: 'Autonomous Speaker Score',
-            [`Team ${team1Number} Max`]: (team1Max.speakerAuto / maxSpeakerAuto) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.speakerAuto / maxSpeakerAuto) * 100,
-        },
-        {
-            subject: 'Teleop Speaker Score',
-            [`Team ${team1Number} Max`]: (team1Max.speakerTeleOp / maxSpeakerTeleOp) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.speakerTeleOp / maxSpeakerTeleOp) * 100,
-        },
-        {
-            subject: 'Teleop Amp Score',
-            [`Team ${team1Number} Max`]: (team1Max.ampTeleOp / maxAmpTeleOp) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.ampTeleOp / maxAmpTeleOp) * 100,
-        },
-        {
-            subject: 'Feeder Interactions',
-            [`Team ${team1Number} Max`]: (team1Max.feeding / maxFeeding) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.feeding / maxFeeding) * 100,
-        },
-        {
-            subject: 'End Position',
-            [`Team ${team1Number} Max`]: (team1Max.endPosition / maxEndPosition) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.endPosition / maxEndPosition) * 100,
-        },
-        {
-            subject: 'Teleop Speaker Accuracy',
-            [`Team ${team1Number} Max`]: (team1Max.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
-        },
-    ];
+//     const data = [
+//         {
+//             subject: 'Autonomous Speaker Score',
+//             [`Team ${team1Number} Max`]: (team1Max.speakerAuto / maxSpeakerAuto) * 100,
+//             [`Team ${team2Number} Max`]: (team2Max.speakerAuto / maxSpeakerAuto) * 100,
+//         },
+//         {
+//             subject: 'Teleop Speaker Score',
+//             [`Team ${team1Number} Max`]: (team1Max.speakerTeleOp / maxSpeakerTeleOp) * 100,
+//             [`Team ${team2Number} Max`]: (team2Max.speakerTeleOp / maxSpeakerTeleOp) * 100,
+//         },
+//         {
+//             subject: 'Teleop Amp Score',
+//             [`Team ${team1Number} Max`]: (team1Max.ampTeleOp / maxAmpTeleOp) * 100,
+//             [`Team ${team2Number} Max`]: (team2Max.ampTeleOp / maxAmpTeleOp) * 100,
+//         },
+//         {
+//             subject: 'Feeder Interactions',
+//             [`Team ${team1Number} Max`]: (team1Max.feeding / maxFeeding) * 100,
+//             [`Team ${team2Number} Max`]: (team2Max.feeding / maxFeeding) * 100,
+//         },
+//         {
+//             subject: 'End Position',
+//             [`Team ${team1Number} Max`]: (team1Max.endPosition / maxEndPosition) * 100,
+//             [`Team ${team2Number} Max`]: (team2Max.endPosition / maxEndPosition) * 100,
+//         },
+//         {
+//             subject: 'Teleop Speaker Accuracy',
+//             [`Team ${team1Number} Max`]: (team1Max.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
+//             [`Team ${team2Number} Max`]: (team2Max.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
+//         },
+//     ];
 
-    return {
-        data,
-        radars: [
-            {
-                key: `Team ${team1Number} Max`,
-                label: `Team ${team1Number} Max`,
-                color: '#8884d8',
-            },
-            {
-                key: `Team ${team2Number} Max`,
-                label: `Team ${team2Number} Max`,
-                color: '#ff4444',
-            },
-        ],
-        radarSettings: {
-            strokeWidth: 2,
-            dot: true,
-        },
-        angleKey: 'subject',
-        showRadiusAxis: false,
-        customLabels: {
-            'Autonomous Speaker Score': 'Autonomous Speaker',
-            'Teleop Speaker Score': 'Teleop Speaker',
-            'Teleop Amp Score': 'Teleop Amp',
-            'Feeder Interactions': 'Feeder Interactions',
-            'End Position': 'End Position',
-            'Teleop Speaker Accuracy': 'Teleop Speaker Accuracy',
-        },
-        showGrid: true,
-        gridType: 'polygon',
-        fillGrid: true,
-        showLegend: true,
-        showTooltip: false,
-        responsive: true,
-        title: 'Team Performance Max Comparison',
-        fontSettings: {
-            titleFontSize: '1.5rem',
-            labelFontSize: '1rem',
-            legendFontSize: '1rem',
-            defaultLabelColor: '#ffffff',
-        },
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            textColor: '#ffffff',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-    };
-};
+//     return {
+//         data,
+//         radars: [
+//             {
+//                 key: `Team ${team1Number} Max`,
+//                 label: `Team ${team1Number} Max`,
+//                 color: '#8884d8',
+//             },
+//             {
+//                 key: `Team ${team2Number} Max`,
+//                 label: `Team ${team2Number} Max`,
+//                 color: '#ff4444',
+//             },
+//         ],
+//         radarSettings: {
+//             strokeWidth: 2,
+//             dot: true,
+//         },
+//         angleKey: 'subject',
+//         showRadiusAxis: false,
+//         customLabels: {
+//             'Autonomous Speaker Score': 'Autonomous Speaker',
+//             'Teleop Speaker Score': 'Teleop Speaker',
+//             'Teleop Amp Score': 'Teleop Amp',
+//             'Feeder Interactions': 'Feeder Interactions',
+//             'End Position': 'End Position',
+//             'Teleop Speaker Accuracy': 'Teleop Speaker Accuracy',
+//         },
+//         showGrid: true,
+//         gridType: 'polygon',
+//         fillGrid: true,
+//         showLegend: true,
+//         showTooltip: false,
+//         responsive: true,
+//         title: 'Team Performance Max Comparison',
+//         fontSettings: {
+//             titleFontSize: '1.5rem',
+//             labelFontSize: '1rem',
+//             legendFontSize: '1rem',
+//             defaultLabelColor: '#ffffff',
+//         },
+//         tooltipSettings: {
+//             backgroundColor: '#333333',
+//             borderRadius: '8px',
+//             fontSize: '0.875rem',
+//             textColor: '#ffffff',
+//             cursorColor: 'rgba(255, 255, 255, 0.1)',
+//         },
+//     };
+// };
