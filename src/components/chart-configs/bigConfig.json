@@ -1,0 +1,1351 @@
+{
+    "pages": [
+      {
+        "id": "AllTeams",
+        "title": "All Teams",
+        "filters": [
+          {
+            "filterType": "multiSelectFilter",
+            "title": "Team Selection",
+            "dataKey": "teamNumber",
+            "stateKey": "teamsFilter",
+            "selectAllLabel": "Select All",
+            "deselectAllLabel": "Deselect All",
+            "sortValues": true
+          }
+        ],
+        "sections": [
+          {
+            "id": "general",
+            "title": "General",
+            "charts": [
+              {
+                "id": "averageMatchScore",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "tsc",
+                        "transformExpression": "item.tsc + item.tamps + (item.ausc || 0)",
+                        "operation": "average",
+                        "alias": "averageScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Match Average Notes By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "averageScore",
+                      "label": "Average Score",
+                      "color": "#3498db",
+                      "name": "Match Average Score"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "averageScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Average Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "maxMatchScore",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "tsc",
+                        "transformExpression": "item.tsc + item.tamps + (item.ausc || 0)",
+                        "operation": "max",
+                        "alias": "maxScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Match Max Notes By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "maxScore",
+                      "label": "Max Score",
+                      "color": "#e74c3c",
+                      "name": "Match Max Score"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "maxScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Max Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              }
+            ]
+          },
+          {
+            "id": "autonomous",
+            "title": "Autonomous",
+            "charts": [
+              {
+                "id": "averageAutonomousScore",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "ausc",
+                        "operation": "average",
+                        "alias": "averageScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Autonomous Average Notes By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "averageScore",
+                      "label": "Average Score",
+                      "color": "#8ab8ff",
+                      "name": "Autonomous Average Score"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "averageScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Average Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "maxAutonomousScore",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "ausc",
+                        "operation": "max",
+                        "alias": "maxScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Autonomous Max Notes By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "maxScore",
+                      "label": "Max Score",
+                      "color": "#fa6400",
+                      "name": "Autonomous Max Score"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "maxScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Max Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "averageAutonomousMoved",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "Mved",
+                        "transformExpression": "item.Mved ? 1 : 0",
+                        "operation": "average",
+                        "alias": "averageScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Autonomous Moved Average Notes By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "averageScore",
+                      "label": "Average Score",
+                      "color": "#fade2a",
+                      "name": "Autonomous Moved Average Score"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "averageScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Average Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "averageAutonomousSpeakerAccuracy",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "ausc",
+                        "transformExpression": "(() => { const attempts = item.ausc + item.auskpm; return attempts>0 ? item.ausc/attempts : 0; })()",
+                        "operation": "average",
+                        "alias": "averageScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Autonomous Speaker Accuracy Average Notes By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "averageScore",
+                      "label": "Average Score",
+                      "color": "#ff0000",
+                      "name": "Autonomous Speaker Percent in"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "averageScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Average Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "averageAutonomousFoul",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "auf",
+                        "operation": "average",
+                        "alias": "averageScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Autonomous Foul Average By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "averageScore",
+                      "label": "Average Score",
+                      "color": "#ff0000",
+                      "name": "Autonomous Foul Average Score"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "averageScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Average Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "maxAutonomousFoul",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "auf",
+                        "operation": "max",
+                        "alias": "maxScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Autonomous Foul Max By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "maxScore",
+                      "label": "Max Score",
+                      "color": "#ff0000",
+                      "name": "Autonomous Foul Max Score"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "maxScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Max Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              }
+            ]
+          },
+          {
+            "id": "teleop",
+            "title": "Tele-Op",
+            "charts": [
+              {
+                "id": "averageTeleopScore",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "tsc",
+                        "transformExpression": "item.tsc + item.tamps",
+                        "operation": "average",
+                        "alias": "averageScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Tele-Op Average Notes By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "averageScore",
+                      "label": "Average Score",
+                      "color": "#70dbed",
+                      "name": "Tele-Op Average Cycles"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "averageScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Average Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "maxTeleopScore",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "tsc",
+                        "transformExpression": "item.tsc + item.tamps",
+                        "operation": "max",
+                        "alias": "maxScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Tele-Op Max Notes By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "maxScore",
+                      "label": "Max Score",
+                      "color": "#f2495c",
+                      "name": "Tele-Op Max Cycles"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "maxScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Max Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "averageTeleopSpeakerByTeam",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "tsc",
+                        "operation": "average",
+                        "alias": "averageScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Teleop Speaker Average By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "averageScore",
+                      "label": "Average Score",
+                      "color": "#b877d9",
+                      "name": "Teleop Speaker Average"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "averageScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Average Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "maxTeleopSpeakerByTeam",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "tsc",
+                        "operation": "max",
+                        "alias": "maxScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Teleop Speaker Max By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "maxScore",
+                      "label": "Max Score",
+                      "color": "#f9934e",
+                      "name": "Teleop Speaker Max"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "maxScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Max Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "averageTeleopAmpByTeam",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "tamps",
+                        "operation": "average",
+                        "alias": "averageScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Teleop Amp Average By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "averageScore",
+                      "label": "Average Score",
+                      "color": "#fa6400",
+                      "name": "Teleop Amp Average"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "averageScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Average Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "maxTeleopAmpByTeam",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "tamps",
+                        "operation": "max",
+                        "alias": "maxScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Teleop Amp Max By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "maxScore",
+                      "label": "Max Score",
+                      "color": "#8ab8ff",
+                      "name": "Teleop Amp Max"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "maxScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Max Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "teleopSpeakerPercentInByTeam",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "tsc",
+                        "transformExpression": "(() => { const attempts=(item.tsc||0)+(item.tsm||0); return attempts>0 ? (item.tsc/attempts) : 0; })()",
+                        "operation": "average",
+                        "alias": "averageScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Teleop Speaker Percent In By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "averageScore",
+                      "label": "Average Score",
+                      "color": "#65fe65",
+                      "name": "Teleop Speaker Percent In"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "averageScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Average Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              },
+              {
+                "id": "teleopAmpPercentInByTeam",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "tamps",
+                        "transformExpression": "(() => { const attempts=(item.tamps||0)+(item.tampm||0); return attempts>0 ? (item.tamps/attempts) : 0; })()",
+                        "operation": "average",
+                        "alias": "averageScore"
+                      }
+                    ]
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Teleop Amp Percent In By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "averageScore",
+                      "label": "Average Score",
+                      "color": "#97fa97",
+                      "name": "Teleop Amp Percent In"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "averageScore",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Average Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": "auto"
+                }
+              }
+            ]
+          },
+          {
+            "id": "endgame",
+            "title": "Endgame",
+            "charts": [
+              {
+                "id": "endgameClimbPercentByTeam",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "epo",
+                        "operation": "count",
+                        "alias": "No",
+                        "transform": "item => (item.epo==='No'?1:0)"
+                      },
+                      {
+                        "field": "epo",
+                        "operation": "count",
+                        "alias": "P",
+                        "transform": "item => (item.epo==='P'?1:0)"
+                      },
+                      {
+                        "field": "epo",
+                        "operation": "count",
+                        "alias": "Fo",
+                        "transform": "item => (item.epo==='Fo'?1:0)"
+                      },
+                      {
+                        "field": "epo",
+                        "operation": "count",
+                        "alias": "Fh",
+                        "transform": "item => (item.epo==='Fh'?1:0)"
+                      },
+                      {
+                        "field": "epo",
+                        "operation": "count",
+                        "alias": "Os",
+                        "transform": "item => (item.epo==='Os'?1:0)"
+                      },
+                      {
+                        "field": "epo",
+                        "operation": "count",
+                        "alias": "Hm",
+                        "transform": "item => (item.epo==='Hm'?1:0)"
+                      },
+                      {
+                        "field": "epo",
+                        "operation": "count",
+                        "alias": "total",
+                        "transform": "()=>1"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "map",
+                    "func": "(team) => {\n  const keys=['No','P','Fo','Fh','Os','Hm'];\n  keys.forEach(k=>{team[k]=team.total>0 ? Math.round((team[k]/team.total)*100*100)/100:0});\n  delete team.total; return team;\n}"
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Endgame Climb Percent By Team",
+                  "scoringTypes": [
+                    { "key": "No", "label": "No Climb", "color": "#ff4444", "stacked": true, "name": "No Climb" },
+                    { "key": "P", "label": "Parked", "color": "#ff8042", "stacked": true, "name": "Parked" },
+                    { "key": "Fo", "label": "Failed Climb", "color": "#ffc658", "stacked": true, "name": "Failed Climb" },
+                    { "key": "Fh", "label": "Failed Harmony", "color": "#fff258", "stacked": true, "name": "Failed Harmony" },
+                    { "key": "Os", "label": "Onstage", "color": "#82ca9d", "stacked": true, "name": "Onstage" },
+                    { "key": "Hm", "label": "Harmony", "color": "#8884d8", "stacked": true, "name": "Harmony" }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "No",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Percentage",
+                  "yAxisMin": 0,
+                  "yAxisMax": 100,
+                  "sortOrder": "ascending"
+                }
+              },
+              {
+                "id": "averageEndgameTrapByTeam",
+                "chartType": "BarGraph",
+                "transformations": [
+                  { "type": "groupBy", "key": "teamNumber" },
+                  {
+                    "type": "aggregate",
+                    "operations": [
+                      {
+                        "field": "cn",
+                        "operation": "average",
+                        "alias": "averageScore"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "sort",
+                    "key": "averageScore",
+                    "order": "desc"
+                  }
+                ],
+                "chartSettings": {
+                  "title": "Endgame Trap Average By Team",
+                  "scoringTypes": [
+                    {
+                      "key": "averageScore",
+                      "label": "Average Score",
+                      "color": "#f2495c",
+                      "name": "Trap Average"
+                    }
+                  ],
+                  "xKey": "teamNumber",
+                  "yKey": "Average Score",
+                  "xAxisLabel": "Team Number",
+                  "yAxisLabel": "Average Score",
+                  "yAxisMin": 0,
+                  "yAxisMax": 1
+                }
+              }
+            ]
+          },
+          {
+            "id": "summary",
+            "title": "Summary",
+            "charts": [
+              {
+                "id": "competitionMultiNumber",
+                "chartType": "MultiNumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "mainTitle": "Competition Tele-Op Stats",
+                  "values": [
+                    {
+                      "color": "#73bf69",
+                      "title": "Average TeleOp Speaker / Max",
+                      "min": 0,
+                      "max": 0,
+                      "value": 0
+                    },
+                    {
+                      "color": "#ffab40",
+                      "title": "Average TeleOp Amp / Max",
+                      "min": 0,
+                      "max": 0,
+                      "value": 0
+                    },
+                    {
+                      "color": "#40c4ff",
+                      "title": "Average Speaker Accurecy / Max",
+                      "min": 0,
+                      "max": 0,
+                      "value": 0
+                    },
+                    {
+                      "color": "#c4162a",
+                      "title": "Average Amp Accurecy / Max",
+                      "min": 0,
+                      "max": 0,
+                      "value": 0
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+  
+      {
+        "id": "SpecificTeam",
+        "title": "Specific Team",
+        "filters": [
+          {
+            "filterType": "textFilter",
+            "title": "Select Team Number:",
+            "stateKey": "teamNumber",
+            "dataKey": "teamNumber",
+            "defaultValue": "5951"
+          }
+        ],
+        "sections": [
+          {
+            "id": "general",
+            "title": "General",
+            "charts": [
+              {
+                "id": "matchScoreByRoundConfig",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Match Scores by Round for Team #",
+                  "scoringTypes": [
+                    {
+                      "key": "totalScore",
+                      "label": "Total Score",
+                      "color": "#c4162a",
+                      "name": "Round Score",
+                      "xKey": "teamNumber",
+                      "yKey": "maxScore"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "averageScoreConfig",
+                "chartType": "NumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "color": "#c4162a",
+                  "title": "Average Score for Team #",
+                  "min": 0,
+                  "max": 0,
+                  "value": 0
+                }
+              },
+              {
+                "id": "commentsPerTeamTableConfig",
+                "chartType": "TableChart",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "General data for Team #",
+                  "columns": [
+                    { "key": "submissionTime", "label": "Submission Time" },
+                    { "key": "matchNumber", "label": "Match Number" },
+                    { "key": "scouter", "label": "Scouter Name" },
+                    { "key": "comment", "label": "Comments" },
+                    { "key": "card", "label": "Card" },
+                    { "key": "showedUp", "label": "Showed Up" },
+                    { "key": "diedOrTippedOver", "label": "Died/Tipped Over" }
+                  ]
+                }
+              },
+              {
+                "id": "startPositionUsagePieConfig",
+                "chartType": "PieChart",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Starting Position Usage Percentages for Team #",
+                  "scoringTypes": [
+                    { "key": "Source", "label": "Source", "color": "#8884d8", "name": "Source" },
+                    { "key": "Middle", "label": "Middle", "color": "#82ca9d", "name": "Middle" },
+                    { "key": "Amp", "label": "Amp", "color": "#ff4444", "name": "Amp" }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "autonomous",
+            "title": "Autonomous",
+            "charts": [
+              {
+                "id": "autonomousSpeakerConfig",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Autonomous Speaker by Round for Team #",
+                  "scoringTypes": [
+                    { "key": "autonomousScore", "label": "Autonomous Speaker", "color": "#73bf69" }
+                  ]
+                }
+              },
+              {
+                "id": "averageAutoSpeakerConfig",
+                "chartType": "NumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "color": "#73bf69",
+                  "title": "Average Autonomous Speaker for Team #",
+                  "min": 0,
+                  "max": 0,
+                  "value": 0
+                }
+              },
+              {
+                "id": "autoHasMovedConfig",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Auto Has Moved by Round for Team #",
+                  "scoringTypes": [
+                    { "key": "hasMoved", "label": "Auto Has Moved", "color": "#82b5d8" }
+                  ]
+                }
+              },
+              {
+                "id": "autoFoulPerRoundConfig",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Auto Fouls by Round for Team #",
+                  "scoringTypes": [
+                    { "key": "autonomousScore", "label": "Auto Fouls", "color": "#ff4444" }
+                  ]
+                }
+              },
+              {
+                "id": "actualVsExpectedConfig",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Actual vs. Expected Autonomous Scores for Team #",
+                  "scoringTypes": [
+                    { "key": "actualScore", "label": "Actual Score", "color": "#73bf69" },
+                    { "key": "expectedScore", "label": "Expected Score", "color": "#ff8042" },
+                    { "key": "deviation", "label": "Deviation", "color": "#ff4444" }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "teleop",
+            "title": "Tele-Op",
+            "charts": [
+              {
+                "id": "teleopScoreByRoundConfig",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Teleop Score by Round for Team #",
+                  "scoringTypes": [
+                    { "key": "teleopSpeaker", "label": "Teleop Speaker", "color": "#f2cc0c" },
+                    { "key": "teleopAmps", "label": "Teleop Amps", "color": "#73bf69" },
+                    { "key": "teleopFeeder", "label": "Teleop Feeder", "color": "#82b5d8" }
+                  ]
+                }
+              },
+              {
+                "id": "teleopScoreByRoundCombinedConfig",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Teleop Cycles by Round for Team #",
+                  "scoringTypes": [
+                    { "key": "teleopScore", "label": "Teleop Score", "color": "#ea6460", "stacked": true },
+                    { "key": "teleopFeeder", "label": "Teleop Feeder", "color": "#82b5d8", "stacked": true }
+                  ]
+                }
+              },
+              {
+                "id": "teleopAccuracyPerRoundConfig",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Teleop Accuracy by Round for Team #",
+                  "scoringTypes": [
+                    { "key": "teleopSpeakerAccuracy", "label": "Teleop Speaker Accuracy (%)", "color": "#f2cc0c" },
+                    { "key": "teleopAmpAccuracy", "label": "Teleop Amp Accuracy (%)", "color": "#73bf69" }
+                  ]
+                }
+              },
+              {
+                "id": "teleopFoulPerMatchConfig",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Teleop Fouls by Round for Team #",
+                  "scoringTypes": [
+                    { "key": "teleopScore", "label": "Teleop Fouls", "color": "#ff4444" }
+                  ]
+                }
+              },
+              {
+                "id": "teamTeleopStatsMultiNumberConfig",
+                "chartType": "MultiNumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "mainTitle": "Tele-Op Stats for Team #",
+                  "values": []
+                }
+              },
+              {
+                "id": "competitionMultiNumberConfig",
+                "chartType": "MultiNumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "mainTitle": "Competition Tele-Op Stats (Team # Variation)",
+                  "values": []
+                }
+              }
+            ]
+          },
+          {
+            "id": "endgame",
+            "title": "Endgame",
+            "charts": [
+              {
+                "id": "endgameClimbDataPerRoundConfig",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Endgame Climb Data by Round for Team #",
+                  "scoringTypes": [
+                    { "key": "No", "label": "No Climb", "color": "#8884d8", "stacked": true },
+                    { "key": "P", "label": "Parked", "color": "#82ca9d", "stacked": true },
+                    { "key": "Fo", "label": "Failed Climb", "color": "#01a2f0", "stacked": true },
+                    { "key": "Fh", "label": "Failed Harmony", "color": "#ff4444", "stacked": true },
+                    { "key": "Os", "label": "Onstage", "color": "#ffc658", "stacked": true },
+                    { "key": "Hm", "label": "Harmony", "color": "#ff8042", "stacked": true }
+                  ]
+                }
+              },
+              {
+                "id": "endgameClimbUsagePieConfig",
+                "chartType": "PieChart",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Endgame Climb Usage Percentages for Team #",
+                  "scoringTypes": [
+                    { "key": "No", "label": "No Climb", "color": "#8884d8" },
+                    { "key": "P", "label": "Parked", "color": "#82ca9d" },
+                    { "key": "Fo", "label": "Failed Climb", "color": "#01a2f0" },
+                    { "key": "Fh", "label": "Failed Harmony", "color": "#ff4444" },
+                    { "key": "Os", "label": "Onstage", "color": "#ffc658" },
+                    { "key": "Hm", "label": "Harmony", "color": "#ff8042" }
+                  ]
+                }
+              },
+              {
+                "id": "trapPerRoundConfig",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Endgame Trap Per Round for Team #",
+                  "scoringTypes": [
+                    { "key": "trapScore", "label": "Trap Score", "color": "#f2495c" }
+                  ]
+                }
+              },
+              {
+                "id": "endgameTrapUsagePieConfig",
+                "chartType": "PieChart",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Endgame Trap Score for Team #",
+                  "scoringTypes": [
+                    { "key": "0", "label": "Note 0", "color": "#8884d8" },
+                    { "key": "1", "label": "Note 1", "color": "#82ca9d" },
+                    { "key": "2", "label": "Note 2", "color": "#ff4444" },
+                    { "key": "3", "label": "Note 3", "color": "#ffc658" }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "summary",
+            "title": "Summary",
+            "charts": [
+              {
+                "id": "teamPerformanceRadarConfig",
+                "chartType": "RadarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Team Performance Comparison",
+                  "showTooltip": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+  
+      {
+        "id": "Comparison",
+        "title": "Comparison",
+        "filters": [
+          {
+            "filterType": "textFilter",
+            "title": "Select Team 1 Number:",
+            "stateKey": "team1",
+            "dataKey": "teamNumber",
+            "defaultValue": "5951"
+          },
+          {
+            "filterType": "textFilter",
+            "title": "Select Team 2 Number:",
+            "stateKey": "team2",
+            "dataKey": "teamNumber",
+            "defaultValue": "5951"
+          }
+        ],
+        "sections": [
+          {
+            "id": "general",
+            "title": "General Comparison",
+            "charts": [
+              {
+                "id": "matchScoreByRoundTeam1",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Match Scores by Round for Team #1",
+                  "scoringTypes": [
+                    { "key": "totalScore", "label": "Total Score", "color": "#c4162a" }
+                  ]
+                }
+              },
+              {
+                "id": "matchScoreByRoundTeam2",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Match Scores by Round for Team #2",
+                  "scoringTypes": [
+                    { "key": "totalScore", "label": "Total Score", "color": "#c4162a" }
+                  ]
+                }
+              },
+              {
+                "id": "averageScoreTeam1",
+                "chartType": "NumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Average Score for Team #1"
+                }
+              },
+              {
+                "id": "averageScoreTeam2",
+                "chartType": "NumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Average Score for Team #2"
+                }
+              }
+            ]
+          },
+          {
+            "id": "autonomous",
+            "title": "Autonomous Comparison",
+            "charts": [
+              {
+                "id": "autonomousSpeakerTeam1",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Autonomous Speaker by Round: Team #1",
+                  "scoringTypes": [
+                    { "key": "autonomousScore", "label": "Auto Speaker", "color": "#73bf69" }
+                  ]
+                }
+              },
+              {
+                "id": "autonomousSpeakerTeam2",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Autonomous Speaker by Round: Team #2",
+                  "scoringTypes": [
+                    { "key": "autonomousScore", "label": "Auto Speaker", "color": "#73bf69" }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "teleop",
+            "title": "Tele-Op Comparison",
+            "charts": [
+              {
+                "id": "teleopScoreByRoundTeam1",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Teleop Score by Round: Team #1"
+                }
+              },
+              {
+                "id": "teleopScoreByRoundTeam2",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Teleop Score by Round: Team #2"
+                }
+              }
+            ]
+          },
+          {
+            "id": "endgame",
+            "title": "Endgame Comparison",
+            "charts": [
+              {
+                "id": "endgameClimbUsagePieTeam1",
+                "chartType": "PieChart",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Endgame Climb Usage: Team #1"
+                }
+              },
+              {
+                "id": "endgameClimbUsagePieTeam2",
+                "chartType": "PieChart",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Endgame Climb Usage: Team #2"
+                }
+              }
+            ]
+          },
+          {
+            "id": "summary",
+            "title": "Summary Comparison",
+            "charts": [
+              {
+                "id": "compareTeamsAverageRadarConfig",
+                "chartType": "RadarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Team Performance Average Comparison"
+                }
+              },
+              {
+                "id": "compareTeamsMaxRadarConfig",
+                "chartType": "RadarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Team Performance Max Comparison"
+                }
+              }
+            ]
+          }
+        ]
+      },
+  
+      {
+        "id": "Report",
+        "title": "Report",
+        "filters": [
+          {
+            "filterType": "textFilter",
+            "title": "Red 1:",
+            "stateKey": "red1",
+            "dataKey": "teamNumber",
+            "defaultValue": "5951"
+          },
+          {
+            "filterType": "textFilter",
+            "title": "Red 2:",
+            "stateKey": "red2",
+            "dataKey": "teamNumber",
+            "defaultValue": "1577"
+          },
+          {
+            "filterType": "textFilter",
+            "title": "Red 3:",
+            "stateKey": "red3",
+            "dataKey": "teamNumber",
+            "defaultValue": "5990"
+          },
+          {
+            "filterType": "textFilter",
+            "title": "Blue 1:",
+            "stateKey": "blue1",
+            "dataKey": "teamNumber",
+            "defaultValue": "1690"
+          },
+          {
+            "filterType": "textFilter",
+            "title": "Blue 2:",
+            "stateKey": "blue2",
+            "dataKey": "teamNumber",
+            "defaultValue": "1576"
+          },
+          {
+            "filterType": "textFilter",
+            "title": "Blue 3:",
+            "stateKey": "blue3",
+            "dataKey": "teamNumber",
+            "defaultValue": "3339"
+          }
+        ],
+        "sections": [
+          {
+            "id": "general",
+            "title": "General",
+            "charts": [
+              {
+                "id": "alianceNoteAveragMultiNumber",
+                "chartType": "MultiNumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "mainTitle": "Average / Max Match notes for red/blue alliance",
+                  "values": []
+                }
+              }
+            ]
+          },
+          {
+            "id": "autonomous",
+            "title": "Autonomous",
+            "charts": [
+              {
+                "id": "averageAutoSpeaker",
+                "chartType": "MultiNumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "mainTitle": "Average / Max Auto notes for red/blue alliance",
+                  "values": []
+                }
+              }
+            ]
+          },
+          {
+            "id": "teleop",
+            "title": "Tele-Op",
+            "charts": [
+              {
+                "id": "alianceAmpAveragMultiNumber",
+                "chartType": "MultiNumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "mainTitle": "Average / Max TeleOp AMP for red/blue alliance",
+                  "values": []
+                }
+              },
+              {
+                "id": "alianceSpeakerTeleopAveragMultiNumber",
+                "chartType": "MultiNumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "mainTitle": "Average / Max TeleOp Speaker for red/blue alliance",
+                  "values": []
+                }
+              },
+              {
+                "id": "feedingAverage",
+                "chartType": "MultiNumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "mainTitle": "Average / Max Feeding for red/blue alliance",
+                  "values": []
+                }
+              }
+            ]
+          },
+          {
+            "id": "endgame",
+            "title": "Endgame",
+            "charts": [
+              {
+                "id": "reportEndgameBar",
+                "chartType": "BarGraph",
+                "transformations": [],
+                "chartSettings": {
+                  "title": "Endgame Bar for Red/Blue"
+                }
+              },
+              {
+                "id": "averageTrap",
+                "chartType": "MultiNumberDisplay",
+                "transformations": [],
+                "chartSettings": {
+                  "mainTitle": "Average / Max Trap for red/blue alliance",
+                  "values": []
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  
