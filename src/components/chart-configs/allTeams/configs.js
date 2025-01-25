@@ -18,29 +18,7 @@ const generateChartConfig = (scoutingData, transformations, chartSettings) => {
 
     return {
         data: transformedData,
-        title: chartSettings.title,
-        scoringTypes: chartSettings.scoringTypes,
-        chartSettings: {
-            showGridlines: chartSettings.showGridlines,
-            gridlineColor: chartSettings.gridlineColor,
-        },
-        xKey: chartSettings.xKey || 'teamNumber',
-        yKey: chartSettings.yKey || 'averageScore',
-        xAxisLabel: chartSettings.xAxisLabel || 'Team Number',
-        yAxisLabel: chartSettings.yAxisLabel || 'Score',
-        yAxisMin: chartSettings.yAxisMin || 0,
-        yAxisMax: chartSettings.yAxisMax || 'auto',
-        showTooltip: chartSettings.showTooltip !== undefined ? chartSettings.showTooltip : true,
-        tooltipSettings: chartSettings.tooltipSettings || {},
-        showLegend: chartSettings.showLegend !== undefined ? chartSettings.showLegend : true,
-        interactiveLegend: chartSettings.interactiveLegend !== undefined ? chartSettings.interactiveLegend : true,
-        legendPosition: chartSettings.legendPosition || 'top',
-        responsive: chartSettings.responsive !== undefined ? chartSettings.responsive : true,
-        maintainAspectRatio: chartSettings.maintainAspectRatio !== undefined ? chartSettings.maintainAspectRatio : true,
-        showDataLabels: chartSettings.showDataLabels !== undefined ? chartSettings.showDataLabels : false,
-        dataLabelPosition: chartSettings.dataLabelPosition || 'inside',
-        dataLabelRotation: chartSettings.dataLabelRotation || 0,
-        sortOrder: chartSettings.sortOrder || 'ascending',
+        ...chartSettings,
     };
 };
 
