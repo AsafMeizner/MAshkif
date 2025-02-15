@@ -1,17 +1,71 @@
+/*
+Pre-Match:
+
+scouter - Scouter Name
+matchNumber - Match Number
+teamNumber - Team Number
+noShow - No Show?
+Autonomous:
+
+Mved - Left Starting Line
+L1sc - L1 scored auto
+L2sc - L2 scored auto
+L3sc - L3 scored auto
+L4sc - L4 scored auto
+L1ms - L1 missed auto
+L2ms - L2 missed auto
+L3ms - L3 missed auto
+L4ms - L4 missed auto
+InG - Coral Ground (Collection in auto)
+InS - Coral Source (Collection in auto)
+RmAr - Algae Reef (Collection in auto)
+RmAg - Algae Ground (Collection in auto)
+ScAb - Scored Algae in Barge (auto)
+ScAp - Scored Algae in Processor (auto)
+TeleOp:
+
+tL1sc - L1 scored TeleOp
+tL2sc - L2 scored TeleOp
+tL3sc - L3 scored TeleOp
+tL4sc - L4 scored TeleOp
+tL1ms - L1 missed TeleOp
+tL2ms - L2 missed TeleOp
+tL3ms - L3 missed TeleOp
+tL4ms - L4 missed TeleOp
+tInG - Coral Ground (Collection in TeleOp)
+tInS - Coral Source (Collection in TeleOp)
+tRmAr - Algae Reef (Collection in TeleOp)
+tRmAg - Algae Ground (Collection in TeleOp)
+tScAb - Scored Algae in Barge (TeleOp)
+tScAp - Scored Algae in Processor (TeleOp)
+Fou - TeleOp fouls (עבירות טלאופ)
+End Game:
+
+epo - End State
+Post-Match:
+
+dto - Flipped/Fell Over
+yc - Yellow/Red Card
+co - Notes
+*/
+
+// General
 export function matchScoreByRound(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
 
-    if (!teamData.length) {return [];}
+    if (!teamData.length) { return []; }
 
     const scoresByRound = teamData.map((entry) => {
-        const roundNumber = entry.matchNumber; 
-        const autonomousScore = entry.ausc || 0;
-        const teleopScore = (entry.tsc || 0) + (entry.tamps || 0);
-        const totalScore = autonomousScore + teleopScore;  
+        const roundNumber = entry.matchNumber;
+        const algeeScore = (entry.tScAb || 0) + (entry.tScAp || 0) + (entry.ScAb || 0) + (entry.ScAp || 0);
+        const coralScore = (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0) + (entry.L1sc || 0) + (entry.L2sc || 0) + (entry.L3sc || 0) + (entry.L4sc || 0);
+        const totalScore = algeeScore + coralScore;
 
         return {
             roundNumber,
             totalScore,
+            algeeScore,
+            coralScore
         };
     });
     scoresByRound.sort((a, b) => a.roundNumber - b.roundNumber);
@@ -19,183 +73,41 @@ export function matchScoreByRound(scoutingData, teamNumber) {
     return scoresByRound;
 }
 
-export function autonomousSpeakerPerMatch(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
-
-    if (!teamData.length) {return [];}
-
-    const scoresByRound = teamData.map((entry) => {
-        const roundNumber = entry.matchNumber; 
-        const autonomousScore = entry.ausc || 0;
-
-        return {
-            roundNumber,
-            autonomousScore,
-        };
-    });
-    scoresByRound.sort((a, b) => a.roundNumber - b.roundNumber);
-
-    return scoresByRound;
-}
-
-export function averageScore(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-  
-    const totalScore = teamData.reduce((acc, entry) => {
-      const matchScore = (entry.ausc || 0) + (entry.tsc || 0) + (entry.tamps || 0); // Autonomous + Teleop scores
-      return acc + matchScore;
-    }, 0);
-  
-    return totalScore / teamData.length;
-}
-
-export function maxScore(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-  
-    const maxScore = teamData.reduce((acc, entry) => {
-      const matchScore = (entry.ausc || 0) + (entry.tsc || 0) + (entry.tamps || 0); 
-      return Math.max(acc, matchScore);
-    }, 0);
-  
-    return maxScore;
-}
-
-export function averageAutoSpeaker(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) { return 0; }
-  
-    const totalAutoSpeaker = teamData.reduce((acc, entry) => {
-        const autoSpeaker = entry.ausc || 0; 
-        return acc + autoSpeaker;
-    }, 0);
-  
-    return totalAutoSpeaker / teamData.length;
-}
-
-export function maxAutoSpeaker(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) { return 0; }
-  
-    const maxAutoSpeaker = teamData.reduce((acc, entry) => {
-        const autoSpeaker = entry.ausc || 0;
-        return Math.max(acc, autoSpeaker);
-    }, 0);
-  
-    return maxAutoSpeaker;
-}
-
-export function autoHasMovedPerRound(scoutingData, teamNumber) {
+export function scoresSummery(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
 
     if (!teamData.length) { return 0; }
 
-    const autoHasMoved = teamData.map((entry) => {
-        const roundNumber = entry.matchNumber;
-        const hasMoved = entry.Mved ? 1 : 0;
+    const totalCoralScore = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.L1sc || 0) + (entry.L2sc || 0) + (entry.L3sc || 0) + (entry.L4sc || 0) + (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0);
+        return acc + matchCoralScore;
+    }, 0);
 
-        return {
-            roundNumber,
-            hasMoved,
-        };
-    });
+    const averageCoralScore = totalCoralScore / teamData.length;
 
-    autoHasMoved.sort((a, b) => a.roundNumber - b.roundNumber);
+    const totalAlgeeScore = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.ScAb || 0) + (entry.ScAp || 0) + (entry.tScAb || 0) + (entry.tScAp || 0);
+        return acc + matchAlgeeScore;
+    }, 0);
 
-    return autoHasMoved;
-}
+    const averageAlgeeScore = totalAlgeeScore / teamData.length;
 
-export function autonomousFoulPerMatch(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
+    const maxCoralScore = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.L1sc || 0) + (entry.L2sc || 0) + (entry.L3sc || 0) + (entry.L4sc || 0) + (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0);
+        return Math.max(acc, matchCoralScore);
+    }, 0);
 
-    if (!teamData.length) {
-        return [];
+    const maxAlgeeScore = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.ScAb || 0) + (entry.ScAp || 0) + (entry.tScAb || 0) + (entry.tScAp || 0);
+        return Math.max(acc, matchAlgeeScore);
+    }, 0);
+
+    return {
+        averageCoralScore,
+        averageAlgeeScore,
+        maxCoralScore,
+        maxAlgeeScore
     }
-
-    const foulsByRound = teamData.map((entry) => {
-        const roundNumber = entry.matchNumber; 
-        const autonomousFoul = entry.auf || 0; 
-
-        return {
-            roundNumber,
-            autonomousScore: autonomousFoul,
-        };
-    });
-
-    foulsByRound.sort((a, b) => a.roundNumber - b.roundNumber);
-
-    return foulsByRound;
-}
-
-export function autoPathStackedData(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-
-    if (!teamData.length) { return []; }
-
-    const autoPaths = teamData.map((entry) => {
-        const roundNumber = entry.matchNumber;
-        return {
-            roundNumber,
-            Path1: entry.a_gp_Path === "1" ? 1 : 0,
-            Path2: entry.a_gp_Path === "2" ? 1 : 0,
-            Path3: entry.a_gp_Path === "3" ? 1 : 0,
-            Path4: entry.a_gp_Path === "4" ? 1 : 0,
-            Path5: entry.a_gp_Path === "5" ? 1 : 0,
-            Path6: entry.a_gp_Path === "6" ? 1 : 0,
-            Path7: entry.a_gp_Path === "7" ? 1 : 0,
-            Path8: entry.a_gp_Path === "8" ? 1 : 0,
-            Path9: entry.a_gp_Path === "9" ? 1 : 0,
-            Path10: entry.a_gp_Path === "10" ? 1 : 0,
-        };
-    });
-
-    autoPaths.sort((a, b) => a.roundNumber - b.roundNumber);
-
-    return autoPaths;
-}
-
-export function autoPathPieData(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-
-    if (!teamData.length) {
-        return [];
-    }
-
-    const pathCounts = {
-        Path1: 0,
-        Path2: 0,
-        Path3: 0,
-        Path4: 0,
-        Path5: 0,
-        Path6: 0,
-        Path7: 0,
-        Path8: 0,
-        Path9: 0,
-        Path10: 0,
-    };
-
-    teamData.forEach((entry) => {
-        pathCounts.Path1 += entry.a_gp_Path === "1" ? 1 : 0;
-        pathCounts.Path2 += entry.a_gp_Path === "2" ? 1 : 0;
-        pathCounts.Path3 += entry.a_gp_Path === "3" ? 1 : 0;
-        pathCounts.Path4 += entry.a_gp_Path === "4" ? 1 : 0;
-        pathCounts.Path5 += entry.a_gp_Path === "5" ? 1 : 0;
-        pathCounts.Path6 += entry.a_gp_Path === "6" ? 1 : 0;
-        pathCounts.Path7 += entry.a_gp_Path === "7" ? 1 : 0;
-        pathCounts.Path8 += entry.a_gp_Path === "8" ? 1 : 0;
-        pathCounts.Path9 += entry.a_gp_Path === "9" ? 1 : 0;
-        pathCounts.Path10 += entry.a_gp_Path === "10" ? 1 : 0;
-    });
-
-    return Object.keys(pathCounts).map((pathKey) => ({
-        name: pathKey,  
-        value: pathCounts[pathKey], 
-    }));
 }
 
 export function generalPerTeamTable(scoutingData, teamNumber) {
@@ -220,256 +132,310 @@ export function generalPerTeamTable(scoutingData, teamNumber) {
     return formattedData;
 }
 
-export function startPositionPieData(scoutingData, teamNumber) {
+// Autonomous
+
+export function autonomousAverageByMatch(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
+
+    if (!teamData.length) { return []; }
+
+    const autonomousData = teamData.map((entry) => {
+        const matchNumber = entry.matchNumber;
+        const algeeScore = (entry.ScAb || 0) + (entry.ScAp || 0);
+        const algeeProcessorScore = (entry.ScAp || 0);
+        const algeeBargeScore = (entry.ScAb || 0);
+        const coralScore = (entry.L1sc || 0) + (entry.L2sc || 0) + (entry.L3sc || 0) + (entry.L4sc || 0);
+        const l1Score = (entry.L1sc || 0);
+        const l2Score = (entry.L2sc || 0);
+        const l3Score = (entry.L3sc || 0);
+        const l4Score = (entry.L4sc || 0);
+        const totalScore = algeeScore + coralScore;
+
+        return {
+            matchNumber,
+            totalScore,
+            algeeScore,
+            algeeProcessorScore,
+            algeeBargeScore,
+            coralScore,
+            l1Score,
+            l2Score,
+            l3Score,
+            l4Score
+        };
+    });
+
+    autonomousData.sort((a, b) => a.matchNumber - b.matchNumber);
+
+    return autonomousData;
+}
+
+export function autonomousSummery(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
 
-    if (!teamData.length) {
-        return [];
+    if (!teamData.length) { return 0; }
+
+    const totalCoralScore = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.L1sc || 0) + (entry.L2sc || 0) + (entry.L3sc || 0) + (entry.L4sc || 0);
+        return acc + matchCoralScore;
+    }, 0);
+
+    const averageCoralScore = totalCoralScore / teamData.length;
+
+    const totalAlgeeScore = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.ScAb || 0) + (entry.ScAp || 0);
+        return acc + matchAlgeeScore;
+    }, 0);
+
+    const averageAlgeeScore = totalAlgeeScore / teamData.length;
+
+    const maxCoralScore = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.L1sc || 0) + (entry.L2sc || 0) + (entry.L3sc || 0) + (entry.L4sc || 0);
+        return Math.max(acc, matchCoralScore);
+    }, 0);
+
+    const maxAlgeeScore = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.ScAb || 0) + (entry.ScAp || 0);
+        return Math.max(acc, matchAlgeeScore);
+    }, 0);
+
+    return {
+        averageCoralScore,
+        averageAlgeeScore,
+        maxCoralScore,
+        maxAlgeeScore
     }
-
-    const positionCounts = {
-        Source: 0,
-        Middle: 0,
-        Amp: 0,
-    };
-
-    teamData.forEach((entry) => {
-        positionCounts.Source += entry.Prsp === "Source" ? 1 : 0;
-        positionCounts.Middle += entry.Prsp === "Middle" ? 1 : 0;
-        positionCounts.Amp += entry.Prsp === "Amp" ? 1 : 0;
-    });
-
-    return Object.keys(positionCounts).map((positionKey) => ({
-        name: positionKey,  
-        value: positionCounts[positionKey], 
-    }));
 }
 
-export function teleopNotesByRoundSeperated(scoutingData, teamNumber) {
+export function autonomousCoralPrecentIn(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
 
-    if (!teamData.length) {return [];}
+    if (!teamData.length) { return []; }
 
     const scoresByRound = teamData.map((entry) => {
-        const roundNumber = entry.matchNumber; 
-        const teleopSpeaker = entry.tsc || 0;
-        const teleopAmps = entry.tamps || 0;
-        const teleopFeeder = entry.tfs || 0;
-
-        return {
-            roundNumber,
-            teleopSpeaker,
-            teleopAmps,
-            teleopFeeder
-        };
-    });
-
-    scoresByRound.sort((a, b) => a.roundNumber - b.roundNumber);
-
-    return scoresByRound;
-}
-
-export function teleopScoreByRound(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
-
-    if (!teamData.length) {return [];}
-
-    const scoresByRound = teamData.map((entry) => {
-        const roundNumber = entry.matchNumber; 
-        const teleopScore = (entry.tsc || 0) + (entry.tamps || 0);
-        const teleopFeeder = entry.tfs || 0;
-
-        return {
-            roundNumber,
-            teleopScore,
-            teleopFeeder
-        };
-    });
-
-    scoresByRound.sort((a, b) => a.roundNumber - b.roundNumber);
-
-    return scoresByRound;
-}
-
-export function teleopFoulPerMatch(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
-
-    if (!teamData.length) {
-        return [];
-    }
-
-    const foulsByRound = teamData.map((entry) => {
-        const roundNumber = entry.matchNumber; 
-        const teleopFoul = entry.Fou || 0; 
-
-        return {
-            roundNumber,
-            teleopScore: teleopFoul,
-        };
-    });
-
-    foulsByRound.sort((a, b) => a.roundNumber - b.roundNumber);
-
-    return foulsByRound;
-}
-
-export function teleopAccuracyPerRound(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
-
-    if (!teamData.length) {
-        return [];
-    }
-
-    const accuracyByRound = teamData.map((entry) => {
         const roundNumber = entry.matchNumber;
-
-        const speakerScored = entry.tsc || 0;
-        const speakerMissed = entry.tsm || 0;
-        const speakerAttempts = speakerScored + speakerMissed;
-
-        const teleopSpeakerAccuracy = speakerAttempts > 0 
-            ? ((speakerScored / speakerAttempts) * 100).toFixed(2)
-            : 0;
-
-        const ampScored = entry.tamps || 0;
-        const ampMissed = entry.tampm || 0;
-        const ampAttempts = ampScored + ampMissed;
-
-        const teleopAmpAccuracy = ampAttempts > 0 
-            ? ((ampScored / ampAttempts) * 100).toFixed(2)
-            : 0;
+        const coralL1Precent = entry.L1sc ? ((entry.L1sc || 0) / ((entry.L1sc || 0) + (entry.L1ms || 0))) * 100 : 0;
+        const coralL2Precent = entry.L2sc ? ((entry.L2sc || 0) / ((entry.L2sc || 0) + (entry.L2ms || 0))) * 100 : 0;
+        const coralL3Precent = entry.L3sc ? ((entry.L3sc || 0) / ((entry.L3sc || 0) + (entry.L3ms || 0))) * 100 : 0;
+        const coralL4Precent = entry.L4sc ? ((entry.L4sc || 0) / ((entry.L4sc || 0) + (entry.L4ms || 0))) * 100 : 0;
 
         return {
             roundNumber,
-            teleopSpeakerAccuracy: parseFloat(teleopSpeakerAccuracy),  
-            teleopAmpAccuracy: parseFloat(teleopAmpAccuracy),         
+            coralL1Precent,
+            coralL2Precent,
+            coralL3Precent,
+            coralL4Precent
+        };
+    });
+    scoresByRound.sort((a, b) => a.roundNumber - b.roundNumber);
+
+    return scoresByRound;
+}
+
+export function autonomousLeftStartingLine(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
+
+    if (!teamData.length) { return []; }
+
+    const scoresByRound = teamData.map((entry) => {
+        const roundNumber = entry.matchNumber;
+        const leftStartingLine = entry.Mved ? 1 : 0;
+
+        return {
+            roundNumber,
+            leftStartingLine
         };
     });
 
-    accuracyByRound.sort((a, b) => a.roundNumber - b.roundNumber);
+    scoresByRound.sort((a, b) => a.roundNumber - b.roundNumber);
 
-    return accuracyByRound;
+    return scoresByRound;
 }
 
-export function ampTeleOpAverage(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-  
-    const totalScore = teamData.reduce((acc, entry) => {
-      const matchScore = (entry.tamps || 0); 
-      return acc + matchScore;
-    }, 0);
-  
-    return totalScore / teamData.length;
+// Teleop
+
+export function teleopAverageByMatch(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
+
+    if (!teamData.length) { return []; }
+
+    const autonomousData = teamData.map((entry) => {
+        const matchNumber = entry.matchNumber;
+        const algeeScore = (entry.tScAb || 0) + (entry.tScAp || 0);
+        const algeeProcessorScore = (entry.tScAp || 0);
+        const algeeBargeScore = (entry.tScAb || 0);
+        const coralScore = (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0);
+        const l1Score = (entry.tL1sc || 0);
+        const l2Score = (entry.tL2sc || 0);
+        const l3Score = (entry.tL3sc || 0);
+        const l4Score = (entry.tL4sc || 0);
+        const totalScore = algeeScore + coralScore;
+
+        return {
+            matchNumber,
+            totalScore,
+            algeeScore,
+            algeeProcessorScore,
+            algeeBargeScore,
+            coralScore,
+            l1Score,
+            l2Score,
+            l3Score,
+            l4Score
+        };
+    });
+
+    autonomousData.sort((a, b) => a.matchNumber - b.matchNumber);
+
+    return autonomousData;
 }
 
-export function ampTeleOpMax(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-  
-    const maxScore = teamData.reduce((acc, entry) => {
-      const matchScore = (entry.tamps || 0); 
-      return Math.max(acc, matchScore);
-    }, 0);
-  
-    return maxScore;
-}
-
-export function speakerTeleOpAverage(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-  
-    const totalScore = teamData.reduce((acc, entry) => {
-      const matchScore = (entry.tsc || 0); 
-      return acc + matchScore;
-    }, 0);
-  
-    return totalScore / teamData.length;
-}
-
-export function speakerTeleOpMax(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-  
-    const maxScore = teamData.reduce((acc, entry) => {
-      const matchScore = (entry.tsc || 0); 
-      return Math.max(acc, matchScore);
-    }, 0);
-  
-    return maxScore;
-}
-
-export function speakerTeleOpAccuracyAverage(scoutingData, teamNumber) {
+export function teleopSummery(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
 
-    if (!teamData.length) {return 0;}
+    if (!teamData.length) { return 0; }
 
-    const totalShotsMade = teamData.reduce((acc, entry) => {
-        const scored = entry.tsc || 0;
-        return acc + scored;
+    const averageCoralScore = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0);
+        return acc + matchCoralScore;
+    }, 0) / teamData.length;
+
+    const maxCoralScore = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0);
+        return Math.max(acc, matchCoralScore);
     }, 0);
 
-    const totalShotsAttempted = teamData.reduce((acc, entry) => {
-        const missed = entry.tsm || 0; 
-        const scored = entry.tsc || 0;
-        return acc + missed + scored;
+    const averageAlgeeScore = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.tScAb || 0) + (entry.tScAp || 0);
+        return acc + matchAlgeeScore;
+    }, 0) / teamData.length;
+
+    const maxAlgeeScore = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.tScAb || 0) + (entry.tScAp || 0);
+        return Math.max(acc, matchAlgeeScore);
     }, 0);
 
-    return totalShotsAttempted ? (totalShotsMade / totalShotsAttempted) * 100 : 0;
+    const maxAlgeeRemovedFromReef = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.tRmAr || 0) + (entry.tRmAg || 0);
+        return Math.max(acc, matchAlgeeScore);
+    }, 0);
+
+    const averageAlgeeRemovedFromReef = (teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.tRmAr || 0) + (entry.tRmAg || 0);
+        return acc + matchAlgeeScore;
+    }, 0) / teamData.length);
+
+    const maxCoralPrecent = teamData.reduce((acc, entry) => {
+        const matchCoralPrecent = (entry.tL1sc + entry.tL2sc + entry.tL3sc + entry.tL4sc) ? ((((entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0)) / ((entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0))) * 100).toFixed(1) : 0;
+        return Math.max(acc, matchCoralPrecent);
+    }, 0);
+
+    const averageCoralPrecent = teamData.reduce((acc, entry) => {
+        const numerator = (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0);
+        const denominator = (entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0);
+        const matchCoralPrecent = denominator ? parseFloat(((numerator / denominator) * 100).toFixed(1)) : 0;
+        return acc + matchCoralPrecent;
+    }, 0) / teamData.length;
+
+    return {
+        averageCoralScore,
+        averageAlgeeScore,
+        maxCoralScore,
+        maxAlgeeScore,
+        averageCoralPrecent,
+        maxCoralPrecent,
+        averageAlgeeRemovedFromReef,
+        maxAlgeeRemovedFromReef
+    }
 }
 
-export function speakerTeleOpAccuracyMax(scoutingData, teamNumber) {
+export function teleopCoralSummery(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
 
-    if (!teamData.length) {return 0;}
+    if (!teamData.length) { return 0; }
 
-    const maxAccuracy = teamData.reduce((acc, entry) => {
-        const scored = entry.tsc || 0;
-        const attempted = (entry.tsc || 0) + (entry.tsm || 0);
-        const accuracy = attempted ? (scored / attempted) * 100 : 0;
-        return Math.max(acc, accuracy);
+    const averageL1Score = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.tL1sc || 0);
+        return acc + matchCoralScore;
+    }, 0) / teamData.length;
+
+    const maxL1Score = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.tL1sc || 0);
+        return Math.max(acc, matchCoralScore);
     }, 0);
 
-    return maxAccuracy;
+    const averageL2Score = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.tL2sc || 0);
+        return acc + matchCoralScore;
+    }, 0) / teamData.length;
+
+    const maxL2Score = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.tL2sc || 0);
+        return Math.max(acc, matchCoralScore);
+    }, 0);
+
+    const averageL3Score = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.tL3sc || 0);
+        return acc + matchCoralScore;
+    }, 0) / teamData.length;
+
+    const maxL3Score = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.tL3sc || 0);
+        return Math.max(acc, matchCoralScore);
+    }, 0);
+
+    const averageL4Score = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.tL4sc || 0);
+        return acc + matchCoralScore;
+    }, 0) / teamData.length;
+
+    const maxL4Score = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.tL4sc || 0);
+        return Math.max(acc, matchCoralScore);
+    }, 0);
+
+    return {
+        averageL1Score,
+        maxL1Score,
+        averageL2Score,
+        maxL2Score,
+        averageL3Score,
+        maxL3Score,
+        averageL4Score,
+        maxL4Score
+    }
 }
 
-export function ampTeleOpAccuracyAverage(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+export function teleopPercentagesByMatch(scoutingData, teamNumber) {
+    const teamData = scoutingData.filter((data) => data.teamNumber === teamNumber);
 
-    if (!teamData.length) {return 0;}
+    if (!teamData.length) { return []; }
 
-    const totalShotsMade = teamData.reduce((acc, entry) => {
-        const scored = entry.tamps || 0;
-        return acc + scored;
-    }, 0);
+    const scoresByRound = teamData.map((entry) => {
+        const roundNumber = entry.matchNumber;
+        const coralL1Precent = entry.tL1sc ? (((entry.tL1sc || 0) / ((entry.tL1sc || 0) + (entry.tL1ms || 0))) * 100).toFixed(1) : 0;
+        const coralL2Precent = entry.tL2sc ? (((entry.tL2sc || 0) / ((entry.tL2sc || 0) + (entry.tL2ms || 0))) * 100).toFixed(1) : 0;
+        const coralL3Precent = entry.tL3sc ? (((entry.tL3sc || 0) / ((entry.tL3sc || 0) + (entry.tL3ms || 0))) * 100).toFixed(1) : 0;
+        const coralL4Precent = entry.tL4sc ? (((entry.tL4sc || 0) / ((entry.tL4sc || 0) + (entry.tL4ms || 0))) * 100).toFixed(1) : 0;
+        const overallPrecent = (entry.tL1sc + entry.tL2sc + entry.tL3sc + entry.tL4sc) ? ((((entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0)) / ((entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0))) * 100).toFixed(1) : 0;
+        const algeeBargePrecent = entry.tScAb ? (((entry.tScAb || 0) / ((entry.tScAb || 0) + (entry.tScAp || 0))) * 100).toFixed(1) : 0;
 
-    const totalShotsAttempted = teamData.reduce((acc, entry) => {
-        const missed = entry.tampm || 0;
-        const scored = entry.tamps || 0;
-        return acc + missed + scored;
-    }, 0);
+        return {
+            roundNumber,
+            coralL1Precent,
+            coralL2Precent,
+            coralL3Precent,
+            coralL4Precent,
+            overallPrecent,
+            algeeBargePrecent
+        };
+    });
+    scoresByRound.sort((a, b) => a.roundNumber - b.roundNumber);
 
-    return totalShotsAttempted ? (totalShotsMade / totalShotsAttempted) * 100 : 0;
+    return scoresByRound;
 }
 
-export function ampTeleOpAccuracyMax(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-
-    if (!teamData.length) {return 0;}
-
-    const maxAccuracy = teamData.reduce((acc, entry) => {
-        const scored = entry.tamps || 0;
-        const attempted = (entry.tamps || 0) + (entry.tampm || 0);
-        const accuracy = attempted ? (scored / attempted) * 100 : 0;
-        return Math.max(acc, accuracy);
-    }, 0);
-
-    return maxAccuracy;
-}
+// Endgame
 
 export function endgameClimbDataPerRound(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
@@ -482,10 +448,10 @@ export function endgameClimbDataPerRound(scoutingData, teamNumber) {
             roundNumber,
             No: entry.epo === "No" ? 1 : 0,
             P: entry.epo === "P" ? 1 : 0,
-            Fo: entry.epo === "Fo" ? 1 : 0,
-            Fh: entry.epo === "Fh" ? 1 : 0,
-            Os: entry.epo === "Os" ? 1 : 0,
-            Hm: entry.epo === "Hm" ? 1 : 0,
+            Fo: entry.epo === "Fs" ? 1 : 0,
+            Fh: entry.epo === "Fd" ? 1 : 0,
+            Os: entry.epo === "Sc" ? 1 : 0,
+            Hm: entry.epo === "Dc" ? 1 : 0,
         };
     });
 
@@ -504,19 +470,19 @@ export function endgameClimbPieData(scoutingData, teamNumber) {
     const climbCounts = {
         No: 0,
         P: 0,
-        Fo: 0,
-        Fh: 0,
-        Os: 0,
-        Hm: 0,
+        Fs: 0,
+        Fd: 0,
+        Sc: 0,
+        Dc: 0,
     };
 
     teamData.forEach((entry) => {
         climbCounts.No += entry.epo === "No" ? 1 : 0;
         climbCounts.P += entry.epo === "P" ? 1 : 0;
-        climbCounts.Fo += entry.epo === "Fo" ? 1 : 0;
-        climbCounts.Fh += entry.epo === "Fh" ? 1 : 0;
-        climbCounts.Os += entry.epo === "Os" ? 1 : 0;
-        climbCounts.Hm += entry.epo === "Hm" ? 1 : 0;
+        climbCounts.Fs += entry.epo === "Fs" ? 1 : 0;
+        climbCounts.Fd += entry.epo === "Fd" ? 1 : 0;
+        climbCounts.Sc += entry.epo === "Sc" ? 1 : 0;
+        climbCounts.Dc += entry.epo === "Dc" ? 1 : 0;
     });
 
     return Object.keys(climbCounts).map((climbKey) => ({
@@ -525,205 +491,103 @@ export function endgameClimbPieData(scoutingData, teamNumber) {
     }));
 }
 
-export function endgameTrapPerRound(scoutingData, teamNumber) {
+// Summery
+
+export function generalSummery(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
 
-    if (!teamData.length) {
-        return [];
-    }
+    if (!teamData.length) { return 0; }
 
-    const trapData = teamData.map((entry) => ({
-        roundNumber: entry.matchNumber,
-        trapScore: entry.cn || 0,
-    }));
+    const averageCoralScore = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.L1sc || 0) + (entry.L2sc || 0) + (entry.L3sc || 0) + (entry.L4sc || 0) + (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0);
+        return acc + matchCoralScore;
+    }, 0) / teamData.length;
 
-    trapData.sort((a, b) => a.roundNumber - b.roundNumber);
+    const maxCoralScore = teamData.reduce((acc, entry) => {
+        const matchCoralScore = (entry.L1sc || 0) + (entry.L2sc || 0) + (entry.L3sc || 0) + (entry.L4sc || 0) + (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0);
+        return Math.max(acc, matchCoralScore);
+    }, 0);
 
-    return trapData;
-}
+    const averageCoralPercent = teamData.reduce((acc, entry) => {
+        const numerator = (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0);
+        const denominator = (entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0);
+        const matchCoralPrecent = denominator ? parseFloat(((numerator / denominator) * 100).toFixed(1)) : 0;
+        return acc + matchCoralPrecent;
+    }, 0) / teamData.length;
 
-export function endgameTrapPieData(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
+    const maxCoralPercent = teamData.reduce((acc, entry) => {
+        const matchCoralPrecent = (entry.tL1sc + entry.tL2sc + entry.tL3sc + entry.tL4sc) ? ((((entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0)) / ((entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0))) * 100).toFixed(1) : 0;
+        return Math.max(acc, matchCoralPrecent);
+    }, 0);
 
-    if (!teamData.length) {
-        return [];
-    }
+    const averageAlgeeBarge = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.ScAb || 0) + (entry.tScAb || 0);
+        return acc + matchAlgeeScore;
+    }, 0) / teamData.length;
 
-    const trapCounts = {
-        '0': 0,
-        '1': 0,
-        '2': 0,
-        '3': 0,
+    const maxAlgeeBarge = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.ScAb || 0) + (entry.tScAb || 0);
+        return Math.max(acc, matchAlgeeScore);
+    }, 0);
+
+    const averageAlgeeProcessor = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.ScAp || 0) + (entry.tScAp || 0);
+        return acc + matchAlgeeScore;
+    }, 0) / teamData.length;
+
+    const maxAlgeeProcessor = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.ScAp || 0) + (entry.tScAp || 0);
+        return Math.max(acc, matchAlgeeScore);
+    }, 0);
+
+    const averageAlgeeRemovedFromReef = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.tRmAr || 0) + (entry.tRmAg || 0);
+        return acc + matchAlgeeScore;
+    }, 0) / teamData.length;
+
+    const maxAlgeeRemovedFromReef = teamData.reduce((acc, entry) => {
+        const matchAlgeeScore = (entry.tRmAr || 0) + (entry.tRmAg || 0);
+        return Math.max(acc, matchAlgeeScore);
+    }, 0);
+
+    const endPositionCounts = {
+        No: 0,
+        P: 0,
+        Fs: 0,
+        Fd: 0,
+        Sc: 0,
+        Dc: 0,
     };
 
     teamData.forEach((entry) => {
-        const trapScore = entry.cn || 0; // assuming cn represents the trap score
-        if (trapScore >= 0 && trapScore <= 3) {
-            trapCounts[trapScore] += 1;
-        }
+        endPositionCounts.No += entry.epo === "No" ? 1 : 0;
+        endPositionCounts.P += entry.epo === "P" ? 1 : 0;
+        endPositionCounts.Fs += entry.epo === "Fs" ? 1 : 0;
+        endPositionCounts.Fd += entry.epo === "Fd" ? 1 : 0;
+        endPositionCounts.Sc += entry.epo === "Sc" ? 1 : 0;
+        endPositionCounts.Dc += entry.epo === "Dc" ? 1 : 0;
     });
 
-    return Object.keys(trapCounts).map((trapKey) => ({
-        name: `${trapKey} Note`,
-        value: trapCounts[trapKey],
-    }));
-}
-
-export function speakerAutoAverage(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-  
-    const totalScore = teamData.reduce((acc, entry) => {
-      const matchScore = (entry.ausc || 0); 
-      return acc + matchScore;
-    }, 0);
-  
-    return totalScore / teamData.length;
-}
-
-export function speakerAutoMax(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-  
-    const maxScore = teamData.reduce((acc, entry) => {
-      const matchScore = (entry.ausc || 0); 
-      return Math.max(acc, matchScore);
-    }, 0);
-  
-    return maxScore;
-}
-
-export function feedingAverage(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-  
-    const totalScore = teamData.reduce((acc, entry) => {
-      const matchScore = (entry.tfs || 0); 
-      return acc + matchScore;
-    }, 0);
-  
-    return totalScore / teamData.length;
-}
-
-export function feedingMax(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-  
-    const maxScore = teamData.reduce((acc, entry) => {
-      const matchScore = (entry.tfs || 0); 
-      return Math.max(acc, matchScore);
-    }, 0);
-  
-    return maxScore;
-}
-
-export function foulsAverage(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-  
-    const totalScore = teamData.reduce((acc, entry) => {
-      const matchScore = (entry.Fou || 0); 
-      return acc + matchScore;
-    }, 0);
-  
-    return totalScore / teamData.length;
-}
-
-export function endPositionAverage(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-
-    const positionScores = {
-      "Hm": 5,  // Harmony
-      "Os": 4,  // Onstage
-      "Fh": 3,  // Failed Harmony
-      "Fo": 2,  // Failed Onstage
-      "P": 1,   // Parked
-      "No": 0   // No Climb
-    };
-  
-    const totalScore = teamData.reduce((acc, entry) => {
-      const positionCode = entry.epo || "No"; 
-      return acc + (positionScores[positionCode] || 0); 
-    }, 0);
-  
-    return totalScore / teamData.length;
-}
-
-export function maxEndPositionForMatch(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-  
-    if (!teamData.length) {return 0;}
-
-    const positionScores = {
-        "Hm": 5,  // Harmony
-        "Os": 4,  // Onstage
-        "Fh": 3,  // Failed Harmony
-        "Fo": 2,  // Failed Onstage
-        "P": 1,   // Parked
-        "No": 0   // No Climb
-    };
-  
-    const maxScore = teamData.reduce((acc, entry) => {
-      const positionCode = entry.epo || "No"; 
-      return Math.max(acc, positionScores[positionCode] || 0); 
-    }, 0);
-  
-    return maxScore;
-}
-
-
-export function actualVsExpectedData(scoutingData, teamNumber) {
-    const expectedScoresByPath = {
-        Path1: 3, // Speaker 3 (Source Side)
-        Path2: 2, // Speaker 2 (Middle)
-        Path3: 1, // Speaker 1 (Amp Side)
-        Path4: 5, // Midline 5 (Source Edge)
-        Path5: 4, // Midline 4
-        Path6: 3, // Midline 3 (Middle)
-        Path7: 2, // Midline 2
-        Path8: 1, // Midline 1 (Amp Edge)
-        Path9: 1, // Other
-        Path10: 0, // Didn't Move
-    };
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-
-    if (!teamData.length) { return []; }
-
-    return teamData.map((entry) => {
-        const roundNumber = entry.matchNumber;
-        const actualScore = entry.ausc || 0;  // Autonomous Speaker Score
-
-        // Find the path taken and expected score
-        let pathTaken = Object.keys(expectedScoresByPath).find(path => entry.a_gp_Path === path.slice(4));
-        let expectedScore = expectedScoresByPath[pathTaken] || 0;
-
-        return {
-            roundNumber,
-            actualScore,
-            expectedScore,
-            deviation: actualScore - expectedScore  // Calculate the deviation
-        };
-    });
-}
-
-export function avarageMatchNotes(scoutingData, teamNumber) {
-    const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
-    if (!teamData.length) { return 0; }
-
-    // teleop notes (tsc, tamps) + autonomous notes (ausc)
-
-    const totalNotes = teamData.reduce((acc, entry) => {
-        const teleopNotes = (entry.tsc || 0) + (entry.tamps || 0);
-        const autonomousNotes = entry.ausc || 0;
-        return acc + teleopNotes + autonomousNotes;
+    const maxEndPosition = Object.keys(endPositionCounts).reduce((acc, key) => {
+        return Math.max(acc, endPositionCounts[key] * (key === "Dc" ? 5 : key === "Sc" ? 4 : key === "Fd" ? 3 : key === "Fs" ? 2 : 1));
     }, 0);
 
-    return totalNotes / teamData.length;
+    const averageEndPosition = Object.keys(endPositionCounts).reduce((acc, key) => {
+        return acc + endPositionCounts[key] * (key === "Dc" ? 5 : key === "Sc" ? 4 : key === "Fd" ? 3 : key === "Fs" ? 2 : 1);
+    }, 0) / teamData.length;
+
+    return {
+        averageCoralScore,
+        maxCoralScore,
+        averageCoralPercent,
+        maxCoralPercent,
+        averageAlgeeBarge,
+        maxAlgeeBarge,
+        averageAlgeeProcessor,
+        maxAlgeeProcessor,
+        averageAlgeeRemovedFromReef,
+        maxAlgeeRemovedFromReef,
+        averageEndPosition,
+        maxEndPosition
+    }
 }

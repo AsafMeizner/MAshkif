@@ -67,7 +67,7 @@ const BarGraph = ({ config }) => {
     interactiveLegend: true,
     legendPosition: 'top',
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     showDataLabels: false,
     dataLabelPosition: 'top',
     dataLabelRotation: 0,

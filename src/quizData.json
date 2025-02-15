@@ -287,9 +287,10 @@
                     "choices": {
                         "No": "No Climb",
                         "P": "Park",
-                        "Os": "Shallow Climb",
-                        "Hm": "Deep Climb",
-                        "Fo": "Failed Climb"
+                        "Sc": "Shallow Climb",
+                        "Dc": "Deep Climb",
+                        "Fd": "Failed Deep Climb",
+                        "Fs": "Failed Shallow Climb"
                     },
                     "defaultValue": "No"
                 }
@@ -322,7 +323,7 @@
                     "title": "Notes",
                     "type": "text",
                     "min": 0,
-                    "max": 50,
+                    "max": 500,
                     "required": false,
                     "defaultValue": ""
                 }

@@ -29,42 +29,42 @@ const MultiNumberDisplay = ({ config }) => {
             strokeDasharray: `${percentage} 100`,
           };
 
-          return (
+            return (
             <div key={index} style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
               {title && <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', color: '#ffffff' }}>{title}</h3>}
               <ResponsiveContainer width="100%" height="100%" aspect={2}>
-                <svg viewBox="0 0 36 36" className="circular-chart" style={{ width: '100%', height: '100%' }}>
-                  <path
-                    className="circle-bg"
-                    d="M18 2.0845
-                      a 15.9155 15.9155 0 0 1 0 31.831
-                      a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke="#eee"
-                    strokeWidth="2"
-                  />
-                  <path
-                    className="circle"
-                    d="M18 2.0845
-                      a 15.9155 15.9155 0 0 1 0 31.831
-                      a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke={color}
-                    strokeWidth="2"
-                    strokeDasharray={`${percentage}, 100`}
-                    strokeLinecap="round"
-                    style={circleStyle}
-                  />
-                  <text x="18" y="20.35" className="percentage" textAnchor="middle" fill="#ffffff" fontSize="0.5rem">
-                    {`${value}/${max}`}
-                  </text>
-                </svg>
+              <svg viewBox="0 0 36 36" className="circular-chart" style={{ width: '100%', height: '100%' }}>
+                <path
+                className="circle-bg"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+                fill="none"
+                stroke="#eee"
+                strokeWidth="2"
+                />
+                <path
+                className="circle"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+                fill="none"
+                stroke={color}
+                strokeWidth="2"
+                strokeDasharray={`${(percentage ? percentage.toFixed(2) : 0)}, 100`}
+                strokeLinecap="round"
+                style={circleStyle}
+                />
+                <text x="18" y="20.35" className="percentage" textAnchor="middle" fill="#ffffff" fontSize="0.5rem">
+                {`${(value ? value.toFixed(2) : "NaN")}/${(max ? max : "NaN")}`}
+                </text>
+              </svg>
               </ResponsiveContainer>
               <p style={{ fontSize: '1.5rem', marginTop: '10px', color: '#ffffff' }}>
-                {`${percentage.toFixed(2)}%`}
+              {`${(percentage ? percentage.toFixed(2) : "NaN")}%`}
               </p>
             </div>
-          );
+            );
         })}
       </div>
     </div>

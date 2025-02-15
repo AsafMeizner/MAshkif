@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import BarGraph from '../components/charts/barChart';
+import BarGraph from '../components/charts/barChart'; 
+import NumberDisplay from '../components/charts/numberDisplay';
 import PieGraph from '../components/charts/pieChart';
 import TableChart from '../components/charts/tableChart';
 import MultiNumberDisplay from '../components/charts/MultiNumberDisplay';
 import RadarGraph from '../components/charts/radarChart';
-import './Visualization.css';
+import './Visualization.css'; 
 import * as allTeamsConfigs from '../components/chart-configs/allTeams/configs';
 import * as specificTeamConfigs from '../components/chart-configs/specificTeam/configs';
 import { getScoutingData } from '../components/utils';
@@ -12,7 +13,7 @@ import * as reportConfigs from '../components/chart-configs/report/configs';
 
 const Visualization = () => {
     const [isPortrait, setIsPortrait] = useState(window.matchMedia("(orientation: portrait)").matches);
-    const [activeTab, setActiveTab] = useState('AllTeams');
+    const [activeTab, setActiveTab] = useState('AllTeams'); 
     const [openSections, setOpenSections] = useState(['general', 'autonomous', 'teleop', 'endgame', 'summary']);
     const [teamNumber, setTeamNumber] = useState(5951);
     const [team1Number, setTeam1Number] = useState(5951);
@@ -46,9 +47,9 @@ const Visualization = () => {
     }
 
     const toggleSection = (sectionId) => {
-        setOpenSections(prevState =>
-            prevState.includes(sectionId)
-                ? prevState.filter(id => id !== sectionId)
+        setOpenSections(prevState => 
+            prevState.includes(sectionId) 
+                ? prevState.filter(id => id !== sectionId) 
                 : [...prevState, sectionId]
         );
     };
@@ -58,7 +59,7 @@ const Visualization = () => {
     const teamNumbers = [...new Set(scoutingData.map(entry => entry.teamNumber))];
 
     const handleTeamSelection = (teamNumber) => {
-        setSelectedTeams(prevSelected =>
+        setSelectedTeams(prevSelected => 
             prevSelected.includes(teamNumber)
                 ? prevSelected.filter(num => num !== teamNumber)
                 : [...prevSelected, teamNumber]
@@ -66,14 +67,14 @@ const Visualization = () => {
     };
 
     const selectAllTeams = () => {
-        setSelectedTeams(teamNumbers);
+        setSelectedTeams(teamNumbers); 
     };
 
     const deselectAllTeams = () => {
-        setSelectedTeams([]);
+        setSelectedTeams([]); 
     };
 
-    const filteredScoutingData = scoutingData.filter(entry =>
+    const filteredScoutingData = scoutingData.filter(entry => 
         selectedTeams.length === 0 || selectedTeams.includes(entry.teamNumber)
     );
 
@@ -103,22 +104,7 @@ const Visualization = () => {
             {isSectionOpen('autonomous') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.autoCoralAveragesConfig(filteredScoutingData)} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.autoCoralMaxesConfig(filteredScoutingData)} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.autoAlgeeAveragesConfig(filteredScoutingData)} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.autoAlgeeMaxesConfig(filteredScoutingData)} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.autoCoralScorePercentageConfig(filteredScoutingData)} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.autoLeftStartingLineConfig(filteredScoutingData)} />
+                        {/* <BarGraph config={allTeamsConfigs.averageAutonomousScoreConfig(filteredScoutingData)} /> */}
                     </div>
                 </div>
             )}
@@ -133,22 +119,7 @@ const Visualization = () => {
             {isSectionOpen('teleop') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopCoralAveragesConfig(filteredScoutingData)} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopCoralMaxesConfig(filteredScoutingData)} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopAlgeeAveragesConfig(filteredScoutingData)} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopAlgeeMaxesConfig(filteredScoutingData)} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopCoralScorePercentageConfig(filteredScoutingData)} />
-                    </div>
-                    <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopRemovedAlgeeFromReefConfig(filteredScoutingData)} />
+                        {/* <BarGraph config={allTeamsConfigs.averageTeleopScoreConfig(filteredScoutingData)} /> */}
                     </div>
                 </div>
             )}
@@ -163,7 +134,7 @@ const Visualization = () => {
             {isSectionOpen('endgame') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig(filteredScoutingData)} />
+                        {/* <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig(filteredScoutingData)} /> */}
                     </div>
                 </div>
             )}
@@ -181,15 +152,18 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('general') && (
                 <div className="graph-container">
-                    <div className="graph-item">
+                    {/* <div className="graph-item">
                         <BarGraph config={specificTeamConfigs.matchScoreByRoundConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.averageScoreConfig(scoutingData, teamNumber)} />
+                        <NumberDisplay config={specificTeamConfigs.averageScoreConfig(scoutingData, teamNumber)} />
                     </div>
-                    <div className="wide-graph-item">
+                    <div className="graph-item">
                         <TableChart config={specificTeamConfigs.commentsPerTeamTableConfig(scoutingData, teamNumber)} />
                     </div>
+                    <div className="graph-item">
+                        <PieGraph config={specificTeamConfigs.startPositionUsagePieConfig(scoutingData, teamNumber)} />
+                    </div> */}
                 </div>
             )}
         </div>
@@ -202,18 +176,27 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('autonomous') && (
                 <div className="graph-container">
-                    <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.autonomousScoreByMatchConfig(scoutingData, teamNumber)} />
+                    {/* <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.autonomousSpeakerConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.autonomousSummeryConfig(scoutingData, teamNumber)} />
+                        <NumberDisplay config={specificTeamConfigs.averageAutoSpeakerConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.autonomousCoralPrecentInConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.autoPathPerRoundConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.autonomousLeftStartingLineConfig(scoutingData, teamNumber)} />
+                        <PieGraph config={specificTeamConfigs.autoPathUsagePieConfig(scoutingData, teamNumber)} />
                     </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.actualVsExpectedConfig(scoutingData, teamNumber)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.autoHasMovedConfig(scoutingData, teamNumber)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.autoFoulPerRoundConfig(scoutingData, teamNumber)} />
+                    </div> */}
                 </div>
             )}
         </div>
@@ -226,24 +209,24 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('teleop') && (
                 <div className="graph-container">
-                    <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopCoralByMatchConfig(scoutingData, teamNumber)} />
+                    {/* <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.teleopScoreByRoundConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopAlgeeByMatchConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.teleopScoreByRoundCombinedConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.teleopCoralLevelsSummeryConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.teleopAccuracyPerRoundConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopCoralPrecentInConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.teleopFoulPerMatchConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.teleopSummeryConfig(scoutingData, teamNumber)} />
+                        <MultiNumberDisplay config={specificTeamConfigs.teamTeleopStatsMultiNumberConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={allTeamsConfigs.teleopSummeryConfig(scoutingData, teamNumber)} />
-                    </div>
+                        <MultiNumberDisplay config={allTeamsConfigs.competitionMultiNumberConfig(scoutingData, teamNumber)} />
+                    </div> */}
                 </div>
             )}
         </div>
@@ -256,12 +239,18 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('endgame') && (
                 <div className="graph-container">
-                    <div className="graph-item">
+                    {/* <div className="graph-item">
                         <BarGraph config={specificTeamConfigs.endgameClimbDataPerRoundConfig(scoutingData, teamNumber)} />
                     </div>
                     <div className="graph-item">
                         <PieGraph config={specificTeamConfigs.endgameClimbUsagePieConfig(scoutingData, teamNumber)} />
                     </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.trapPerRoundConfig(scoutingData, teamNumber)} />
+                    </div>
+                    <div className="graph-item">
+                        <PieGraph config={specificTeamConfigs.endgameTrapUsagePieConfig(scoutingData, teamNumber)} />
+                    </div> */}
                 </div>
             )}
         </div>
@@ -275,7 +264,7 @@ const Visualization = () => {
             {isSectionOpen('summary') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <RadarGraph config={specificTeamConfigs.teamPerformanceRadarConfig(scoutingData, teamNumber)} />
+                        {/* <RadarGraph config={specificTeamConfigs.teamPerformanceRadarConfig(scoutingData, teamNumber)} /> */}
                     </div>
                 </div>
             )}
@@ -297,23 +286,23 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('general') && (
                 <div className="graph-container">
-                    <div className="graph-item">
+                    {/* <div className="graph-item">
                         <BarGraph config={specificTeamConfigs.matchScoreByRoundConfig(scoutingData, team1Number)} />
                     </div>
                     <div className="graph-item">
                         <BarGraph config={specificTeamConfigs.matchScoreByRoundConfig(scoutingData, team2Number)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.averageScoreConfig(scoutingData, team1Number)} />
+                        <NumberDisplay config={specificTeamConfigs.averageScoreConfig(scoutingData, team1Number)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.averageScoreConfig(scoutingData, team2Number)} />
-                    </div>
+                        <NumberDisplay config={specificTeamConfigs.averageScoreConfig(scoutingData, team2Number)} />
+                    </div> */}
                 </div>
             )}
         </div>
-    );
-
+    );    
+    
     const comparisonSectionRenderAutonomous = () => (
         <div className="section">
             <h2 className="chart-section-title" onClick={() => toggleSection('autonomous')}>
@@ -321,23 +310,29 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('autonomous') && (
                 <div className="graph-container">
-                    <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.autonomousScoreByMatchConfig(scoutingData, team1Number)} />
+                    {/* <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.autonomousSpeakerConfig(scoutingData, team1Number)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.autonomousScoreByMatchConfig(scoutingData, team2Number)} />
+                        <BarGraph config={specificTeamConfigs.autonomousSpeakerConfig(scoutingData, team2Number)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.autonomousSummeryConfig(scoutingData, team1Number)} />
+                        <PieGraph config={specificTeamConfigs.autoPathUsagePieConfig(scoutingData, team1Number)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.autonomousSummeryConfig(scoutingData, team2Number)} />
+                        <PieGraph config={specificTeamConfigs.autoPathUsagePieConfig(scoutingData, team2Number)} />
                     </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.actualVsExpectedConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.actualVsExpectedConfig(scoutingData, team2Number)} />
+                    </div>   */}
                 </div>
             )}
         </div>
     );
-
+    
     const comparisonSectionRenderTeleop = () => (
         <div className="section">
             <h2 className="chart-section-title" onClick={() => toggleSection('teleop')}>
@@ -345,35 +340,29 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('teleop') && (
                 <div className="graph-container">
-                    <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopCoralByMatchConfig(scoutingData, team1Number)} />
+                    {/* <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.teleopScoreByRoundConfig(scoutingData, team1Number)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopCoralByMatchConfig(scoutingData, team2Number)} />
+                        <BarGraph config={specificTeamConfigs.teleopScoreByRoundConfig(scoutingData, team2Number)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopAlgeeByMatchConfig(scoutingData, team1Number)} />
+                        <BarGraph config={specificTeamConfigs.teleopAccuracyPerRoundConfig(scoutingData, team1Number)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopAlgeeByMatchConfig(scoutingData, team2Number)} />
+                        <BarGraph config={specificTeamConfigs.teleopAccuracyPerRoundConfig(scoutingData, team2Number)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.teleopCoralLevelsSummeryConfig(scoutingData, team1Number)} />
+                        <MultiNumberDisplay config={specificTeamConfigs.teamTeleopStatsMultiNumberConfig(scoutingData, team1Number)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.teleopCoralLevelsSummeryConfig(scoutingData, team2Number)} />
-                    </div>
-                    <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.teleopSummeryConfig(scoutingData, team1Number)} />
-                    </div>
-                    <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.teleopSummeryConfig(scoutingData, team2Number)} />
-                    </div>
+                        <MultiNumberDisplay config={specificTeamConfigs.teamTeleopStatsMultiNumberConfig(scoutingData, team2Number)} />
+                    </div> */}
                 </div>
             )}
         </div>
     );
-
+    
     const comparisonSectionRenderEndgame = () => (
         <div className="section">
             <h2 className="chart-section-title" onClick={() => toggleSection('endgame')}>
@@ -381,12 +370,18 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('endgame') && (
                 <div className="graph-container">
-                    <div className="graph-item">
+                    {/* <div className="graph-item">
                         <PieGraph config={specificTeamConfigs.endgameClimbUsagePieConfig(scoutingData, team1Number)} />
                     </div>
                     <div className="graph-item">
                         <PieGraph config={specificTeamConfigs.endgameClimbUsagePieConfig(scoutingData, team2Number)} />
                     </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.trapPerRoundConfig(scoutingData, team1Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <BarGraph config={specificTeamConfigs.trapPerRoundConfig(scoutingData, team2Number)} />
+                    </div> */}
                 </div>
             )}
         </div>
@@ -399,12 +394,12 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('summary') && (
                 <div className="graph-container">
-                    <div className="graph-item">
-                        <RadarGraph config={specificTeamConfigs.teamsAverageRadarConfig(scoutingData, team1Number, team2Number)} />
+                    {/* <div className="graph-item">
+                        <RadarGraph config={specificTeamConfigs.compareTeamsAverageRadarConfig(scoutingData, team1Number, team2Number)} />
                     </div>
                     <div className="graph-item">
-                        <RadarGraph config={specificTeamConfigs.teamMaxRadarConfig(scoutingData, team1Number, team2Number)} />
-                    </div>
+                        <RadarGraph config={specificTeamConfigs.compareTeamsMaxRadarConfig(scoutingData, team1Number, team2Number)} />
+                    </div> */}
                 </div>
             )}
         </div>
@@ -450,8 +445,8 @@ const Visualization = () => {
                 </div>
             )}
         </div>
-    );
-
+    );    
+    
     const ReportRenderAutonomous = (redAlliance, blueAlliance) => (
         <div className="section">
             <h2 className="chart-section-title" onClick={() => toggleSection('autonomous')}>
@@ -469,7 +464,7 @@ const Visualization = () => {
             )}
         </div>
     );
-
+    
     const ReportRenderTeleop = (redAlliance, blueAlliance) => (
         <div className="section">
             <h2 className="chart-section-title" onClick={() => toggleSection('teleop')}>
@@ -598,7 +593,7 @@ const Visualization = () => {
                         placeholder="Enter team number"
                     />
                 </div>
-
+                
                 {ReportRenderGeneral(redAlliance, blueAlliance)}
                 {ReportRenderAutonomous(redAlliance, blueAlliance)}
                 {ReportRenderTeleop(redAlliance, blueAlliance)}
@@ -618,10 +613,10 @@ const Visualization = () => {
                 <div className="team-selection">
                     {teamNumbers.sort((a, b) => a - b).map(teamNumber => (
                         <label key={teamNumber}>
-                            <input
-                                type="checkbox"
+                            <input 
+                                type="checkbox" 
                                 checked={selectedTeams.includes(teamNumber)}
-                                onChange={() => handleTeamSelection(teamNumber)}
+                                onChange={() => handleTeamSelection(teamNumber)} 
                             />
                             Team {teamNumber}
                         </label>

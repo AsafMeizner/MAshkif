@@ -1,462 +1,65 @@
 import * as specificTeamFunctions from './functions.js';
 import * as allTeamsFunctions from '../allTeams/functions.js';
 
+// General
+
 export const matchScoreByRoundConfig = (scoutingData, teamNumber) => {
     return {
-        data: specificTeamFunctions.matchScoreByRound(scoutingData, teamNumber),  
+        data: specificTeamFunctions.matchScoreByRound(scoutingData, teamNumber),
         title: `Match Scores by Round for Team ${teamNumber}`,
         scoringTypes: [
             {
-                key: 'totalScore',
-                label: 'Total Score',
+                key: 'coralScore',
+                label: 'Coral Score',
                 color: '#c4162a',
-                name: 'Round Score',
+                name: 'Round Coral Score',
             },
+            {
+                key: 'algeeScore',
+                label: 'Algee Score',
+                color: '#1ed760',
+                name: 'Round Algee Score',
+            }
         ],
-        chartSettings: {
-            showGridlines: true,
-            gridlineColor: '#444444',
-        },
-        xKey: 'roundNumber', 
+        xKey: 'roundNumber',
         yKey: 'totalScore',
         xAxisLabel: 'Round Number',
         sortDataBy: 'xKey',
         yAxisLabel: 'Total Score',
-        yAxisMin: 0,
-        yAxisMax: 'auto',
-        showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        interactiveLegend: true,
-        legendPosition: 'top',
-        responsive: true,
-        maintainAspectRatio: true,
+        sortOrder: 'ascending',
+        xAxisLabelRotation: 0,
         showDataLabels: true,
         dataLabelPosition: 'inside',
         dataLabelRotation: 0,
-        sortOrder: 'ascending',
-        xAxisLabelRotation: 0,
-        xAxisSettings: {
-            tickRotation: 0,  
-            tickSize: 5,
-            tickPadding: 10,
-        },
     };
 };
 
 export const averageScoreConfig = (scoutingData, teamNumber) => {
-    const averageScore = specificTeamFunctions.averageScore(scoutingData, teamNumber);
-  
-    return {
-      color: '#c4162a',  
-      title: `Average Score for Team ${teamNumber}`,
-      min: 0, 
-      max: specificTeamFunctions.maxScore(scoutingData, teamNumber), 
-      value: Math.round(averageScore * 100) / 100,  
-    };
-};
+    const averageCoralScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).averageCoralScore;
+    const averageAlgeeScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).averageAlgeeScore;
+    const maxCoralScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).maxCoralScore;
+    const maxAlgeeScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).maxAlgeeScore;
 
-export const autonomousSpeakerConfig = (scoutingData, teamNumber) => { 
     return {
-        data: specificTeamFunctions.autonomousSpeakerPerMatch(scoutingData, teamNumber),  
-        title: `Autonomous Speaker by Round for Team ${teamNumber}`,
-        scoringTypes: [
+        mainTitle: `Tele-Op Stats for Team ${teamNumber}`,
+        values: [
             {
-                key: 'autonomousScore', 
-                label: 'Autonomous Speaker',
-                color: '#73bf69',
-                name: 'Round Score',
+                color: '#c4162a',
+                title: 'Average / Max Coral Score',
+                min: 0,
+                max: maxCoralScore,
+                value: averageCoralScore,
+            },
+            {
+                color: '#1ed760',
+                title: 'Average / Max Algee Score',
+                min: 0,
+                max: maxAlgeeScore,
+                value: averageAlgeeScore,
             },
         ],
-        chartSettings: {
-            showGridlines: true,
-            gridlineColor: '#444444',
-        },
-        xKey: 'roundNumber', 
-        yKey: 'autonomousScore',  
-        xAxisLabel: 'Round Number',
-        sortDataBy: 'xKey',
-        yAxisLabel: 'Autonomous Speaker',
-        yAxisMin: 0,
-        yAxisMax: 'auto',
-        showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        interactiveLegend: true,
-        legendPosition: 'top',
-        responsive: true,
-        maintainAspectRatio: true,
-        showDataLabels: true,
-        dataLabelPosition: 'inside',
-        dataLabelRotation: 0,
-        xAxisLabelRotation: 0,
-        sortOrder: 'ascending',
-        xAxisSettings: {
-            tickRotation: 0,  
-            tickSize: 5,
-            tickPadding: 10,
-        },
     };
 };
-
-export const averageAutoSpeakerConfig = (scoutingData, teamNumber) => {
-    const averageAutoSpeaker = specificTeamFunctions.averageAutoSpeaker(scoutingData, teamNumber);
-  
-    return {
-      color: '#73bf69',  
-      title: `Average Autonomous Speaker for Team ${teamNumber}`,
-      min: 0, 
-      max: specificTeamFunctions.maxAutoSpeaker(scoutingData, teamNumber), 
-      value: Math.round(averageAutoSpeaker * 100) / 100,  
-    };
-};
-
-export const autoHasMovedConfig = (scoutingData, teamNumber) => {
-    return {
-        data: specificTeamFunctions.autoHasMovedPerRound(scoutingData, teamNumber),  
-        title: `Auto Has Moved by Round for Team ${teamNumber}`,
-        scoringTypes: [
-            {
-                key: 'hasMoved',  
-                label: 'Auto Has Moved',
-                color: '#82b5d8',
-                name: 'Round Score',
-            },
-        ],
-        chartSettings: {
-            showGridlines: true,
-            gridlineColor: '#444444',
-        },
-        xKey: 'roundNumber', 
-        yKey: 'hasMoved',  
-        xAxisLabel: 'Round Number',
-        sortDataBy: 'xKey',
-        yAxisLabel: 'Auto Has Moved',
-        yAxisMin: 0,
-        yAxisMax: 1,
-        showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        interactiveLegend: true,
-        legendPosition: 'top',
-        responsive: true,
-        maintainAspectRatio: true,
-        showDataLabels: true,
-        dataLabelPosition: 'inside',
-        dataLabelRotation: 0,
-        sortOrder: 'ascending',
-        xAxisLabelRotation: 0,
-        xAxisSettings: {
-            tickRotation: 0,  
-            tickSize: 5,
-            tickPadding: 10,
-        },
-    };
-}
-
-export const autoFoulPerRoundConfig = (scoutingData, teamNumber) => {
-    return {
-        data: specificTeamFunctions.autonomousFoulPerMatch(scoutingData, teamNumber),
-        title: `Auto Fouls by Round for Team ${teamNumber}`,
-        scoringTypes: [
-            {
-                key: 'autonomousScore',
-                label: 'Auto Fouls',
-                color: '#ff4444',
-                name: 'Round Score',
-            },
-        ],
-        chartSettings: {
-            showGridlines: true,
-            gridlineColor: '#444444',
-        },
-        xKey: 'roundNumber',
-        yKey: 'autonomousScore', 
-        xAxisLabel: 'Round Number',
-        sortDataBy: 'xKey',
-        yAxisLabel: 'Auto Fouls',
-        yAxisMin: 0,
-        yAxisMax: 'auto', 
-        showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        interactiveLegend: true,
-        legendPosition: 'top',
-        responsive: true,
-        maintainAspectRatio: true,
-        showDataLabels: true,
-        dataLabelPosition: 'inside',
-        dataLabelRotation: 0,
-        sortOrder: 'ascending',
-        xAxisLabelRotation: 0,
-        xAxisSettings: {
-            tickRotation: 0,
-            tickSize: 5,
-            tickPadding: 10,
-        },
-    };
-};
-
-export const autoPathPerRoundConfig = (scoutingData, teamNumber) => ({
-    data: specificTeamFunctions.autoPathStackedData(scoutingData, teamNumber),
-    title: `Autonomous Path by Round for Team ${teamNumber}`,
-    scoringTypes: [
-        {
-            key: 'Path1',
-            label: 'Path 1',
-            color: '#8884d8',
-            stacked: true,
-            name: 'Speaker 3 (Source Side)',  // Provide descriptive name if needed
-        },
-        {
-            key: 'Path2',
-            label: 'Path 2',
-            color: '#82ca9d',
-            stacked: true,
-            name: 'Speaker 2 (Middle)',
-        },
-        {
-            key: 'Path3',
-            label: 'Path 3',
-            color: '#ff4444',
-            stacked: true,
-            name: 'Speaker 1 (Amp Side)',
-        },
-        {
-            key: 'Path4',
-            label: 'Path 4',
-            color: '#ffc658',
-            stacked: true,
-            name: 'Midline 5 (Source Edge)',
-        },
-        {
-            key: 'Path5',
-            label: 'Path 5',
-            color: '#ff8042',
-            stacked: true,
-            name: 'Midline 4',
-        },
-        {
-            key: 'Path6',
-            label: 'Path 6',
-            color: '#73bf69',
-            stacked: true,
-            name: 'Midline 3 (Middle)',
-        },
-        {
-            key: 'Path7',
-            label: 'Path 7',
-            color: '#a4de6c',
-            stacked: true,
-            name: 'Midline 2',
-        },
-        {
-            key: 'Path8',
-            label: 'Path 8',
-            color: '#d0ed57',
-            stacked: true,
-            name: 'Midline 1 (Amp Edge)',
-        },
-        {
-            key: 'Path9',
-            label: 'Path 9',
-            color: '#82b5d8',
-            stacked: true,
-            name: 'Other',
-        },
-        {
-            key: 'Path10',
-            label: 'Path 10',
-            color: '#c4162a',
-            stacked: true,
-            name: "Didn't Move",
-        }
-    ],
-    chartSettings: {
-        showGridlines: true,
-        gridlineColor: '#444444',
-    },
-    xKey: 'roundNumber',
-    yAxisLabel: 'Autonomous Path Taken',
-    yAxisMin: 0,
-    yAxisMax: 1,  
-    xAxisLabel: 'Round Number',
-    xAxisLabelRotation: 0,
-    showTooltip: true,
-    tooltipSettings: {
-        backgroundColor: '#333333',
-        borderRadius: '8px',
-        fontSize: '0.875rem',
-        cursorColor: 'rgba(255, 255, 255, 0.1)',
-    },
-    showLegend: true,
-    interactiveLegend: true,
-    legendPosition: 'top',
-    responsive: true,
-    maintainAspectRatio: true,
-    showDataLabels: false,
-    sortOrder: 'ascending',
-});
-
-export const actualVsExpectedConfig = (scoutingData, teamNumber) => ({
-    data: specificTeamFunctions.actualVsExpectedData(scoutingData, teamNumber),
-    title: `Actual vs. Expected Autonomous Scores for Team ${teamNumber}`,
-    scoringTypes: [
-        {
-            key: 'actualScore',
-            label: 'Actual Score',
-            color: '#73bf69',
-            name: 'Actual Score',
-        },
-        {
-            key: 'expectedScore',
-            label: 'Expected Score',
-            color: '#ff8042',
-            name: 'Expected Score',
-        },
-        {
-            key: 'deviation',
-            label: 'Deviation',
-            color: '#ff4444',
-            name: 'Score Deviation',
-        },
-    ],
-    chartSettings: {
-        showGridlines: true,
-        gridlineColor: '#444444',
-    },
-    xKey: 'roundNumber',
-    yAxisLabel: 'Score',
-    yAxisMin: 'auto',
-    yAxisMax: 'auto',  
-    xAxisLabel: 'Round Number',
-    xAxisLabelRotation: 0,
-    showTooltip: true,
-    tooltipSettings: {
-        backgroundColor: '#333333',
-        borderRadius: '8px',
-        fontSize: '0.875rem',
-        cursorColor: 'rgba(255, 255, 255, 0.1)',
-    },
-    showLegend: true,
-    interactiveLegend: true,
-    legendPosition: 'top',
-    responsive: true,
-    maintainAspectRatio: true,
-    showDataLabels: true,
-    dataLabelPosition: 'inside',
-    dataLabelRotation: 0,
-    sortOrder: 'ascending',
-});
-
-export const autoPathUsagePieConfig = (scoutingData, teamNumber) => ({
-    data: specificTeamFunctions.autoPathPieData(scoutingData, teamNumber),
-    title: `Autonomous Path Usage Percentages for Team ${teamNumber}`,
-    scoringTypes: [
-        {
-            key: 'Path1',
-            label: 'Path 1',
-            color: '#8884d8',
-            name: 'Speaker 3 (Source Side)',
-        },
-        {
-            key: 'Path2',
-            label: 'Path 2',
-            color: '#82ca9d',
-            name: 'Speaker 2 (Middle)',
-        },
-        {
-            key: 'Path3',
-            label: 'Path 3',
-            color: '#ff4444',
-            name: 'Speaker 1 (Amp Side)',
-        },
-        {
-            key: 'Path4',
-            label: 'Path 4',
-            color: '#ffc658',
-            name: 'Midline 5 (Source Edge)',
-        },
-        {
-            key: 'Path5',
-            label: 'Path 5',
-            color: '#ff8042',
-            name: 'Midline 4',
-        },
-        {
-            key: 'Path6',
-            label: 'Path 6',
-            color: '#73bf69',
-            name: 'Midline 3 (Middle)',
-        },
-        {
-            key: 'Path7',
-            label: 'Path 7',
-            color: '#a4de6c',
-            name: 'Midline 2',
-        },
-        {
-            key: 'Path8',
-            label: 'Path 8',
-            color: '#d0ed57',
-            name: 'Midline 1 (Amp Edge)',
-        },
-        {
-            key: 'Path9',
-            label: 'Path 9',
-            color: '#82b5d8',
-            name: 'Other',
-        },
-        {
-            key: 'Path10',
-            label: 'Path 10',
-            color: '#c4162a',
-            name: "Didn't Move",
-        }
-    ],
-    chartSettings: {
-        showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            textColor: '#ffffff',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        legendPosition: 'top',
-        legendLayout: 'horizontal', 
-        maintainAspectRatio: true,
-        colors: [
-            '#8884d8', '#82ca9d', '#ff4444', '#ffc658', 
-            '#ff8042', '#73bf69', '#a4de6c', '#d0ed57',
-            '#82b5d8', '#c4162a'
-        ],
-        showLabels: true,
-        labelPosition: 'outside',
-    },
-    responsive: true,
-});
 
 export const commentsPerTeamTableConfig = (scoutingData, teamNumber) => {
     return {
@@ -513,314 +116,361 @@ export const commentsPerTeamTableConfig = (scoutingData, teamNumber) => {
     };
 };
 
-export const startPositionUsagePieConfig = (scoutingData, teamNumber) => ({
-    data: specificTeamFunctions.startPositionPieData(scoutingData, teamNumber),
-    title: `Starting Position Usage Percentages for Team ${teamNumber}`,
-    scoringTypes: [
-        {
-            key: 'Source',
-            label: 'Source',
-            color: '#8884d8',
-            name: 'Source',
-        },
-        {
-            key: 'Middle',
-            label: 'Middle',
-            color: '#82ca9d',
-            name: 'Middle',
-        },
-        {
-            key: 'Amp',
-            label: 'Amp',
-            color: '#ff4444',
-            name: 'Amp',
-        },
-    ],
-    chartSettings: {
-        showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            textColor: '#ffffff',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        legendPosition: 'top',
-        legendLayout: 'horizontal', 
-        maintainAspectRatio: true,
-        colors: [
-            '#8884d8', '#82ca9d', '#ff4444'
-        ],
-        showLabels: true,
-        labelPosition: 'outside',
-    },
-    responsive: true,
-});
+// Autonomous
 
-
-export const teleopScoreByRoundConfig = (scoutingData, teamNumber) => {
+export const autonomousScoreByMatchConfig = (scoutingData, teamNumber) => {
     return {
-        data: specificTeamFunctions.teleopNotesByRoundSeperated(scoutingData, teamNumber),
-        title: `Teleop Score by Round for Team ${teamNumber}`,
+        data: specificTeamFunctions.autonomousAverageByMatch(scoutingData, teamNumber),
+        title: `Autonomous Average by Match for Team ${teamNumber}`,
         scoringTypes: [
             {
-                key: 'teleopSpeaker',
-                label: 'Teleop Speaker',
-                color: '#f2cc0c',
-                name: 'Tele-Op Speaker',
-            },
-            {
-                key: 'teleopAmps',
-                label: 'Teleop Amps',
-                color: '#73bf69',
-                name: 'Tele-Op Amp',
-            },
-            {
-                key: 'teleopFeeder',
-                label: 'Teleop Feeder',
-                color: '#82b5d8',
-                name: 'Tele-Op Feeding',
-            }
-        ],
-        chartSettings: {
-            showGridlines: true,
-            gridlineColor: '#444444',
-        },
-        xKey: 'roundNumber',
-        yKey: 'teleopScore',
-        xAxisLabel: 'Round Number',
-        sortDataBy: 'xKey',
-        yAxisLabel: 'Teleop Score',
-        yAxisMin: 0,
-        yAxisMax: 'auto',
-        showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        interactiveLegend: true,
-        legendPosition: 'top',
-        responsive: true,
-        maintainAspectRatio: true,
-        showDataLabels: true,
-        dataLabelPosition: 'inside',
-        dataLabelRotation: 0,
-        sortOrder: 'ascending',
-        xAxisLabelRotation: 0,
-        xAxisSettings: {
-            tickRotation: 0,
-            tickSize: 5,
-            tickPadding: 10,
-        },
-    };
-};
-
-export const teleopScoreByRoundCombinedConfig = (scoutingData, teamNumber) => {
-    return {
-        data: specificTeamFunctions.teleopScoreByRound(scoutingData, teamNumber),
-        title: `Teleop Cycles by Round for Team ${teamNumber}`,
-        scoringTypes: [
-            {
-                key: 'teleopScore',
-                label: 'Teleop Score',
-                color: '#ea6460',
-                name: 'Tele-Op Cycles',
+                key: 'l1Score',
+                label: 'Coral Score',
+                color: '#91101f',
+                name: 'L1 Score',
                 stacked: true,
             },
             {
-                key: 'teleopFeeder',
-                label: 'Teleop Feeder',
-                color: '#82b5d8',
-                name: 'Tele-Op Feeding',
+                key: 'l2Score',
+                label: 'Algee Score',
+                color: '#c4162a',
+                name: 'L2 Score',
                 stacked: true,
+            },
+            {
+                key: 'l3Score',
+                label: 'Coral Score',
+                color: '#e67e22',
+                name: 'L3 Score',
+                stacked: true,
+            },
+            {
+                key: 'l4Score',
+                label: 'Algee Score',
+                color: '#f4c20d',
+                name: 'L4 Score',
+                stacked: true,
+            },
+            {
+                key: 'algeeScore',
+                label: 'Algee Score',
+                color: '#1ed760',
+                name: 'Algee Score',
+                stacked: false,
             }
         ],
-        chartSettings: {
-            showGridlines: true,
-            gridlineColor: '#444444',
-        },
-        xKey: 'roundNumber',
-        yKey: 'teleopScore',
-        xAxisLabel: 'Round Number',
+        xKey: 'matchNumber',
+        yKey: 'totalScore',
+        xAxisLabel: 'Match Number',
         sortDataBy: 'xKey',
-        yAxisLabel: 'Tele-Op Cycles',
-        yAxisMin: 0,
-        yAxisMax: 'auto',
-        showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        interactiveLegend: true,
-        legendPosition: 'top',
-        responsive: true,
-        maintainAspectRatio: true,
+        yAxisLabel: 'Total Score',
+        sortOrder: 'ascending',
+        xAxisLabelRotation: 0,
         showDataLabels: true,
         dataLabelPosition: 'inside',
         dataLabelRotation: 0,
-        sortOrder: 'ascending',
-        xAxisLabelRotation: 0,
-        xAxisSettings: {
-            tickRotation: 0,
-            tickSize: 5,
-            tickPadding: 10,
-        },
     };
 }
 
-export const teleopFoulPerMatchConfig = (scoutingData, teamNumber) => {
-    return {
-        data: specificTeamFunctions.teleopFoulPerMatch(scoutingData, teamNumber),
-        title: `Teleop Fouls by Round for Team ${teamNumber}`,
-        scoringTypes: [
-            {
-                key: 'teleopScore',
-                label: 'Teleop Fouls',
-                color: '#ff4444',
-                name: 'Tele-Op Fouls',
-            },
-        ],
-        chartSettings: {
-            showGridlines: true,
-            gridlineColor: '#444444',
-        },
-        xKey: 'roundNumber',
-        yKey: 'teleopScore',
-        xAxisLabel: 'Round Number',
-        sortDataBy: 'xKey',
-        yAxisLabel: 'Teleop Fouls',
-        yAxisMin: 0,
-        yAxisMax: 'auto',
-        showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        interactiveLegend: true,
-        legendPosition: 'top',
-        responsive: true,
-        maintainAspectRatio: true,
-        showDataLabels: true,
-        dataLabelPosition: 'inside',
-        dataLabelRotation: 0,
-        sortOrder: 'ascending',
-        xAxisLabelRotation: 0,
-        xAxisSettings: {
-            tickRotation: 0,
-            tickSize: 5,
-            tickPadding: 10,
-        },
-    };
-}
-
-export const teleopAccuracyPerRoundConfig = (scoutingData, teamNumber) => {
-    return {
-        data: specificTeamFunctions.teleopAccuracyPerRound(scoutingData, teamNumber),
-        title: `Teleop Accuracy by Round for Team ${teamNumber}`,
-        scoringTypes: [
-            {
-                key: 'teleopSpeakerAccuracy',
-                label: 'Teleop Speaker Accuracy (%)',
-                color: '#f2cc0c',
-                name: 'Tele-Op Speaker Accuracy',
-            },
-            {
-                key: 'teleopAmpAccuracy',
-                label: 'Teleop Amp Accuracy (%)',
-                color: '#73bf69',
-                name: 'Tele-Op Amp Accuracy',
-            },
-        ],
-        chartSettings: {
-            showGridlines: true,
-            gridlineColor: '#444444',
-        },
-        xKey: 'roundNumber',
-        yKey: 'teleopAccuracy',  
-        xAxisLabel: 'Round Number',
-        yAxisLabel: 'Accuracy (%)',
-        yAxisMin: 0,
-        yAxisMax: 100,  
-        showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        interactiveLegend: true,
-        legendPosition: 'top',
-        responsive: true,
-        maintainAspectRatio: true,
-        showDataLabels: true,
-        dataLabelPosition: 'inside',
-        dataLabelRotation: 0,
-        sortOrder: 'ascending',
-        xAxisLabelRotation: 0,
-        xAxisSettings: {
-            tickRotation: 0,
-            tickSize: 5,
-            tickPadding: 10,
-        },
-    };
-};
-
-export const teamTeleopStatsMultiNumberConfig = (scoutingData, teamNumber) => {
-    const ampTeleOpAverage = specificTeamFunctions.ampTeleOpAverage(scoutingData, teamNumber);
-    const speakerTeleOpAverage = specificTeamFunctions.speakerTeleOpAverage(scoutingData, teamNumber);
-    const ampTeleOpMax = specificTeamFunctions.ampTeleOpMax(scoutingData, teamNumber);
-    const speakerTeleOpMax = specificTeamFunctions.speakerTeleOpMax(scoutingData, teamNumber);
-
-    const speakerAccuracyAvarage = specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, teamNumber);
-    const ampAccuracyAvarage = specificTeamFunctions.ampTeleOpAccuracyAverage(scoutingData, teamNumber);
-    const speakerAccuracyMax = specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, teamNumber);
-    const ampAccuracyMax = specificTeamFunctions.ampTeleOpAccuracyMax(scoutingData, teamNumber);
+export const autonomousSummeryConfig = (scoutingData, teamNumber) => {
+    const averageCoralScore = specificTeamFunctions.autonomousSummery(scoutingData, teamNumber).averageCoralScore;
+    const averageAlgeeScore = specificTeamFunctions.autonomousSummery(scoutingData, teamNumber).averageAlgeeScore;
+    const maxCoralScore = specificTeamFunctions.autonomousSummery(scoutingData, teamNumber).maxCoralScore;
+    const maxAlgeeScore = specificTeamFunctions.autonomousSummery(scoutingData, teamNumber).maxAlgeeScore;
 
     return {
-        mainTitle: `Tele-Op Stats for Team ${teamNumber}`, 
+        mainTitle: `Autonomous Stats for Team ${teamNumber}`,
         values: [
             {
-                color: '#73bf69',
-                title: 'Average TeleOp Speaker / Max',
+                color: '#c4162a',
+                title: 'Average / Max Coral Score',
                 min: 0,
-                max: Math.round(speakerTeleOpMax * 100) / 100,
-                value: Math.round(speakerTeleOpAverage * 100) / 100,
+                max: maxCoralScore,
+                value: averageCoralScore,
             },
             {
-                color: '#ffab40',
-                title: 'Average TeleOp Amp / Max',
+                color: '#1ed760',
+                title: 'Average / Max Algee Score',
                 min: 0,
-                max: Math.round(ampTeleOpMax * 100) / 100,
-                value: Math.round(ampTeleOpAverage * 100) / 100,
+                max: maxAlgeeScore,
+                value: averageAlgeeScore,
+            },
+        ],
+    };
+}
+
+export const autonomousCoralPrecentInConfig = (scoutingData, teamNumber) => {
+    return {
+        data: specificTeamFunctions.autonomousCoralPrecentIn(scoutingData, teamNumber),
+        title: `Autonomous Coral Precent In for Team ${teamNumber}`,
+        scoringTypes: [
+            {
+                key: 'coralL1Precent',
+                label: 'Coral Level 1',
+                color: '#c4162a',
+                name: 'Coral Level 1 Precent',
             },
             {
-                color: '#40c4ff',
-                title: 'Average Speaker Accurecy / Max',
+                key: 'coralL2Precent',
+                label: 'Coral Level 2',
+                color: '#e67e22',
+                name: 'Coral Level 2 Precent',
+            },
+            {
+                key: 'coralL3Precent',
+                label: 'Coral Level 3',
+                color: '#f4c20d',
+                name: 'Coral Level 3 Precent',
+            },
+            {
+                key: 'coralL4Precent',
+                label: 'Coral Level 4',
+                color: '#1ed760',
+                name: 'Coral Level 4 Precent',
+            }
+        ],
+        xKey: 'roundNumber',
+        yKey: 'coralL1Precent',
+        xAxisLabel: 'Round Number',
+        sortDataBy: 'xKey',
+        yAxisLabel: 'Precent In',
+        sortOrder: 'ascending',
+        xAxisLabelRotation: 0,
+        yAxisMax: 100,
+    };
+}
+
+export const autonomousLeftStartingLineConfig = (scoutingData, teamNumber) => {
+    return {
+        data: specificTeamFunctions.autonomousLeftStartingLine(scoutingData, teamNumber),
+        title: `Autonomous Left Starting Line for Team ${teamNumber}`,
+        scoringTypes: [
+            {
+                key: 'leftStartingLine',
+                label: 'Left Starting Line',
+                color: '#c4162a',
+                name: 'Left Starting Line',
+            }
+        ],
+        xKey: 'roundNumber',
+        yKey: 'leftStartingLine',
+        xAxisLabel: 'Round Number',
+        sortDataBy: 'xKey',
+        yAxisLabel: 'Left Starting Line',
+        sortOrder: 'ascending',
+        xAxisLabelRotation: 0,
+        yAxisMax: 1,
+    };
+}
+// Teleop
+
+export const teleopCoralByMatchConfig = (scoutingData, teamNumber) => {
+    return {
+        data: specificTeamFunctions.teleopAverageByMatch(scoutingData, teamNumber),
+        title: `Teleop Coral by Match for Team ${teamNumber}`,
+        scoringTypes: [
+            {
+                key: 'l1Score',
+                label: 'Coral Score',
+                color: '#91101f',
+                name: 'L1 Score',
+                stacked: true,
+            },
+            {
+                key: 'l2Score',
+                label: 'Algee Score',
+                color: '#c4162a',
+                name: 'L2 Score',
+                stacked: true,
+            },
+            {
+                key: 'l3Score',
+                label: 'Coral Score',
+                color: '#e67e22',
+                name: 'L3 Score',
+                stacked: true,
+            },
+            {
+                key: 'l4Score',
+                label: 'Algee Score',
+                color: '#f4c20d',
+                name: 'L4 Score',
+                stacked: true,
+            }
+        ],
+        xKey: 'matchNumber',
+        yKey: 'totalScore',
+        xAxisLabel: 'Match Number',
+        sortDataBy: 'xKey',
+        yAxisLabel: 'Total Score',
+        sortOrder: 'ascending',
+        xAxisLabelRotation: 0,
+        showDataLabels: true,
+        dataLabelPosition: 'inside',
+        dataLabelRotation: 0,
+    };
+}
+
+export const teleopAlgeeByMatchConfig = (scoutingData, teamNumber) => {
+    return {
+        data: specificTeamFunctions.teleopAverageByMatch(scoutingData, teamNumber),
+        title: `Teleop Algee by Match for Team ${teamNumber}`,
+        scoringTypes: [
+            {
+                key: 'algeeBargeScore',
+                label: 'Algee Barge Score',
+                color: '#1ed760',
+                name: 'Algee Barge Score',
+                stacked: true,
+            },
+            {
+                key: 'algeeProcessorScore',
+                label: 'Algee Processor Score',
+                color: '#0f6f32',
+                name: 'Algee Processor Score',
+                stacked: true,
+            }
+        ],
+        xKey: 'matchNumber',
+        yKey: 'totalScore',
+        xAxisLabel: 'Match Number',
+        sortDataBy: 'xKey',
+        yAxisLabel: 'Total Score',
+        sortOrder: 'ascending',
+        xAxisLabelRotation: 0,
+        showDataLabels: true,
+        dataLabelPosition: 'inside',
+        dataLabelRotation: 0,
+    };
+}
+
+export const teleopCoralPrecentInConfig = (scoutingData, teamNumber) => {
+    return {
+        data: specificTeamFunctions.teleopPercentagesByMatch(scoutingData, teamNumber),
+        title: `Teleop Coral Percent In for Team ${teamNumber}`,
+        scoringTypes: [
+            {
+                key: 'overallPrecent',
+                label: 'Coral Percent',
+                color: '#c4162a',
+                name: 'Coral Percent',
+                stacked: false,
+            },
+            {
+                key: 'algeeBargePrecent',
+                label: 'Algee Barge Percent',
+                color: '#1ed760',
+                name: 'Algee Barge Percent',
+                stacked: false,
+            }
+        ],
+        xKey: 'roundNumber',
+        yKey: 'coralL1Precent',
+        xAxisLabel: 'Round Number',
+        sortDataBy: 'xKey',
+        yAxisLabel: 'Precent In',
+        sortOrder: 'ascending',
+        xAxisLabelRotation: 0,
+        yAxisMax: 100,
+        showDataLabels: true,
+        dataLabelPosition: 'top',
+        dataLabelRotation: 0,
+    };
+}
+
+export const teleopSummeryConfig = (scoutingData, teamNumber) => {
+    const averageCoralScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageCoralScore;
+    const averageAlgeeScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageAlgeeScore;
+    const maxCoralScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxCoralScore;
+    const maxAlgeeScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxAlgeeScore;
+
+    const averageAlgeeRemovedFromReef = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageAlgeeRemovedFromReef;
+    const maxAlgeeRemovedFromReef = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxAlgeeRemovedFromReef;
+    const averageCoralPrecent = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageCoralPrecent;
+    const maxCoralPrecent = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxCoralPrecent;
+
+    return {
+        mainTitle: `Teleop Stats for Team ${teamNumber}`,
+        values: [
+            {
+                color: '#c4162a',
+                title: 'Average / Max Coral Score',
                 min: 0,
-                max: Math.round(speakerAccuracyMax * 100) / 100,
-                value: Math.round(speakerAccuracyAvarage * 100) / 100,
+                max: maxCoralScore,
+                value: averageCoralScore,
+            },
+            {
+                color: '#6e93cc',
+                title: 'Average / Max Coral Percent In',
+                min: 0,
+                max: maxCoralPrecent,
+                value: averageCoralPrecent,
+            },
+            {
+                color: '#1ed760',
+                title: 'Average / Max Algee Score',
+                min: 0,
+                max: maxAlgeeScore,
+                value: averageAlgeeScore,
+            },
+            {
+                color: '#9c1ee9',
+                title: 'Average / Max Algee Removed From Reef',
+                min: 0,
+                max: maxAlgeeRemovedFromReef,
+                value: averageAlgeeRemovedFromReef,
+            }
+        ],
+    };
+}
+
+export const teleopCoralLevelsSummeryConfig = (scoutingData, teamNumber) => {
+    const averageCoralL1Score = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).averageL1Score;
+    const averageCoralL2Score = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).averageL2Score;
+    const averageCoralL3Score = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).averageL3Score;
+    const averageCoralL4Score = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).averageL4Score;
+
+    const maxCoralL1Score = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).maxL1Score;
+    const maxCoralL2Score = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).maxL2Score;
+    const maxCoralL3Score = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).maxL3Score;
+    const maxCoralL4Score = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).maxL4Score;
+
+    return {
+        mainTitle: `Teleop Coral Levels Stats for Team ${teamNumber}`,
+        values: [
+            {
+                color: '#91101f',
+                title: 'Average / Max Coral L1 Score',
+                min: 0,
+                max: maxCoralL1Score,
+                value: averageCoralL1Score,
             },
             {
                 color: '#c4162a',
-                title: 'Average Amp Accurecy / Max',
+                title: 'Average / Max Coral L2 Score',
                 min: 0,
-                max: Math.round(ampAccuracyMax * 100) / 100,
-                value: Math.round(ampAccuracyAvarage * 100) / 100,
+                max: maxCoralL2Score,
+                value: averageCoralL2Score,
             },
+            {
+                color: '#e67e22',
+                title: 'Average / Max Coral L3 Score',
+                min: 0,
+                max: maxCoralL3Score,
+                value: averageCoralL3Score,
+            },
+            {
+                color: '#f4c20d',
+                title: 'Average / Max Coral L4 Score',
+                min: 0,
+                max: maxCoralL4Score,
+                value: averageCoralL4Score,
+            }
         ],
     };
-};
+}
+
+// Endgame
 
 export const endgameClimbDataPerRoundConfig = (scoutingData, teamNumber) => ({
     data: specificTeamFunctions.endgameClimbDataPerRound(scoutingData, teamNumber),
@@ -841,57 +491,40 @@ export const endgameClimbDataPerRoundConfig = (scoutingData, teamNumber) => ({
             name: 'Parked',
         },
         {
-            key: 'Fo',
-            label: 'Failed Climb',
+            key: 'Fs',
+            label: 'Failed Shallow Climb',
             color: '#01a2f0',
             stacked: true,
-            name: 'Failed Climb', 
+            name: 'Failed Shallow Climb',
         },
         {
-            key: 'Fh',
-            label: 'Failed Harmony',
+            key: 'Fd',
+            label: 'Failed Deep Harmony',
             color: '#ff4444',
             stacked: true,
-            name: 'Failed Harmony',
+            name: 'Failed Deep Harmony',
         },
         {
-            key: 'Os',
-            label: 'Onstage',
+            key: 'Sc',
+            label: 'Shallow Climb',
             color: '#ffc658',
             stacked: true,
-            name: 'Onstage',
+            name: 'Shallow Climb',
         },
         {
-            key: 'Hm',
-            label: 'Harmony',
+            key: 'Dc',
+            label: 'Deep Climb',
             color: '#ff8042',
             stacked: true,
-            name: 'Harmony',
+            name: 'Deep Climb',
         },
     ],
-    chartSettings: {
-        showGridlines: true,
-        gridlineColor: '#444444',
-    },
     xKey: 'roundNumber',
     yAxisLabel: 'Climb Status',
     yAxisMin: 0,
     yAxisMax: 1,
     xAxisLabelRotation: 0,
     xAxisLabel: 'Round Number',
-    showTooltip: true,
-    tooltipSettings: {
-        backgroundColor: '#333333',
-        borderRadius: '8px',
-        fontSize: '0.875rem',
-        cursorColor: 'rgba(255, 255, 255, 0.1)',
-    },
-    showLegend: true,
-    interactiveLegend: true,
-    legendPosition: 'top',
-    responsive: true,
-    maintainAspectRatio: true,
-    showDataLabels: false,
     sortOrder: 'ascending',
 });
 
@@ -912,210 +545,109 @@ export const endgameClimbUsagePieConfig = (scoutingData, teamNumber) => ({
             name: 'Parked',
         },
         {
-            key: 'Fo',
-            label: 'Failed Climb',
+            key: 'Fs',
+            label: 'Failed Shallow Climb',
             color: '#01a2f0',
-            name: 'Failed Climb', 
+            name: 'Failed Shallow Climb',
         },
         {
-            key: 'Fh',
-            label: 'Failed Harmony',
+            key: 'Fd',
+            label: 'Failed Deep Harmony',
             color: '#ff4444',
-            name: 'Failed Harmony',
+            name: 'Failed Deep Harmony',
         },
         {
-            key: 'Os',
-            label: 'Onstage',
+            key: 'Sc',
+            label: 'Shallow Climb',
             color: '#ffc658',
-            name: 'Onstage',
+            name: 'Shallow Climb',
         },
         {
-            key: 'Hm',
-            label: 'Harmony',
+            key: 'Dc',
+            label: 'Deep Climb',
             color: '#ff8042',
-            name: 'Harmony',
+            name: 'Deep Climb',
         },
     ],
     chartSettings: {
         showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            textColor: '#ffffff',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        legendPosition: 'top',
-        legendLayout: 'horizontal',
-        maintainAspectRatio: true,
-        colors: ['#8884d8', '#82ca9d', '#ff4444', '#ffc658', '#ff8042'],
-        showLabels: true,
-        labelPosition: 'outside',
     },
-    responsive: true,
 });
 
-export const trapPerRoundConfig = (scoutingData, teamNumber) => ({
-    data: specificTeamFunctions.endgameTrapPerRound(scoutingData, teamNumber),
-    title: `Endgame Trap Per Round for Team ${teamNumber}`,
-    scoringTypes: [
-        {
-            key: 'trapScore',
-            label: 'Trap Score',
-            color: '#f2495c',
-            name: 'Trap Score',
-        },
-    ],
-    chartSettings: {
-        showGridlines: true,
-        gridlineColor: '#444444',
-    },
-    xKey: 'roundNumber',
-    yKey: 'trapScore',
-    xAxisLabel: 'Round Number',
-    yAxisLabel: 'Trap Score',
-    yAxisMin: 0,
-    yAxisMax: 1,
-    showTooltip: true,
-    tooltipSettings: {
-        backgroundColor: '#333333',
-        borderRadius: '8px',
-        fontSize: '0.875rem',
-        cursorColor: 'rgba(255, 255, 255, 0.1)',
-    },
-    showLegend: true,
-    interactiveLegend: true,
-    legendPosition: 'top',
-    responsive: true,
-    maintainAspectRatio: true,
-    showDataLabels: false,
-    dataLabelPosition: 'inside',
-    dataLabelRotation: 0,
-});
-
-export const endgameTrapUsagePieConfig = (scoutingData, teamNumber) => ({
-    data: specificTeamFunctions.endgameTrapPieData(scoutingData, teamNumber),
-    title: `Endgame Trap Score for Team ${teamNumber}`,
-    scoringTypes: [
-        {
-            key: '0',
-            label: 'Note 0',
-            color: '#8884d8',
-            name: '0 Note',
-        },
-        {
-            key: '1',
-            label: 'Note 1',
-            color: '#82ca9d',
-            name: '1 Note',
-        },
-        {
-            key: '2',
-            label: 'Note 2',
-            color: '#ff4444',
-            name: '2 Note',
-        },
-        {
-            key: '3',
-            label: 'Note 3',
-            color: '#ffc658',
-            name: '3 Note',
-        },
-    ],
-    chartSettings: {
-        showTooltip: true,
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            textColor: '#ffffff',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
-        showLegend: true,
-        legendPosition: 'top',
-        legendLayout: 'horizontal',
-        maintainAspectRatio: true,
-        colors: ['#8884d8', '#82ca9d', '#ff4444', '#ffc658'],
-        showLabels: true,
-        labelPosition: 'outside',
-    },
-    responsive: true,
-});
+// Summery
 
 export const teamPerformanceRadarConfig = (scoutingData, teamNumber) => {
-    // Calculate the max values across all teams for each category
-    const maxSpeakerTeleOp = allTeamsFunctions.speakerTeleOpMax(scoutingData);  // Max for Teleop Speaker Score
-    const maxAmpTeleOp = allTeamsFunctions.ampTeleOpMax(scoutingData);  // Max for Teleop Amp Score
-    const maxSpeakerAuto = allTeamsFunctions.autoSpeakerMax(scoutingData);  // Max for Autonomous Speaker Score
-    const maxFeeding = allTeamsFunctions.maxFeeding(scoutingData);  // Max for Feeder Interactions
-    const maxEndPosition = 4;  // Max for End Position
-    const maxSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyMax(scoutingData);  // Max for Teleop Speaker
+    const maxEndPosition = 5;
 
     // Calculate the specific team's stats (averages)
-    const speakerTeleOp = specificTeamFunctions.speakerTeleOpAverage(scoutingData, teamNumber);
-    const ampTeleOp = specificTeamFunctions.ampTeleOpAverage(scoutingData, teamNumber);
-    const speakerAuto = specificTeamFunctions.speakerAutoAverage(scoutingData, teamNumber);
-    const feeding = specificTeamFunctions.feedingAverage(scoutingData, teamNumber);
-    const endPosition = specificTeamFunctions.endPositionAverage(scoutingData, teamNumber);
-    const speakerAccuracyTeleop = specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, teamNumber);
+    const averageCoralScore = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageCoralScore;
+    const averageCoralPrecent = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageCoralPercent;
+    const averageAlgeeBarge = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageAlgeeBarge;
+    const averageAlgeeProcessor = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageAlgeeProcessor;
+    const averageAlgeeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageAlgeeRemovedFromReef;
+    const averageEndPosition = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageEndPosition;
+
+    // Calculate the max values for the specific team max for each category
+    const maxCoralScore = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxCoralScore;
+    const maxCoralPrecent = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxCoralPercent;
+    const maxAlgeeBarge = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxAlgeeBarge;
+    const maxAlgeeProcessor = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxAlgeeProcessor;
+    const maxAlgeeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxAlgeeRemovedFromReef;
 
     // Calculate competition-wide averages
-    const avgSpeakerTeleOp = allTeamsFunctions.speakerTeleOpAverage(scoutingData);
-    const avgAmpTeleOp = allTeamsFunctions.ampTeleOpAverage(scoutingData);
-    const avgSpeakerAuto = allTeamsFunctions.autoSpeakerAverage(scoutingData);
-    const avgFeeding = allTeamsFunctions.feedingAverage(scoutingData);
-    const avgEndPosition = allTeamsFunctions.competitionEndPositionAverage(scoutingData);
-    const avgSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyAverage(scoutingData);
+    const allAverageCoralScore = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageCoralScore;
+    const allAverageCoralPrecent = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageCoralPrecent;
+    const allAverageAlgeeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageAlgeeBarge;
+    const allAverageAlgeeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageAlgeeProcessor;
+    const allAverageAlgeeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageAlgeeRemovedFromReef;
+    const allAverageEndPosition = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageEndPosition;
 
-    // calculate the specific team's stats (max)
-    const maxSpeakerTeleOpTeam = specificTeamFunctions.speakerTeleOpMax(scoutingData, teamNumber);
-    const maxAmpTeleOpTeam = specificTeamFunctions.ampTeleOpMax(scoutingData, teamNumber);
-    const maxSpeakerAutoTeam = specificTeamFunctions.speakerAutoMax(scoutingData, teamNumber);
-    const maxFeedingTeam = specificTeamFunctions.feedingMax(scoutingData, teamNumber);
-    const maxEndPositionTeam = specificTeamFunctions.maxEndPositionForMatch(scoutingData, teamNumber);
-    const maxSpeakerAccuracy = specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, teamNumber);
+    // Calculate the all teams max for each category
+    const allMaxCoralScore = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralScore;
+    const allMaxCoralPrecent = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralPrecent;
+    const allMaxAlgeeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeBarge;
+    const allMaxAlgeeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeProcessor;
+    const allMaxAlgeeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeRemovedFromReef;
 
     // Normalize each category's data to its own maximum value
     const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
 
-    // Prepare the normalized data
     const data = [
         {
-            subject: 'Autonomous Speaker Score',
-            [`Team ${teamNumber} Average`]: normalizeValue(speakerAuto, maxSpeakerAuto),
-            'Competition Average': normalizeValue(avgSpeakerAuto, maxSpeakerAuto),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerAutoTeam, maxSpeakerAuto),
+            subject: 'Coral Scored',
+            [`Team ${teamNumber} Average`]: normalizeValue(averageCoralScore, allMaxCoralScore),
+            'Competition Average': normalizeValue(allAverageCoralScore, allMaxCoralScore),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxCoralScore, allMaxCoralScore),
         },
         {
-            subject: 'Teleop Speaker Score',
-            [`Team ${teamNumber} Average`]: normalizeValue(speakerTeleOp, maxSpeakerTeleOp),
-            'Competition Average': normalizeValue(avgSpeakerTeleOp, maxSpeakerTeleOp),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerTeleOpTeam, maxSpeakerTeleOp),
+            subject: 'Coral Precent Accuracy',
+            [`Team ${teamNumber} Average`]: normalizeValue(averageCoralPrecent, allMaxCoralPrecent),
+            'Competition Average': normalizeValue(allAverageCoralPrecent, allMaxCoralPrecent),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxCoralPrecent, allMaxCoralPrecent),
         },
         {
-            subject: 'Teleop Amp Score',
-            [`Team ${teamNumber} Average`]: normalizeValue(ampTeleOp, maxAmpTeleOp),
-            'Competition Average': normalizeValue(avgAmpTeleOp, maxAmpTeleOp),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxAmpTeleOpTeam, maxAmpTeleOp),
+            subject: 'Algee Barge',
+            [`Team ${teamNumber} Average`]: normalizeValue(averageAlgeeBarge, allMaxAlgeeBarge),
+            'Competition Average': normalizeValue(allAverageAlgeeBarge, allMaxAlgeeBarge),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxAlgeeBarge, allMaxAlgeeBarge),
         },
         {
-            subject: 'Feeder Interactions',
-            [`Team ${teamNumber} Average`]: normalizeValue(feeding, maxFeeding),
-            'Competition Average': normalizeValue(avgFeeding, maxFeeding),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxFeedingTeam, maxFeeding)
+            subject: 'Algee Processor',
+            [`Team ${teamNumber} Average`]: normalizeValue(averageAlgeeProcessor, allMaxAlgeeProcessor),
+            'Competition Average': normalizeValue(allAverageAlgeeProcessor, allMaxAlgeeProcessor),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxAlgeeProcessor, allMaxAlgeeProcessor),
+        },
+        {
+            subject: 'Algee Removed From Reef',
+            [`Team ${teamNumber} Average`]: normalizeValue(averageAlgeeRemovedFromReef, allMaxAlgeeRemovedFromReef),
+            'Competition Average': normalizeValue(allAverageAlgeeRemovedFromReef, allMaxAlgeeRemovedFromReef),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxAlgeeRemovedFromReef, allMaxAlgeeRemovedFromReef),
         },
         {
             subject: 'End Position',
-            [`Team ${teamNumber} Average`]: normalizeValue(endPosition, maxEndPosition),
-            'Competition Average': normalizeValue(avgEndPosition, maxEndPosition),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxEndPositionTeam, maxEndPosition),
-        },
-        {
-            subject: 'Teleop Speaker Accuracy',
-            [`Team ${teamNumber} Average`]: normalizeValue(speakerAccuracyTeleop, maxSpeakerAccuracyTeleop),
-            'Competition Average': normalizeValue(avgSpeakerAccuracyTeleop, maxSpeakerAccuracyTeleop),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxSpeakerAccuracy, maxSpeakerAccuracyTeleop),
+            [`Team ${teamNumber} Average`]: normalizeValue(averageEndPosition, maxEndPosition),
+            'Competition Average': normalizeValue(allAverageEndPosition, maxEndPosition),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxEndPosition, maxEndPosition),
         },
     ];
 
@@ -1138,11 +670,6 @@ export const teamPerformanceRadarConfig = (scoutingData, teamNumber) => {
                 color: '#ff4444',
             },
         ],
-        radarSettings: {
-            strokeWidth: 2,
-            dot: true,
-        },
-        angleKey: 'subject',
         showRadiusAxis: false,
         customLabels: {
             'Autonomous Speaker Score': 'Autonomous Speaker',
@@ -1152,85 +679,71 @@ export const teamPerformanceRadarConfig = (scoutingData, teamNumber) => {
             'End Position': 'End Position',
             'Teleop Speaker Accuracy': 'Teleop Speaker Accuracy',
         },
-        showGrid: true,
         gridType: 'polygon',
-        fillGrid: true,
-        showLegend: true,
         showTooltip: false,
-        responsive: true,
         title: 'Team Performance Comparison',
-        fontSettings: {
-            titleFontSize: '1.5rem',
-            labelFontSize: '1rem',
-            legendFontSize: '1rem',
-            defaultLabelColor: '#ffffff',
-        },
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            textColor: '#ffffff',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
     };
 };
 
-export const compareTeamsAverageRadarConfig = (scoutingData, team1Number, team2Number) => {
-    const maxSpeakerTeleOp = allTeamsFunctions.speakerTeleOpMax(scoutingData);
-    const maxAmpTeleOp = allTeamsFunctions.ampTeleOpMax(scoutingData);
-    const maxSpeakerAuto = allTeamsFunctions.autoSpeakerMax(scoutingData);
-    const maxFeeding = allTeamsFunctions.maxFeeding(scoutingData);
-    const maxEndPosition = 4;
-    const maxSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyMax(scoutingData);
+export const teamsAverageRadarConfig = (scoutingData, team1Number, team2Number) => {
+    const maxEndPosition = 5;
 
-    const team1Average = {
-        speakerTeleOp: specificTeamFunctions.speakerTeleOpAverage(scoutingData, team1Number),
-        ampTeleOp: specificTeamFunctions.ampTeleOpAverage(scoutingData, team1Number),
-        speakerAuto: specificTeamFunctions.speakerAutoAverage(scoutingData, team1Number),
-        feeding: specificTeamFunctions.feedingAverage(scoutingData, team1Number),
-        endPosition: specificTeamFunctions.endPositionAverage(scoutingData, team1Number),
-        speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, team1Number),
-    };
+    // Calculate the first specific team's stats (averages)
+    const averageCoralScore = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageCoralScore;
+    const averageCoralPrecent = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageCoralPercent;
+    const averageAlgeeBarge = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageAlgeeBarge;
+    const averageAlgeeProcessor = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageAlgeeProcessor;
+    const averageAlgeeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageAlgeeRemovedFromReef;
+    const averageEndPosition = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageEndPosition;
 
-    const team2Average = {
-        speakerTeleOp: specificTeamFunctions.speakerTeleOpAverage(scoutingData, team2Number),
-        ampTeleOp: specificTeamFunctions.ampTeleOpAverage(scoutingData, team2Number),
-        speakerAuto: specificTeamFunctions.speakerAutoAverage(scoutingData, team2Number),
-        feeding: specificTeamFunctions.feedingAverage(scoutingData, team2Number),
-        endPosition: specificTeamFunctions.endPositionAverage(scoutingData, team2Number),
-        speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyAverage(scoutingData, team2Number),
-    };
+    // Calculate the second specific team's stats (averages)
+    const averageCoralScore2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageCoralScore;
+    const averageCoralPrecent2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageCoralPercent;
+    const averageAlgeeBarge2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageAlgeeBarge;
+    const averageAlgeeProcessor2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageAlgeeProcessor;
+    const averageAlgeeRemovedFromReef2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageAlgeeRemovedFromReef;
+    const averageEndPosition2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageEndPosition;
+
+    // Calculate the all teams max for each category
+    const allMaxCoralScore = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralScore;
+    const allMaxCoralPrecent = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralPrecent;
+    const allMaxAlgeeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeBarge;
+    const allMaxAlgeeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeProcessor;
+    const allMaxAlgeeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeRemovedFromReef;
+
+    // Normalize each category's data to its own maximum value
+    const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
 
     const data = [
         {
-            subject: 'Autonomous Speaker Score',
-            [`Team ${team1Number} Average`]: (team1Average.speakerAuto / maxSpeakerAuto) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.speakerAuto / maxSpeakerAuto) * 100,
+            subject: 'Coral Scored',
+            [`Team ${team1Number} Average`]: normalizeValue(averageCoralScore, allMaxCoralScore),
+            [`Team ${team2Number} Average`]: normalizeValue(averageCoralScore2, allMaxCoralScore),
         },
         {
-            subject: 'Teleop Speaker Score',
-            [`Team ${team1Number} Average`]: (team1Average.speakerTeleOp / maxSpeakerTeleOp) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.speakerTeleOp / maxSpeakerTeleOp) * 100,
+            subject: 'Coral Precent Accuracy',
+            [`Team ${team1Number} Average`]: normalizeValue(averageCoralPrecent, allMaxCoralPrecent),
+            [`Team ${team2Number} Average`]: normalizeValue(averageCoralPrecent2, allMaxCoralPrecent),
         },
         {
-            subject: 'Teleop Amp Score',
-            [`Team ${team1Number} Average`]: (team1Average.ampTeleOp / maxAmpTeleOp) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.ampTeleOp / maxAmpTeleOp) * 100,
+            subject: 'Algee Barge',
+            [`Team ${team1Number} Average`]: normalizeValue(averageAlgeeBarge, allMaxAlgeeBarge),
+            [`Team ${team2Number} Average`]: normalizeValue(averageAlgeeBarge2, allMaxAlgeeBarge),
         },
         {
-            subject: 'Feeder Interactions',
-            [`Team ${team1Number} Average`]: (team1Average.feeding / maxFeeding) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.feeding / maxFeeding) * 100,
+            subject: 'Algee Processor',
+            [`Team ${team1Number} Average`]: normalizeValue(averageAlgeeProcessor, allMaxAlgeeProcessor),
+            [`Team ${team2Number} Average`]: normalizeValue(averageAlgeeProcessor2, allMaxAlgeeProcessor),
+        },
+        {
+            subject: 'Algee Removed From Reef',
+            [`Team ${team1Number} Average`]: normalizeValue(averageAlgeeRemovedFromReef, allMaxAlgeeRemovedFromReef),
+            [`Team ${team2Number} Average`]: normalizeValue(averageAlgeeRemovedFromReef2, allMaxAlgeeRemovedFromReef),
         },
         {
             subject: 'End Position',
-            [`Team ${team1Number} Average`]: (team1Average.endPosition / maxEndPosition) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.endPosition / maxEndPosition) * 100,
-        },
-        {
-            subject: 'Teleop Speaker Accuracy',
-            [`Team ${team1Number} Average`]: (team1Average.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
-            [`Team ${team2Number} Average`]: (team2Average.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
+            [`Team ${team1Number} Average`]: normalizeValue(averageEndPosition, maxEndPosition),
+            [`Team ${team2Number} Average`]: normalizeValue(averageEndPosition2, maxEndPosition),
         },
     ];
 
@@ -1240,19 +753,14 @@ export const compareTeamsAverageRadarConfig = (scoutingData, team1Number, team2N
             {
                 key: `Team ${team1Number} Average`,
                 label: `Team ${team1Number} Average`,
-                color: '#8884d8',
+                color: '#aee5ff',
             },
             {
                 key: `Team ${team2Number} Average`,
                 label: `Team ${team2Number} Average`,
-                color: '#82ca9d',
+                color: '#e74c3c',
             },
         ],
-        radarSettings: {
-            strokeWidth: 2,
-            dot: true,
-        },
-        angleKey: 'subject',
         showRadiusAxis: false,
         customLabels: {
             'Autonomous Speaker Score': 'Autonomous Speaker',
@@ -1262,85 +770,69 @@ export const compareTeamsAverageRadarConfig = (scoutingData, team1Number, team2N
             'End Position': 'End Position',
             'Teleop Speaker Accuracy': 'Teleop Speaker Accuracy',
         },
-        showGrid: true,
         gridType: 'polygon',
-        fillGrid: true,
-        showLegend: true,
         showTooltip: false,
-        responsive: true,
-        title: 'Team Performance Average Comparison',
-        fontSettings: {
-            titleFontSize: '1.5rem',
-            labelFontSize: '1rem',
-            legendFontSize: '1rem',
-            defaultLabelColor: '#ffffff',
-        },
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            textColor: '#ffffff',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
+        title: 'Team Average Performance Comparison',
     };
 };
 
-export const compareTeamsMaxRadarConfig = (scoutingData, team1Number, team2Number) => {
-    const maxSpeakerTeleOp = allTeamsFunctions.speakerTeleOpMax(scoutingData);
-    const maxAmpTeleOp = allTeamsFunctions.ampTeleOpMax(scoutingData);
-    const maxSpeakerAuto = allTeamsFunctions.autoSpeakerMax(scoutingData);
-    const maxFeeding = allTeamsFunctions.maxFeeding(scoutingData);
-    const maxEndPosition = 4;
-    const maxSpeakerAccuracyTeleop = allTeamsFunctions.speakerTeleOpAccuracyMax(scoutingData);
+export const teamMaxRadarConfig = (scoutingData, team1Number, team2Number) => {
+    const maxEndPosition = 5;
 
-    const team1Max = {
-        speakerTeleOp: specificTeamFunctions.speakerTeleOpMax(scoutingData, team1Number),
-        ampTeleOp: specificTeamFunctions.ampTeleOpMax(scoutingData, team1Number),
-        speakerAuto: specificTeamFunctions.speakerAutoMax(scoutingData, team1Number),
-        feeding: specificTeamFunctions.feedingMax(scoutingData, team1Number),
-        endPosition: specificTeamFunctions.maxEndPositionForMatch(scoutingData, team1Number),
-        speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, team1Number),
-    };
+    // Calculate the max values for the first specific team max for each category
+    const maxCoralScore = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxCoralScore;
+    const maxCoralPrecent = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxCoralPercent;
+    const maxAlgeeBarge = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxAlgeeBarge;
+    const maxAlgeeProcessor = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxAlgeeProcessor;
+    const maxAlgeeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxAlgeeRemovedFromReef;
 
-    const team2Max = {
-        speakerTeleOp: specificTeamFunctions.speakerTeleOpMax(scoutingData, team2Number),
-        ampTeleOp: specificTeamFunctions.ampTeleOpMax(scoutingData, team2Number),
-        speakerAuto: specificTeamFunctions.speakerAutoMax(scoutingData, team2Number),
-        feeding: specificTeamFunctions.feedingMax(scoutingData, team2Number),
-        endPosition: specificTeamFunctions.maxEndPositionForMatch(scoutingData, team2Number),
-        speakerAccuracyTeleop: specificTeamFunctions.speakerTeleOpAccuracyMax(scoutingData, team2Number),
-    };
+    // Calculate the max values for the second specific team max for each category
+    const maxCoralScore2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxCoralScore;
+    const maxCoralPrecent2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxCoralPercent;
+    const maxAlgeeBarge2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxAlgeeBarge;
+    const maxAlgeeProcessor2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxAlgeeProcessor;
+    const maxAlgeeRemovedFromReef2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxAlgeeRemovedFromReef;
+
+    // Calculate the all teams max for each category
+    const allMaxCoralScore = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralScore;
+    const allMaxCoralPrecent = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralPrecent;
+    const allMaxAlgeeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeBarge;
+    const allMaxAlgeeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeProcessor;
+    const allMaxAlgeeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeRemovedFromReef;
+
+    // Normalize each category's data to its own maximum value
+    const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
 
     const data = [
         {
-            subject: 'Autonomous Speaker Score',
-            [`Team ${team1Number} Max`]: (team1Max.speakerAuto / maxSpeakerAuto) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.speakerAuto / maxSpeakerAuto) * 100,
+            subject: 'Coral Scored',
+            [`Team ${team1Number} Max`]: normalizeValue(maxCoralScore, allMaxCoralScore),
+            [`Team ${team2Number} Max`]: normalizeValue(maxCoralScore2, allMaxCoralScore),
         },
         {
-            subject: 'Teleop Speaker Score',
-            [`Team ${team1Number} Max`]: (team1Max.speakerTeleOp / maxSpeakerTeleOp) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.speakerTeleOp / maxSpeakerTeleOp) * 100,
+            subject: 'Coral Precent Accuracy',
+            [`Team ${team1Number} Max`]: normalizeValue(maxCoralPrecent, allMaxCoralPrecent),
+            [`Team ${team2Number} Max`]: normalizeValue(maxCoralPrecent2, allMaxCoralPrecent),
         },
         {
-            subject: 'Teleop Amp Score',
-            [`Team ${team1Number} Max`]: (team1Max.ampTeleOp / maxAmpTeleOp) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.ampTeleOp / maxAmpTeleOp) * 100,
+            subject: 'Algee Barge',
+            [`Team ${team1Number} Max`]: normalizeValue(maxAlgeeBarge, allMaxAlgeeBarge),
+            [`Team ${team2Number} Max`]: normalizeValue(maxAlgeeBarge2, allMaxAlgeeBarge),
         },
         {
-            subject: 'Feeder Interactions',
-            [`Team ${team1Number} Max`]: (team1Max.feeding / maxFeeding) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.feeding / maxFeeding) * 100,
+            subject: 'Algee Processor',
+            [`Team ${team1Number} Max`]: normalizeValue(maxAlgeeProcessor, allMaxAlgeeProcessor),
+            [`Team ${team2Number} Max`]: normalizeValue(maxAlgeeProcessor2, allMaxAlgeeProcessor),
+        },
+        {
+            subject: 'Algee Removed From Reef',
+            [`Team ${team1Number} Max`]: normalizeValue(maxAlgeeRemovedFromReef, allMaxAlgeeRemovedFromReef),
+            [`Team ${team2Number} Max`]: normalizeValue(maxAlgeeRemovedFromReef2, allMaxAlgeeRemovedFromReef),
         },
         {
             subject: 'End Position',
-            [`Team ${team1Number} Max`]: (team1Max.endPosition / maxEndPosition) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.endPosition / maxEndPosition) * 100,
-        },
-        {
-            subject: 'Teleop Speaker Accuracy',
-            [`Team ${team1Number} Max`]: (team1Max.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
-            [`Team ${team2Number} Max`]: (team2Max.speakerAccuracyTeleop / maxSpeakerAccuracyTeleop) * 100,
+            [`Team ${team1Number} Max`]: normalizeValue(maxEndPosition, maxEndPosition),
+            [`Team ${team2Number} Max`]: normalizeValue(maxEndPosition, maxEndPosition),
         },
     ];
 
@@ -1358,11 +850,6 @@ export const compareTeamsMaxRadarConfig = (scoutingData, team1Number, team2Numbe
                 color: '#ff4444',
             },
         ],
-        radarSettings: {
-            strokeWidth: 2,
-            dot: true,
-        },
-        angleKey: 'subject',
         showRadiusAxis: false,
         customLabels: {
             'Autonomous Speaker Score': 'Autonomous Speaker',
@@ -1372,25 +859,8 @@ export const compareTeamsMaxRadarConfig = (scoutingData, team1Number, team2Numbe
             'End Position': 'End Position',
             'Teleop Speaker Accuracy': 'Teleop Speaker Accuracy',
         },
-        showGrid: true,
         gridType: 'polygon',
-        fillGrid: true,
-        showLegend: true,
         showTooltip: false,
-        responsive: true,
-        title: 'Team Performance Max Comparison',
-        fontSettings: {
-            titleFontSize: '1.5rem',
-            labelFontSize: '1rem',
-            legendFontSize: '1rem',
-            defaultLabelColor: '#ffffff',
-        },
-        tooltipSettings: {
-            backgroundColor: '#333333',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            textColor: '#ffffff',
-            cursorColor: 'rgba(255, 255, 255, 0.1)',
-        },
+        title: 'Team Performance Comparison',
     };
 };
