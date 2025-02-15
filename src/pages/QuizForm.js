@@ -35,27 +35,35 @@ const QuizForm = () => {
     const sanitizedData = sections.reduce((acc, section) => {
       section.fields.forEach((field) => {
         if (field.type === 'multi-counter') {
+          const multiValue = data[field.code] || {}; // Get the object for the multi-counter field
           // Spread subfields into the main structure with their individual codes
           field.subFields.forEach((subField) => {
             acc[subField.code] =
-              data[subField.code] !== undefined && data[subField.code] !== ''
-                ? data[subField.code]
+              multiValue[subField.code] !== undefined && multiValue[subField.code] !== ''
+                ? multiValue[subField.code]
                 : subField.defaultValue !== undefined
-                ? subField.defaultValue
-                : 0; // Default to 0 if no defaultValue is provided
+                  ? subField.defaultValue
+                  : 0; // Default to 0 if no defaultValue is provided
           });
+        } else if (field.type === 'number') {
+          // Convert number field values from string to number
+          acc[field.code] =
+            data[field.code] !== undefined && data[field.code] !== ''
+              ? Number(data[field.code])
+              : field.defaultValue !== undefined
+                ? field.defaultValue
+                : 0;
         } else {
-          // Handle other field types automatically
           acc[field.code] =
             data[field.code] !== undefined && data[field.code] !== ''
               ? data[field.code]
               : field.defaultValue !== undefined
-              ? field.defaultValue
-              : field.type === 'number'
-              ? 0
-              : field.type === 'boolean'
-              ? false
-              : ''; // Default fallback for other types
+                ? field.defaultValue
+                : field.type === 'number'
+                  ? 0
+                  : field.type === 'boolean'
+                    ? false
+                    : '';
         }
       });
       return acc;

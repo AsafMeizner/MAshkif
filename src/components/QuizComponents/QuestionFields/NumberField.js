@@ -1,6 +1,11 @@
 import React from 'react';
 
-const NumberField = ({ field, onChange, value }) => {
+const NumberField = ({ field, onChange, value, valueAsNumber }) => {
+  const handleChange = (e) => {
+    const inputValue = e.target.value;
+    onChange(valueAsNumber ? Number(inputValue) : inputValue);
+  };
+
   return (
     <div className="field">
       <label>{field.title}</label>
@@ -8,7 +13,7 @@ const NumberField = ({ field, onChange, value }) => {
         type="number"
         required={field.required}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={handleChange}
       />
     </div>
   );

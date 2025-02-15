@@ -2,17 +2,17 @@
     "page_title": "ReefScape",
     "sections": [
         {
-            "name": "Pre-Match",
+            "name": "לפני מקצה",
             "preserveDataOnReset": true,
             "fields": [
                 {
-                    "title": "Scouter Name",
+                    "title": "שם הסקאוטר",
                     "type": "text",
                     "required": true,
                     "code": "scouter"
                 },
                 {
-                    "title": "Match Number",
+                    "title": "מספר מקצה",
                     "type": "number",
                     "required": true,
                     "code": "matchNumber",
@@ -20,13 +20,13 @@
                     "autoIncrementOnReset": true
                 },
                 {
-                    "title": "Team Number",
+                    "title": "מספר קבוצה",
                     "type": "number",
                     "required": true,
                     "code": "teamNumber"
                 },
                 {
-                    "title": "No Show?",
+                    "title": "לא הופיע?",
                     "type": "boolean",
                     "defaultValue": false,
                     "required": false,
@@ -35,17 +35,17 @@
             ]
         },
         {
-            "name": "Autonomous",
+            "name": "אוטונומי",
             "fields": [
                 {
-                    "title": "Left Starting Line",
+                    "title": "יצא מקו התחלה",
                     "type": "boolean",
                     "defaultValue": false,
                     "required": false,
                     "code": "Mved"
                 },
                 {
-                    "title": "Scored Levels",
+                    "title": "גבהים מנוקדים בריף",
                     "type": "multi-counter",
                     "code": "scoredLevels",
                     "subFields": [
@@ -76,7 +76,7 @@
                     ]
                 },
                 {
-                    "title": "Missed Levels",
+                    "title": "גבהים שהוחמצו בריף",
                     "type": "multi-counter",
                     "code": "missedLevels",
                     "subFields": [
@@ -107,59 +107,37 @@
                     ]
                 },
                 {
-                    "title": "Collection",
+                    "title": "איסוף",
                     "type": "multi-counter",
                     "code": "collectionLevels",
                     "subFields": [
                         {
-                            "code": "InG",
-                            "title": "Coral Ground",
+                            "code": "ScAb",
+                            "title": "ניקוד כדור בארג",
                             "defaultValue": 0,
                             "min": 0
                         },
                         {
-                            "code": "InS",
-                            "title": "Coral Source",
+                            "code": "ScAp",
+                            "title": "ניקוד כדור פרוססור",
                             "defaultValue": 0,
                             "min": 0
                         },
                         {
                             "code": "RmAr",
-                            "title": "Algae Reef",
-                            "defaultValue": 0,
-                            "min": 0
-                        },
-                        {
-                            "code": "RmAg",
-                            "title": "Algae Ground",
+                            "title": "איסוף כדור מהריף",
                             "defaultValue": 0,
                             "min": 0
                         }
                     ]
-                },
-                {
-                    "code": "ScAb",
-                    "title": "Scored Algae in Barge",
-                    "type": "counter",
-                    "defaultValue": 0,
-                    "min": 0,
-                    "required": false
-                },
-                {
-                    "code": "ScAp",
-                    "title": "Scored Algae in Processor",
-                    "type": "counter",
-                    "defaultValue": 0,
-                    "min": 0,
-                    "required": false
                 }
             ]
         },
         {
-            "name": "TeleOp",
+            "name": "טלאופ",
             "fields": [
                 {
-                    "title": "Scored Levels",
+                    "title": "גבהים מנוקדים בטלאופ",
                     "type": "multi-counter",
                     "code": "tScoredLevels",
                     "subFields": [
@@ -190,7 +168,7 @@
                     ]
                 },
                 {
-                    "title": "Missed Levels",
+                    "title": "גבהים שהוחמצו בטלאופ",
                     "type": "multi-counter",
                     "code": "tMissedLevels",
                     "subFields": [
@@ -221,106 +199,77 @@
                     ]
                 },
                 {
-                    "title": "Collection",
+                    "title": "כדורים",
                     "type": "multi-counter",
                     "code": "tCollectionLevels",
                     "subFields": [
                         {
-                            "code": "tInG",
-                            "title": "Coral Ground",
+                            "code": "tScAb",
+                            "title": "ניקוד כדור בארג",
                             "defaultValue": 0,
                             "min": 0
                         },
                         {
-                            "code": "tInS",
-                            "title": "Coral Source",
+                            "code": "tScAp",
+                            "title": "ניקוד כדור בפרוססור",
                             "defaultValue": 0,
                             "min": 0
                         },
                         {
                             "code": "tRmAr",
-                            "title": "Algae Reef",
-                            "defaultValue": 0,
-                            "min": 0
-                        },
-                        {
-                            "code": "tRmAg",
-                            "title": "Algae Ground",
+                            "title": "איסוף כדור ריף",
                             "defaultValue": 0,
                             "min": 0
                         }
                     ]
-                },
-                {
-                    "code": "tScAb",
-                    "title": "Scored Algae in Barge",
-                    "type": "counter",
-                    "defaultValue": 0,
-                    "min": 0,
-                    "required": false
-                },
-                {
-                    "code": "tScAp",
-                    "title": "Scored Algae in Processor",
-                    "type": "counter",
-                    "defaultValue": 0,
-                    "min": 0,
-                    "required": false
-                },
-                {
-                    "code": "Fou",
-                    "title": "עבירות טלאופ",
-                    "type": "counter",
-                    "defaultValue": 0,
-                    "required": false
                 }
             ]
         },
         {
-            "name": "End Game",
+            "name": "סיום משחק",
             "fields": [
                 {
-                    "title": "End State",
+                    "title": "מצב סיום",
                     "type": "select",
                     "required": true,
                     "code": "epo",
                     "choices": {
-                        "No": "No Climb",
-                        "P": "Park",
-                        "Sc": "Shallow Climb",
-                        "Dc": "Deep Climb",
-                        "Fd": "Failed Deep Climb",
-                        "Fs": "Failed Shallow Climb"
+                        "No": "ללא טיפוס",
+                        "P": "חנייה",
+                        "Sc": "טיפוס גבוהה",
+                        "Dc": "טיפוס נמוך",
+                        "Fd": "טיפוס נמוך נכשל",
+                        "Fs": "טיפוס גבוהה נכשל"
                     },
                     "defaultValue": "No"
                 }
             ]
         },
         {
-            "name": "Post-Match",
+            "name": "לאחר המשחק",
             "fields": [
                 {
                     "code": "dto",
-                    "title": "Flipped/Fell Over",
+                    "title": "התהפך/נפל",
                     "type": "boolean",
                     "defaultValue": false,
                     "required": false
                 },
                 {
                     "code": "yc",
-                    "title": "Yellow/Red Card",
+                    "title": "כרטיס צהוב/אדום",
                     "type": "select",
-                    "defaultValue": "No Card",
+                    "defaultValue": "ללא כרטיס",
                     "required": true,
                     "choices": {
-                        "No Card": "No Card",
-                        "Yellow": "Yellow Card",
-                        "Red": "Red Card"
+                        "ללא כרטיס" : "No Card",
+                        "כרטיס צהוב" : "Yellow",
+                        "כרטיס אדום": "Red"
                     }
                 },
                 {
                     "code": "co",
-                    "title": "Notes",
+                    "title": "הערות",
                     "type": "text",
                     "min": 0,
                     "max": 500,
