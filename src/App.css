@@ -21,6 +21,20 @@ body.barcode-scanner-active .qr-scanner-container {
   visibility: visible;
 }
 
+.device-select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-top: 8px;
+  background-color: #fff;
+}
+
+.fallback-video {
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
 button {
   /* font-family: 'Gilroy-ExtraBold', Arial, sans-serif; */
   font-family: 'Gilroy-Light', Arial, sans-serif;

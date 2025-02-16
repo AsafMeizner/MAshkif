@@ -3,7 +3,6 @@ import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning
 import Modal from 'react-modal';
 import { useZxing } from 'react-zxing';
 import '../App.css';
-// Removed external ScanButton import—button code is now inline.
 import ScanModal from '../components/ScanComponents/ScanModal';
 import HapticFeedback from '../components/HapticFeedback';
 import { toast } from 'react-toastify';
@@ -40,7 +39,14 @@ function QrScannerPage() {
       setIsScanning(false);
     },
     paused: !isScanning,
-    constraints: { video: { facingMode: 'environment' }, audio: false },
+    constraints: { 
+      video: { 
+        facingMode: 'environment', 
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      }, 
+      audio: false 
+    },
   });
 
   useEffect(() => {
@@ -128,7 +134,6 @@ function QrScannerPage() {
         console.error('Error starting native scan:', error);
       }
     } else {
-      // Activate fallback scanning via react-zxing.
       console.log('Starting fallback scan (react-zxing)');
       setIsScanning(true);
     }
@@ -203,6 +208,7 @@ function QrScannerPage() {
             <label htmlFor="videoDeviceSelect">Select Camera: </label>
             <select
               id="videoDeviceSelect"
+              className="device-select"
               value={selectedDeviceId || ''}
               onChange={(e) => setSelectedDeviceId(e.target.value)}
             >
@@ -227,10 +233,20 @@ function QrScannerPage() {
 
       {/* Fallback scanner rendered when native scanning is not used */}
       {(!useNative && isScanning) && (
-        <div className="fallback-scanner-container" style={{ width: '100%', maxWidth: '400px', margin: 'auto' }}>
+        <div 
+          className="fallback-scanner-container" 
+          style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            width: '100%', 
+            maxWidth: '600px', 
+            margin: '20px auto' 
+          }}
+        >
           <video
             ref={scannerRef}
-            style={{ width: '100%' }}
+            className="fallback-video"
             autoPlay
             playsInline
             muted
