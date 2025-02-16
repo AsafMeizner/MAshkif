@@ -1,10 +1,9 @@
-// filepath: /c:/Users/User/Documents/GitHub/scoutingApp/src/pages/QrScan.js
 import React, { useState, useEffect } from 'react';
 import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning';
 import Modal from 'react-modal';
 import { useZxing } from 'react-zxing';
 import '../App.css';
-import ScanButton from '../components/ScanComponents/ScanButton'; // Un-commented!
+// Removed external ScanButton import—button code is now inline.
 import ScanModal from '../components/ScanComponents/ScanModal';
 import HapticFeedback from '../components/HapticFeedback';
 import { toast } from 'react-toastify';
@@ -28,6 +27,7 @@ function QrScannerPage() {
   const { ref: scannerRef } = useZxing({
     deviceId: selectedDeviceId,
     onDecodeResult: (result) => {
+      console.log('Decoded using react-zxing:', result.getText());
       processScannedContent(result.getText());
       setIsScanning(false);
     },
@@ -45,9 +45,16 @@ function QrScannerPage() {
 
   useEffect(() => {
     const checkSupport = async () => {
-      const { supported } = await BarcodeScanner.isSupported();
-      setCameraAvailable(supported);
-      if (!supported) {
+      try {
+        const { supported } = await BarcodeScanner.isSupported();
+        console.log('Native BarcodeScanner supported:', supported);
+        setCameraAvailable(supported);
+        if (!supported) {
+          setUseNative(false);
+        }
+      } catch (err) {
+        console.error('Error checking native support:', err);
+        setCameraAvailable(false);
         setUseNative(false);
       }
     };
@@ -59,6 +66,7 @@ function QrScannerPage() {
     if (navigator.mediaDevices?.enumerateDevices) {
       navigator.mediaDevices.enumerateDevices().then((devices) => {
         const videoInputs = devices.filter(device => device.kind === 'videoinput');
+        console.log('Available video devices:', videoInputs);
         setVideoDevices(videoInputs);
         if (videoInputs.length > 0) {
           setSelectedDeviceId(videoInputs[0].deviceId);
@@ -92,17 +100,18 @@ function QrScannerPage() {
   };
 
   const startScan = async () => {
-    console.log('startScan triggered, useNative:', useNative, 'cameraAvailable:', cameraAvailable);
+    console.log('startScan triggered. useNative:', useNative, 'cameraAvailable:', cameraAvailable);
     if (useNative && cameraAvailable) {
       try {
         const status = await BarcodeScanner.requestPermissions();
+        console.log('Native requestPermissions status:', status);
         if (status.camera === 'granted') {
           setIsScanning(true);
           document.querySelector('body')?.classList.add('barcode-scanner-active');
 
           const listener = await BarcodeScanner.addListener('barcodeScanned', async result => {
             const scannedContent = result.barcode.displayValue;
-            console.log('Scanned Content:', scannedContent);
+            console.log('Scanned Content (native):', scannedContent);
             processScannedContent(scannedContent);
             await listener.remove();
             stopScan();
@@ -120,14 +129,20 @@ function QrScannerPage() {
       }
     } else {
       // Activate fallback scanning via react-zxing.
+      console.log('Starting fallback scan (react-zxing)');
       setIsScanning(true);
     }
   };
 
   const stopScan = async () => {
+    console.log('Stop scan triggered');
     document.querySelector('body')?.classList.remove('barcode-scanner-active');
-    await BarcodeScanner.removeAllListeners();
-    await BarcodeScanner.stopScan();
+    try {
+      await BarcodeScanner.removeAllListeners();
+      await BarcodeScanner.stopScan();
+    } catch (err) {
+      console.error('Error stopping native scan:', err);
+    }
     setIsScanning(false);
   };
 
@@ -175,8 +190,13 @@ function QrScannerPage() {
               </label>
             </div>
           )}
-          {/* Use our ScanButton component */}
-          <ScanButton isScanning={isScanning} startScan={startScan} stopScan={stopScan} />
+          {/* Inline scan button */}
+          <button 
+            className="scan-button" 
+            onClick={isScanning ? stopScan : startScan}
+          >
+            {isScanning ? 'Stop Scanning' : 'Start Scanning'}
+          </button>
         </div>
         {(!useNative && videoDevices.length > 1) && (
           <div className="device-selector">
@@ -205,6 +225,7 @@ function QrScannerPage() {
         handleSave={handleSave}
       />
 
+      {/* Fallback scanner rendered when native scanning is not used */}
       {(!useNative && isScanning) && (
         <div className="fallback-scanner-container" style={{ width: '100%', maxWidth: '400px', margin: 'auto' }}>
           <video
