@@ -89,9 +89,15 @@ const PieGraph = ({ config }) => {
             label={showLabels ? ({ name, value }) => `${name}: ${value}` : null}
             labelLine={true}
           >
-            {updatedData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-            ))}
+            {updatedData.map((entry, index) => {
+              const correspondingType = scoringTypes.find((type) => type.name === entry.name);
+              return (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={correspondingType ? correspondingType.color : colors[index % colors.length]}
+                />
+              );
+            })}
           </Pie>
           {showTooltip && (
             <Tooltip
