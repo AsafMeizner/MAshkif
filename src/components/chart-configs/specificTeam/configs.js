@@ -364,13 +364,6 @@ export const teleopCoralPrecentInConfig = (scoutingData, teamNumber) => {
                 color: '#c4162a',
                 name: 'Coral Percent',
                 stacked: false,
-            },
-            {
-                key: 'algeeBargePrecent',
-                label: 'Algee Barge Percent',
-                color: '#1ed760',
-                name: 'Algee Barge Percent',
-                stacked: false,
             }
         ],
         xKey: 'roundNumber',

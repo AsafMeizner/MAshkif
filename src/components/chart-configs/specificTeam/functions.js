@@ -430,7 +430,6 @@ export function teleopPercentagesByMatch(scoutingData, teamNumber) {
         const coralL3Precent = entry.tL3sc ? (((entry.tL3sc || 0) / ((entry.tL3sc || 0) + (entry.tL3ms || 0))) * 100).toFixed(1) : 0;
         const coralL4Precent = entry.tL4sc ? (((entry.tL4sc || 0) / ((entry.tL4sc || 0) + (entry.tL4ms || 0))) * 100).toFixed(1) : 0;
         const overallPrecent = (entry.tL1sc + entry.tL2sc + entry.tL3sc + entry.tL4sc) ? ((((entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0)) / ((entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0))) * 100).toFixed(1) : 0;
-        const algeeBargePrecent = entry.tScAb ? (((entry.tScAb || 0) / ((entry.tScAb || 0) + (entry.tScAp || 0))) * 100).toFixed(1) : 0;
 
         return {
             roundNumber,
@@ -438,8 +437,7 @@ export function teleopPercentagesByMatch(scoutingData, teamNumber) {
             coralL2Precent,
             coralL3Precent,
             coralL4Precent,
-            overallPrecent,
-            algeeBargePrecent
+            overallPrecent
         };
     });
     scoresByRound.sort((a, b) => a.roundNumber - b.roundNumber);
