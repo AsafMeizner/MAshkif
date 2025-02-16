@@ -63,29 +63,32 @@ function QrScannerPage() {
     // Create a container for the video preview
     const videoContainer = document.createElement('div');
     videoContainer.className = 'video-preview-container';
-    // You can add custom styling via CSS for .video-preview-container if needed
-  
+
     const video = document.createElement('video');
     video.className = 'video-preview';
-    // Adjust size as needed
     video.style.width = '100%';
     video.style.maxHeight = '400px';
+    // Add attributes for autoplay policies on desktop browsers
+    video.setAttribute('playsinline', 'true');
+    video.muted = true;
+    video.autoplay = true;
+
     videoContainer.appendChild(video);
     document.body.appendChild(videoContainer);
-  
+
     document.querySelector('body')?.classList.add('barcode-scanner-active');
-  
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'environment' },
       });
       video.srcObject = stream;
       await video.play();
-  
+
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
       let scanning = true;
-  
+
       const scanLoop = () => {
         if (!scanning) return;
         if (video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -106,7 +109,7 @@ function QrScannerPage() {
         }
         requestAnimationFrame(scanLoop);
       };
-  
+
       scanLoop();
     } catch (error) {
       console.error('Fallback scanning error:', error);
