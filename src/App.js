@@ -16,24 +16,28 @@ function App() {
   // Function to initialize localStorage values
   useEffect(() => {
     const initializeLocalStorage = () => {
-      if (!localStorage.getItem('config')) {
-        localStorage.setItem('config', JSON.stringify({}));
+      if (!localStorage.getItem('scouting_data')) {
+        localStorage.setItem('scouting_data', JSON.stringify({}));
       }
 
-      if (!localStorage.getItem('scouting_data_dcmp')) {
-        localStorage.setItem('scouting_data_dcmp', JSON.stringify({}));
+      if (!localStorage.getItem('princess_data')) {
+        localStorage.setItem('princess_data', JSON.stringify({}));
+      }
+
+      if (!localStorage.getItem('password')) {
+        localStorage.setItem('password', ''); 
       }
 
       if (!localStorage.getItem('submissions')) {
-        localStorage.setItem('submissions', JSON.stringify([])); // Assuming submissions are an array
+        localStorage.setItem('submissions', JSON.stringify([])); 
       }
 
       if (!localStorage.getItem('princessSubmissions')) {
-        localStorage.setItem('princessSubmissions', JSON.stringify({})); // Assuming submissions are an array
+        localStorage.setItem('princessSubmissions', JSON.stringify({})); 
       }
 
       if (!localStorage.getItem('scouting_data_url')) {
-        localStorage.setItem('scouting_data_url', ''); // Set default URL if needed
+        localStorage.setItem('scouting_data_url', '');
       }
     };
 

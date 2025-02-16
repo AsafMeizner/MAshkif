@@ -866,3 +866,51 @@ export const teamMaxRadarConfig = (scoutingData, team1Number, team2Number) => {
         title: 'Team Performance Comparison',
     };
 };
+
+
+// =======================================================================
+
+// princess functions
+
+export const princessTableConfig = (princessData, teamNumber) => {
+    return {
+        data: specificTeamFunctions.princessTable(princessData, teamNumber),
+        title: `Princess Data for Team ${teamNumber}`,
+        columns: [
+            {
+                key: 'submissionTime',
+                label: 'Submission Time',
+            },
+            {
+                key: 'matchNumber',
+                label: 'Match Number',
+            },
+            {
+                key: 'scouter',
+                label: 'Princess Name',
+            },
+            {
+                key: 'comment',
+                label: 'Text',
+            },
+        ],
+        tableSettings: {
+            showGridlines: true,
+            responsive: true,
+            maintainAspectRatio: true,
+            enableSorting: true, 
+            sortBy: 'matchNumber', 
+            sortOrder: 'ascending',
+        },
+        columnResizeSettings: {
+            resizable: true,
+            minColumnWidth: 100,
+        },
+        pagination: true,
+        rowsPerPage: 10,
+        paginationSettings: {
+            showPaginationControls: true,
+            paginationControlPosition: 'bottom',
+        },
+    };
+}

@@ -160,10 +160,17 @@ function QrScannerPage() {
   const handleSave = () => {
     if (decodedContent) {
       const newContent = compressAndEncode(JSON.stringify(decodedContent));
-      const newSubmissions = [...submissions, newContent];
-      setSubmissions(newSubmissions);
-      localStorage.setItem('submissions', JSON.stringify(newSubmissions));
-      toast.success('Submission saved successfully!');
+      if (decodedContent.form === ':princess:') {
+        const princessSubs = JSON.parse(localStorage.getItem('princessSubmissions')) || [];
+        const newPrincessSubs = [...princessSubs, newContent];
+        localStorage.setItem('princessSubmissions', JSON.stringify(newPrincessSubs));
+        toast.success('Submission saved successfully to Princess Submissions!');
+      } else {
+        const newSubmissions = [...submissions, newContent];
+        setSubmissions(newSubmissions);
+        localStorage.setItem('submissions', JSON.stringify(newSubmissions));
+        toast.success('Submission saved successfully!');
+      }
     }
     handleCloseModal();
   };

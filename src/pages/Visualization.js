@@ -8,6 +8,8 @@ import './Visualization.css';
 import * as allTeamsConfigs from '../components/chart-configs/allTeams/configs';
 import * as specificTeamConfigs from '../components/chart-configs/specificTeam/configs';
 import { getScoutingData } from '../components/utils';
+import { getPrincessData } from '../components/utils';
+
 import * as reportConfigs from '../components/chart-configs/report/configs';
 
 const Visualization = () => {
@@ -25,6 +27,7 @@ const Visualization = () => {
     const [blue3Number, setBlue3Number] = useState(3339);
     const [selectedTeams, setSelectedTeams] = useState([]);
     const scoutingData = getScoutingData();
+    const princessData = getPrincessData();
 
     useEffect(() => {
         const handleOrientationChange = (e) => {
@@ -181,6 +184,9 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('general') && (
                 <div className="graph-container">
+                    <div className="wide-graph-item">
+                        <TableChart config={specificTeamConfigs.princessTableConfig(princessData, teamNumber)} />
+                    </div>
                     <div className="graph-item">
                         <BarGraph config={specificTeamConfigs.matchScoreByRoundConfig(scoutingData, teamNumber)} />
                     </div>

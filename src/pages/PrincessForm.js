@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import ModalComponent from '../components/QuizComponents/ModalComponent';
+import {PrincessModalComponent} from '../components/QuizComponents/ModalComponent';
 import HistoryModal from '../components/QuizComponents/HistoryModal';
 import FieldRenderer from '../components/QuizComponents/FieldRenderer';
 import HapticFeedback from '../components/HapticFeedback';
@@ -33,21 +33,20 @@ const PrincessForm = () => {
   }, []);
 
   const onSubmit = (data) => {
-    const sanitizedData = sections.reduce((acc, section) => {
+    // First reduce to get all field data
+    const reducedData = sections.reduce((acc, section) => {
       section.fields.forEach((field) => {
         if (field.type === 'multi-counter') {
-          const multiValue = data[field.code] || {}; // Get the object for the multi-counter field
-          // Spread subfields into the main structure with their individual codes
+          const multiValue = data[field.code] || {};
           field.subFields.forEach((subField) => {
             acc[subField.code] =
               multiValue[subField.code] !== undefined && multiValue[subField.code] !== ''
                 ? multiValue[subField.code]
                 : subField.defaultValue !== undefined
                   ? subField.defaultValue
-                  : 0; // Default to 0 if no defaultValue is provided
+                  : 0;
           });
         } else if (field.type === 'number') {
-          // Convert number field values from string to number
           acc[field.code] =
             data[field.code] !== undefined && data[field.code] !== ''
               ? Number(data[field.code])
@@ -69,8 +68,13 @@ const PrincessForm = () => {
       });
       return acc;
     }, {});
-
-    sanitizedData.submissionTime = new Date().getTime();
+    
+    // Add the "form" key as the first key and include submissionTime
+    const sanitizedData = {
+      form: ':princess:',
+      ...reducedData,
+      submissionTime: new Date().getTime(),
+    };
 
     let content = compressAndEncode(JSON.stringify(sanitizedData));
     setQrContent(content);
@@ -179,7 +183,7 @@ const PrincessForm = () => {
         </form>
         {formSubmitted && <HapticFeedback />}
         {resetFeedback && <div className="reset-feedback">Form reset successfully!</div>}
-        <ModalComponent
+        <PrincessModalComponent
           isOpen={modalIsOpen}
           closeModal={closeQrModal}
           qrContent={tempQrContent || qrContent}

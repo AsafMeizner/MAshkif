@@ -33,7 +33,7 @@ const QuizForm = () => {
   }, []);
 
   const onSubmit = (data) => {
-    const sanitizedData = sections.reduce((acc, section) => {
+    const reducedData = sections.reduce((acc, section) => {
       section.fields.forEach((field) => {
         if (field.type === 'multi-counter') {
           const multiValue = data[field.code] || {}; // Get the object for the multi-counter field
@@ -70,7 +70,11 @@ const QuizForm = () => {
       return acc;
     }, {});
 
-    sanitizedData.submissionTime = new Date().getTime();
+    const sanitizedData = {
+      form: ':default:',
+      ...reducedData,
+      submissionTime: new Date().getTime(),
+    };
 
     let content = compressAndEncode(JSON.stringify(sanitizedData));
     setQrContent(content);

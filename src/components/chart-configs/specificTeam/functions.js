@@ -601,3 +601,27 @@ export function generalSummery(scoutingData, teamNumber) {
         maxEndPosition
     }
 }
+
+
+// =======================================================================
+
+// princess functions
+
+export function princessTable(princessData, teamNumber) {
+    const teamData = princessData.filter((data) => data.teamNumber === teamNumber);
+
+    if (!teamData.length) {
+        return [];
+    }
+
+    const formattedData = teamData.map((entry) => ({
+        submissionTime: new Date(entry.submissionTime).toLocaleString(),
+        matchNumber: entry.matchNumber,
+        scouter: entry.scouter,
+        comment: entry.co || 'No Comment',
+    }));
+
+    formattedData.sort((a, b) => a.matchNumber - b.matchNumber);
+
+    return formattedData;
+}

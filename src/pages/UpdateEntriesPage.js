@@ -23,7 +23,7 @@ const UpdateEntriesPage = () => {
         }
       );
       console.log('Data update completed.');
-      console.log('data: ', localStorage.getItem('scouting_data_dcmp'));
+      console.log('data: ', localStorage.getItem('scouting_data'));
     } catch (error) {
       console.error(error);
     } finally {

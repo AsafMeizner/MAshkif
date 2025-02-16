@@ -67,7 +67,17 @@ const TableChart = ({ config }) => {
             {data.map((row, rowIndex) => (
               <tr key={rowIndex}>
                 {columns.map((col) => (
-                  <td key={col.key}>{row[col.key]}</td>
+                  <td key={col.key}>
+                    {typeof row[col.key] === 'string'
+                      ? row[col.key].split('\n').map((line, i) => (
+                          <React.Fragment key={i}>
+                            {line}
+                            <br />
+                          </React.Fragment>
+                        ))
+                      : row[col.key]
+                    }
+                  </td>
                 ))}
               </tr>
             ))}
