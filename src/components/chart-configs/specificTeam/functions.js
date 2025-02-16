@@ -458,10 +458,10 @@ export function endgameClimbDataPerRound(scoutingData, teamNumber) {
             roundNumber,
             No: entry.epo === "No" ? 1 : 0,
             P: entry.epo === "P" ? 1 : 0,
-            Fo: entry.epo === "Fs" ? 1 : 0,
-            Fh: entry.epo === "Fd" ? 1 : 0,
-            Os: entry.epo === "Sc" ? 1 : 0,
-            Hm: entry.epo === "Dc" ? 1 : 0,
+            Fs: entry.epo === "Fs" ? 1 : 0,
+            Fd: entry.epo === "Fd" ? 1 : 0,
+            Sc: entry.epo === "Sc" ? 1 : 0,
+            Dc: entry.epo === "Dc" ? 1 : 0,
         };
     });
 
