@@ -8,6 +8,8 @@ import QrScan from './pages/QrScan';
 import Navbar from './components/Navbar';
 import Visualization from './pages/Visualization';
 import UpdateEntriesPage from './pages/UpdateEntriesPage';
+import PrincessForm from './pages/PrincessForm';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
@@ -26,6 +28,10 @@ function App() {
         localStorage.setItem('submissions', JSON.stringify([])); // Assuming submissions are an array
       }
 
+      if (!localStorage.getItem('princessSubmissions')) {
+        localStorage.setItem('princessSubmissions', JSON.stringify({})); // Assuming submissions are an array
+      }
+
       if (!localStorage.getItem('scouting_data_url')) {
         localStorage.setItem('scouting_data_url', ''); // Set default URL if needed
       }
@@ -38,6 +44,18 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <ToastContainer
+          position="bottom-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
         <Navbar />
         <Routes>
           <Route path="/quizform" element={<QuizForm />} />
@@ -46,6 +64,7 @@ function App() {
           <Route path="/qrscan" element={<QrScan />} />
           <Route path="/visualization" element={<Visualization />} />
           <Route path="/update-entries" element={<UpdateEntriesPage />} /> 
+          <Route path="/princessform" element={<PrincessForm />} />
         </Routes>
       </div>
     </Router>

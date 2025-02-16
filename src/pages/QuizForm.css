@@ -1,95 +1,94 @@
+.quiz-title {
+  font-family: "Gilroy-ExtraBold", Arial, sans-serif;
+  color: #e74c3c;
+}
 
-  .quiz-title {
-    font-family: "Gilroy-ExtraBold", Arial, sans-serif;
-    color: #e74c3c;
-  }
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 90%;
+  margin-right: 5%;
+  margin-left: 5%;
+}
 
-  .form-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 90%;
-    margin-right: 5%;
-    margin-left: 5%;
-  }
-  
-  .quiz-container {
-    background-color: #181b1f;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    color: white;
-    flex: 1;
-    min-width: 48%;
-    max-width: 48%;
-    box-sizing: border-box;
-  }
-  
-  .section-title {
-    background-color: #e74c3c;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-    color: white;
-    margin-bottom: 10px;
-  }
-  
-  .section-content {
-    padding: 10px;
-    border: 3px solid #e74c3c;
-    border-radius: 5px;
-    background-color: #111217;
-  }
-  
-  .field-section {
-    margin-bottom: 20px;
-  }
-  
-  .field label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 16px;
-  }
-  
-  .field input[type="text"],
-  .field input[type="number"],
-  .field select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #7f8c8d;
-    border-radius: 5px;
-    box-sizing: border-box;
-    background-color: #3b3b3b;
-    color: white;
-  }
-  
-  .field .counter {
-    display: flex;
-    align-items: center;
-  }
-  
-  .field .counter button {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    padding: 8px;
-    cursor: pointer;
-  }
-  
-  .field .counter button:hover {
-    background-color: #c0392b;
-  }
-  
-  .field .counter span {
-    margin: 0 10px;
-    font-size: 16px;
-  }
+.quiz-container {
+  background-color: #181b1f;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  color: white;
+  flex: 1;
+  min-width: 48%;
+  max-width: 48%;
+  box-sizing: border-box;
+}
 
-  /* Multi-Counter Field Styling */
+.section-title {
+  background-color: #e74c3c;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.section-content {
+  padding: 10px;
+  border: 3px solid #e74c3c;
+  border-radius: 5px;
+  background-color: #111217;
+}
+
+.field-section {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.field input[type="text"],
+.field input[type="number"],
+.field select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #7f8c8d;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #3b3b3b;
+  color: white;
+}
+
+.field .counter {
+  display: flex;
+  align-items: center;
+}
+
+.field .counter button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.field .counter button:hover {
+  background-color: #c0392b;
+}
+
+.field .counter span {
+  margin: 0 10px;
+  font-size: 16px;
+}
+
+/* Multi-Counter Field Styling */
 .multi-counter-field {
   margin-bottom: 20px;
 }
@@ -113,7 +112,8 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
-  min-width: 22%; /* Adjust based on desired size */
+  min-width: 22%;
+  /* Adjust based on desired size */
   max-width: 22%;
   background-color: #3b3b3b;
   padding: 10px;
@@ -146,145 +146,145 @@
 /* Responsive design for smaller screens */
 @media (max-width: 600px) {
   .multi-counter .counter {
-    flex: 1 1 45%; /* Adjust for smaller screen sizes */
+    flex: 1 1 45%;
+    /* Adjust for smaller screen sizes */
     min-width: 45%;
     max-width: 45%;
   }
 }
 
-  
-  .form-buttons {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 100%;
-    margin-top: 20px;
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 20px;
+}
+
+.submit-button,
+.reset-button,
+.history-button {
+  display: block;
+  width: 32%;
+  padding: 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-button:hover,
+.reset-button:hover,
+.history-button:hover {
+  background-color: #c0392b;
+}
+
+.reset-feedback {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.modal-content {
+  background: #181b1f;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content p {
+  margin-top: 10px;
+  word-break: break-all;
+}
+
+.submission-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #3b3b3b;
+  border-radius: 5px;
+}
+
+.submission-item p {
+  margin: 0;
+  word-break: break-all;
+}
+
+.submission-item button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.submission-item button:hover {
+  background-color: #c0392b;
+}
+
+.close-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.close-button:hover {
+  background-color: #c0392b;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.75);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  position: relative;
+  z-index: 1001;
+  margin-right: 5%;
+  margin-left: 5%;
+}
+
+.history-content {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    flex-direction: column;
   }
-  
+
+  .quiz-container {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
+
   .submit-button,
   .reset-button,
   .history-button {
-    display: block;
-    width: 32%;
-    padding: 10px;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .submit-button:hover,
-  .reset-button:hover,
-  .history-button:hover {
-    background-color: #c0392b;
-  }
-
-  .reset-feedback {
-    color: green;
-    font-size: 14px;
-    margin-top: 10px;
-    text-align: center;
-  }
-  
-  .modal-content {
-    background: #181b1f;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    color: white;
-    max-height: 80vh;
-    overflow-y: auto;
-  }
-  
-  .modal-content p {
-    margin-top: 10px;
-    word-break: break-all;
-  }
-  
-  .submission-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    padding: 10px;
-    background: #3b3b3b;
-    border-radius: 5px;
-  }
-  
-  .submission-item p {
-    margin: 0;
-    word-break: break-all;
-  }
-  
-  .submission-item button {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  
-  .submission-item button:hover {
-    background-color: #c0392b;
-  }
-  
-  .close-button {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
+    width: 100%;
     margin-top: 10px;
   }
-  
-  .close-button:hover {
-    background-color: #c0392b;
-  }
-  
-  .overlay {
-    background-color: rgba(0, 0, 0, 0.75);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal {
-    position: relative;
-    z-index: 1001;
-    margin-right: 5%;
-    margin-left: 5%;
-  }
-  
-  .history-content {
-    max-height: 60vh;
-    overflow-y: auto;
-  }
-  
-  @media (max-width: 600px) {
-    .form-container {
-      flex-direction: column;
-    }
-  
-    .quiz-container {
-      width: 100%;
-      min-width: 100%;
-      max-width: 100%;
-    }
-  
-    .submit-button,
-    .reset-button,
-    .history-button {
-      width: 100%;
-      margin-top: 10px;
-    }
-  }
-  
+}

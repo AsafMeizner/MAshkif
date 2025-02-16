@@ -35,6 +35,9 @@ function Navbar() {
           <Link to="/quizform" onClick={toggleMenu}>Quiz Form</Link>
         </li>
         <li>
+          <Link to="/princessform" onClick={toggleMenu}>Princess Form</Link>
+        </li>
+        <li>
           <Link to="/qrscan" onClick={toggleMenu}>QR Scan</Link>
         </li>
         <li>

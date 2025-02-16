@@ -23,24 +23,6 @@
   z-index: 5;
 }
 
-.open-config-button, .delete-config-button, .close-button {
-  display: inline-block;
-  padding: 10px 15px;
-  cursor: pointer;
-  background-color: #e74c3c;
-  color: white;
-  border-radius: 5px;
-  text-align: center;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-  border: none;
-  font-size: 16px;
-}
-
-.open-config-button:hover, .delete-config-button:hover, .close-button:hover {
-  background-color: #c0392b;
-}
-
 .settings-page h1 {
   color: #e74c3c;
   margin-bottom: 20px;
@@ -57,49 +39,24 @@
 .settings-page .form-group {
   display: flex;
   flex-direction: column;
-  align-items: center; 
-}
-
-.settings-page input[type="file"] {
-  padding: 0;
-  font-size: 14px;
-}
-
-.settings-page input[type="file"] {
-    display: none; 
-}
-
-.custom-file-upload {
-  display: inline-block;
-  padding: 10px 15px;
-  cursor: pointer;
-  background-color: #e74c3c;
-  color: white;
-  border-radius: 5px;
-  text-align: center;
-  transition: background-color 0.3s ease;
-  font-size: 16px; 
-}
-
-.custom-file-upload:hover {
-    background-color: #c0392b;
+  align-items: center;
 }
 
 /* New API URL input and button */
-.api-url-section {
+.simple-text-section {
   margin-top: 20px;
   text-align: center;
   width: 100%;
 }
 
-.api-url-section label {
+.simple-text-section label {
   color: white;
   font-size: 16px;
   margin-bottom: 10px;
   display: block;
 }
 
-.api-url-section input[type="text"] {
+.simple-text-section input[type="text"] {
   width: 100%;
   padding: 10px;
   border-radius: 5px;
@@ -112,16 +69,62 @@
   text-align: center;
 }
 
-.api-url-section input[type="text"]::placeholder {
+.simple-text-section input[type="text"]::placeholder {
   color: #7f8c8d;
 }
 
-.api-url-section input[type="text"]:focus {
+.simple-text-section input[type="text"]:focus {
   outline: none;
   border-color: #e74c3c;
 }
 
-.save-url-button {
+.simple-text-section input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  font-size: 16px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+  background-color: #2c2f33;
+  color: white;
+  text-align: center;
+}
+
+/* New styles for password input container and toggle button */
+.password-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-password-button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+    background-color: #e74c3c;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-password-button:hover {
+    background-color: #c0392b;
+}
+
+.simple-text-section input[type="password"]::placeholder {
+  color: #7f8c8d;
+}
+
+.simple-text-section input[type="password"]:focus {
+  outline: none;
+  border-color: #e74c3c;
+}
+
+.simple-save-button {
   background-color: #e74c3c;
   color: white;
   padding: 10px 15px;
@@ -132,70 +135,12 @@
   transition: background-color 0.3s ease;
 }
 
-.save-url-button:hover {
+.simple-save-button:hover {
   background-color: #c0392b;
 }
 
-.api-url-section p {
+.simple-text-section p {
   color: #ecf0f1;
   font-size: 14px;
   margin-top: 10px;
-}
-
-/* Modal styles */
-.overlay {
-  background-color: rgba(0, 0, 0, 0.5); /* Adjusted for less harsh black */
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal {
-  background-color: #181b1f;
-  padding: 20px;
-  border-radius: 10px;
-  width: 80vw;
-  max-width: 600px;
-  max-height: 80vh;
-  overflow-y: auto; 
-  position: relative;
-}
-
-.modal-content {
-  background: #181b1f;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  color: white;
-}
-
-.modal-content pre {
-  background-color: #3b3b3b;
-  padding: 10px;
-  border-radius: 5px;
-  color: #ecf0f1;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  max-height: 45vh; 
-  overflow-y: auto; 
-}
-
-.close-button {
-  background-color: #e74c3c; 
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.close-button:hover {
-  background-color: #c0392b;
 }

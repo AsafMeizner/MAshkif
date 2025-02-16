@@ -1,5 +1,6 @@
 import React from 'react';
 import TextField from './QuestionFields/TextField';
+import TextLongField from './QuestionFields/TextLong';
 import NumberField from './QuestionFields/NumberField';
 import SelectField from './QuestionFields/SelectField';
 import BooleanField from './QuestionFields/BooleanField';
@@ -56,6 +57,15 @@ const FieldRenderer = ({ field, onChange, value }) => {
     case 'multi-counter':
       return (
         <MultiCounterField
+          key={field.code}
+          field={field}
+          value={value}
+          onChange={onChange}
+        />
+      );
+    case 'text-long':
+      return (
+        <TextLongField
           key={field.code}
           field={field}
           value={value}

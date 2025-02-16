@@ -61,7 +61,7 @@ export const postAllSubmissions = async (password) => {
   const apiUrl = localStorage.getItem('scouting_data_url')
 
   const compressedSubmissions = JSON.parse(localStorage.getItem('submissions') || '[]');
-  
+
   if (!apiUrl) {
     console.error('Submission API URL not found in localStorage');
     return;
@@ -112,12 +112,32 @@ export const postAllSubmissions = async (password) => {
 
 // Function to save the API URL to localStorage
 export const saveAPIURLToLocalStorage = (url) => {
-  if (!url.startsWith('http://') && !url.startsWith('https://')) {
-    console.error('Invalid URL format. It should start with "http://" or "https://".');
-    return;
+  try {
+    const validatedUrl = new URL(url);
+    if (validatedUrl.protocol !== 'http:' && validatedUrl.protocol !== 'https:') {
+      console.error('Invalid URL protocol. URL must start with "http://" or "https://".');
+      return [false, 'Invalid URL protocol. URL must start with "http://" or "https://".'];
+    }
+    localStorage.setItem('scouting_data_url', validatedUrl.toString());
+    console.log('API URL saved to localStorage.');
+    return [true, 'API URL saved successfully.'];
+  } catch (error) {
+    console.error('Invalid URL format:', error);
+    return [false, 'Invalid URL format.'];
   }
-  localStorage.setItem('scouting_data_url', url);
-  console.log('API URL saved to localStorage.');
+};
+
+export const savePasswordToLocalStorage = (password) => {
+  if (password) {
+    localStorage.setItem('password', password);
+    console.log('Password saved to localStorage.');
+    return [true, 'Password saved successfully.'];
+  }
+  return [false, 'Invalid password.'];
+};
+
+export const getPasswordFromLocalStorage = () => {
+  return localStorage.getItem('password') || '';
 };
 
 // Compress/Decompress utilities

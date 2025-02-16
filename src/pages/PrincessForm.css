@@ -1,0 +1,57 @@
+.princessQuiz-title {
+  font-family: "Gilroy-ExtraBold", Arial, sans-serif;
+  color: #e74c3c;
+}
+
+.princessQuiz-page {
+  min-height: 100vh;
+}
+
+.princess-form-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin-right: 5%;
+  margin-left: 5%;
+}
+
+.princessQuiz-container {
+  align-items: center;
+  background-color: #181b1f;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  color: white;
+  flex: 1;
+  min-width: 48%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.field textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #7f8c8d;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #3b3b3b;
+  color: white;
+  resize: vertical;
+}
+
+.field input[type="text"],
+.field input[type="number"],
+.field select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #7f8c8d;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #3b3b3b;
+  color: white;
+}

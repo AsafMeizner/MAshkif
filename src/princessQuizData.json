@@ -1,0 +1,40 @@
+{
+    "page_title": "ReefScape",
+    "sections": [
+        {
+            "name": "Princess Form",
+            "preserveDataOnReset": true,
+            "fields": [
+                {
+                    "title": "Princess Name",
+                    "type": "text",
+                    "required": true,
+                    "code": "scouter"
+                },
+                {
+                    "title": "Team Number",
+                    "type": "number",
+                    "required": true,
+                    "code": "teamNumber"
+                },
+                {
+                    "title": "Match Number",
+                    "type": "number",
+                    "required": true,
+                    "code": "matchNumber",
+                    "preserveDataOnReset": true,
+                    "autoIncrementOnReset": true
+                },
+                {
+                    "code": "co",
+                    "title": "Text",
+                    "type": "text-long",
+                    "min": 0,
+                    "max": 2000,
+                    "required": true,
+                    "defaultValue": ""
+                }
+            ]
+        }
+    ]
+}

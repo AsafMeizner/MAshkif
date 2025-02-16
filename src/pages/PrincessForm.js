@@ -4,13 +4,13 @@ import ModalComponent from '../components/QuizComponents/ModalComponent';
 import HistoryModal from '../components/QuizComponents/HistoryModal';
 import FieldRenderer from '../components/QuizComponents/FieldRenderer';
 import HapticFeedback from '../components/HapticFeedback';
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'; 
 import { compressAndEncode } from '../components/utils';
-import './QuizForm.css';
+import './PrincessForm.css';
 
-const defaultQuizData = require('../quizData.json');
+const defaultQuizData = require('../princessQuizData.json');
 
-const QuizForm = () => {
+const PrincessForm = () => {
   const [sections, setSections] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [historyModalIsOpen, setHistoryModalIsOpen] = useState(false);
@@ -28,7 +28,7 @@ const QuizForm = () => {
     setSections(quizData.sections);
     setPageTitle(quizData.page_title || defaultQuizData.page_title);
 
-    const savedSubmissions = JSON.parse(localStorage.getItem('submissions')) || [];
+    const savedSubmissions = JSON.parse(localStorage.getItem('princessSubmissions')) || [];
     setSubmissions(savedSubmissions);
   }, []);
 
@@ -77,7 +77,7 @@ const QuizForm = () => {
 
     const newSubmissions = [...submissions, content];
     setSubmissions(newSubmissions);
-    localStorage.setItem('submissions', JSON.stringify(newSubmissions));
+    localStorage.setItem('princessSubmissions', JSON.stringify(newSubmissions));
     toast.success('Form submitted successfully!');
 
     setModalIsOpen(true);
@@ -87,13 +87,13 @@ const QuizForm = () => {
   const handleDelete = (index) => {
     const updatedSubmissions = submissions.filter((_, i) => i !== index);
     setSubmissions(updatedSubmissions);
-    localStorage.setItem('submissions', JSON.stringify(updatedSubmissions));
+    localStorage.setItem('princessSubmissions', JSON.stringify(updatedSubmissions));
     toast.success('Submission deleted successfully!');
   };
 
   const handleDeleteAll = () => {
     setSubmissions([]);
-    localStorage.setItem('submissions', JSON.stringify([]));
+    localStorage.setItem('princessSubmissions', JSON.stringify([]));
     toast.success('All submissions deleted successfully!');
   };
 
@@ -121,78 +121,80 @@ const QuizForm = () => {
   };
 
   return (
-    <div
-      style={
-        window.innerWidth > window.innerHeight
-          ? { marginTop: '5%', marginBottom: '5%' }
-          : { marginTop: '10%', marginBottom: '5%' }
-      }
-    >
+    <div className="princessQuiz-page" >
       <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100vw',
-          margintop: '10%',
-        }}
+        style={
+          window.innerWidth > window.innerHeight
+            ? { marginTop: '5%', marginBottom: '5%' }
+            : { marginTop: '10%', marginBottom: '5%' }
+        }
       >
-        <h1 className="quiz-title">{pageTitle}</h1>
-      </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="form-container">
-        {sections.map((section) => (
-          <div key={section.name} className="quiz-container">
-            <h2 className="section-title">{section.name}</h2>
-            <div className="section-content">
-              {section.fields.map((field) => (
-                <div key={field.code} className="field-section">
-                  <Controller
-                    name={field.code}
-                    control={control}
-                    defaultValue={field.type === 'number' ? 0 : field.defaultValue || ''}
-                    render={({ field: controllerField }) => (
-                      <FieldRenderer
-                        field={field}
-                        onChange={controllerField.onChange}
-                        value={controllerField.value}
-                        valueAsNumber={field.type === 'number'}
-                      />
-                    )}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-        <div className="form-buttons">
-          <button type="submit" className="submit-button">
-            Submit
-          </button>
-          <button type="button" className="reset-button" onClick={handleReset}>
-            Reset Form
-          </button>
-          <button type="button" className="history-button" onClick={openHistoryModal}>
-            View Submissions
-          </button>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100vw',
+            margintop: '10%',
+          }}
+        >
+          <h1 className="princessQuiz-title">{pageTitle}</h1>
         </div>
-      </form>
-      {formSubmitted && <HapticFeedback />}
-      {resetFeedback && <div className="reset-feedback">Form reset successfully!</div>}
-      <ModalComponent
-        isOpen={modalIsOpen}
-        closeModal={closeQrModal}
-        qrContent={tempQrContent || qrContent}
-      />
-      <HistoryModal
-        isOpen={historyModalIsOpen}
-        closeModal={closeHistoryModal}
-        submissions={submissions}
-        openQrModal={openQrModal}
-        handleDelete={handleDelete}
-        handleDeleteAll={handleDeleteAll}
-      />
+        <form onSubmit={handleSubmit(onSubmit)} className="princess-form-container">
+          {sections.map((section) => (
+            <div key={section.name} className="princessQuiz-container">
+              <h2 className="section-title">{section.name}</h2>
+              <div className="section-content">
+                {section.fields.map((field) => (
+                  <div key={field.code} className="field-section">
+                    <Controller
+                      name={field.code}
+                      control={control}
+                      defaultValue={field.type === 'number' ? 0 : field.defaultValue || ''}
+                      render={({ field: controllerField }) => (
+                        <FieldRenderer
+                          field={field}
+                          onChange={controllerField.onChange}
+                          value={controllerField.value}
+                          valueAsNumber={field.type === 'number'}
+                        />
+                      )}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+          <div className="form-buttons">
+            <button type="submit" className="submit-button">
+              Submit
+            </button>
+            <button type="button" className="reset-button" onClick={handleReset}>
+              Reset Form
+            </button>
+            <button type="button" className="history-button" onClick={openHistoryModal}>
+              View Submissions
+            </button>
+          </div>
+        </form>
+        {formSubmitted && <HapticFeedback />}
+        {resetFeedback && <div className="reset-feedback">Form reset successfully!</div>}
+        <ModalComponent
+          isOpen={modalIsOpen}
+          closeModal={closeQrModal}
+          qrContent={tempQrContent || qrContent}
+        />
+        <HistoryModal
+          isOpen={historyModalIsOpen}
+          closeModal={closeHistoryModal}
+          submissions={submissions}
+          openQrModal={openQrModal}
+          handleDelete={handleDelete}
+          handleDeleteAll={handleDeleteAll}
+        />
+      </div>
     </div>
   );
 };
 
-export default QuizForm;
+export default PrincessForm;
