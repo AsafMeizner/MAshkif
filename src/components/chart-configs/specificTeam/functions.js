@@ -102,11 +102,23 @@ export function scoresSummery(scoutingData, teamNumber) {
         return Math.max(acc, matchAlgeeScore);
     }, 0);
 
+    const totalFouls = teamData.reduce((acc, entry) => {
+        return acc + (entry.fouls || 0);
+    }, 0);
+
+    const averageFouls = totalFouls / teamData.length;
+
+    const maxFouls = teamData.reduce((acc, entry) => {
+        return Math.max(acc, entry.fouls || 0);
+    }, 0);
+
     return {
         averageCoralScore,
         averageAlgeeScore,
         maxCoralScore,
-        maxAlgeeScore
+        maxAlgeeScore,
+        averageFouls,
+        maxFouls
     }
 }
 
@@ -122,7 +134,7 @@ export function generalPerTeamTable(scoutingData, teamNumber) {
         matchNumber: entry.matchNumber,
         scouter: entry.scouter,
         comment: entry.co || 'No Comment',
-        card: entry.yc || 'No Card',
+        fouls: entry.fouls || 0,
         showedUp: entry.noShow ? 'No' : 'Yes',
         diedOrTippedOver: entry.dto ? 'Yes' : 'No',
     }));

@@ -39,9 +39,11 @@ export const averageScoreConfig = (scoutingData, teamNumber) => {
     const averageAlgeeScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).averageAlgeeScore;
     const maxCoralScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).maxCoralScore;
     const maxAlgeeScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).maxAlgeeScore;
+    const averageFouls = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).averageFouls;
+    const maxFouls = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).maxFouls;
 
     return {
-        mainTitle: `Tele-Op Stats for Team ${teamNumber}`,
+        mainTitle: `General Stats For Team ${teamNumber}`,
         values: [
             {
                 color: '#c4162a',
@@ -57,6 +59,13 @@ export const averageScoreConfig = (scoutingData, teamNumber) => {
                 max: maxAlgeeScore,
                 value: averageAlgeeScore,
             },
+            {
+                color: '#f4c20d',
+                title: 'Average / Max Fouls',
+                min: 0,
+                max: maxFouls,
+                value: averageFouls,
+            }
         ],
     };
 };
@@ -83,8 +92,8 @@ export const commentsPerTeamTableConfig = (scoutingData, teamNumber) => {
                 label: 'Comments',
             },
             {
-                key: 'card',
-                label: 'Card',
+                key: 'fouls',
+                label: 'Penalties',
             },
             {
                 key: 'showedUp',
@@ -436,32 +445,32 @@ export const teleopCoralLevelsSummeryConfig = (scoutingData, teamNumber) => {
     const maxCoralL4Score = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).maxL4Score;
 
     return {
-        mainTitle: `Teleop Coral Levels Stats for Team ${teamNumber}`,
+        mainTitle: `Teleop Average / Max Coral Levels Stats for Team ${teamNumber}`,
         values: [
             {
                 color: '#91101f',
-                title: 'Average / Max Coral L1 Score',
+                title: 'L1',
                 min: 0,
                 max: maxCoralL1Score,
                 value: averageCoralL1Score,
             },
             {
                 color: '#c4162a',
-                title: 'Average / Max Coral L2 Score',
+                title: 'L2',
                 min: 0,
                 max: maxCoralL2Score,
                 value: averageCoralL2Score,
             },
             {
                 color: '#e67e22',
-                title: 'Average / Max Coral L3 Score',
+                title: 'L3',
                 min: 0,
                 max: maxCoralL3Score,
                 value: averageCoralL3Score,
             },
             {
                 color: '#f4c20d',
-                title: 'Average / Max Coral L4 Score',
+                title: 'L4',
                 min: 0,
                 max: maxCoralL4Score,
                 value: averageCoralL4Score,

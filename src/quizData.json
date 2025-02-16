@@ -256,16 +256,10 @@
                     "required": false
                 },
                 {
-                    "code": "yc",
-                    "title": "כרטיס צהוב/אדום",
-                    "type": "select",
-                    "defaultValue": "ללא כרטיס",
-                    "required": true,
-                    "choices": {
-                        "ללא כרטיס" : "No Card",
-                        "כרטיס צהוב" : "Yellow",
-                        "כרטיס אדום": "Red"
-                    }
+                    "title": "נקודות פאולים",
+                    "type": "number",
+                    "required": false,
+                    "code": "fouls"
                 },
                 {
                     "code": "co",

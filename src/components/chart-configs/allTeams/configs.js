@@ -61,28 +61,28 @@ export const autoCoralAveragesConfig = (scoutingData) => ({
         {
             key: 'averageCoralL4Score',
             label: 'Average Coral Score',
-            color: '#aee5ff',
+            color: '#080660',
             stacked: true,
             name: 'Autonomous Coral L4 Score',
         },
         {
             key: 'averageCoralL3Score',
             label: 'Average Coral Score',
-            color: '#82ccdd',
+            color: '#415a81',
             stacked: true,
             name: 'Autonomous Coral L3 Score',
         },
         {
             key: 'averageCoralL2Score',
             label: 'Average Coral Score',
-            color: '#6e93cc',
+            color: '#2878b8',
             stacked: true,
             name: 'Autonomous Coral L2 Score',
         },
         {
             key: 'averageCoralL1Score',
             label: 'Average Coral Score',
-            color: '#526e99',
+            color: '#9ae0f0',
             stacked: true,
             name: 'Autonomous Coral L1 Score',
         }
