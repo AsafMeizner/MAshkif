@@ -3,7 +3,7 @@ import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning
 import Modal from 'react-modal';
 import { useZxing } from 'react-zxing';
 import '../App.css';
-import ScanButton from '../components/ScanComponents/ScanButton';
+// import ScanButton from '../components/ScanComponents/ScanButton';
 import ScanModal from '../components/ScanComponents/ScanModal';
 import HapticFeedback from '../components/HapticFeedback';
 import { toast } from 'react-toastify';
@@ -18,10 +18,16 @@ function QrScannerPage() {
   const [submissions, setSubmissions] = useState([]);
   const [isScanning, setIsScanning] = useState(false);
   const [, setRawContent] = useState(null);
+  // scanning mode: true = native scan, false = fallback (web) scanning
+  const [useNative, setUseNative] = useState(true);
+  // video device selection for fallback scanning
+  const [videoDevices, setVideoDevices] = useState([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
 
   // Initialize the useZxing hook for fallback scanning.
-  // When isScanning is false the hook is paused.
+  // Add deviceId if selected.
   const { ref: scannerRef } = useZxing({
+    deviceId: selectedDeviceId,
     onDecodeResult: (result) => {
       processScannedContent(result.getText());
       setIsScanning(false);
@@ -39,21 +45,38 @@ function QrScannerPage() {
   });
 
   useEffect(() => {
+    // Check if native API is supported.
     const checkSupport = async () => {
       const { supported } = await BarcodeScanner.isSupported();
       setCameraAvailable(supported);
+      // If not supported, force fallback.
+      if (!supported) {
+        setUseNative(false);
+      }
     };
-
     checkSupport();
+
+    // Load saved submissions.
     const savedSubmissions = JSON.parse(localStorage.getItem('submissions')) || [];
     setSubmissions(savedSubmissions);
+
+    // For fallback scanning, enumerate available video input devices.
+    if (navigator.mediaDevices?.enumerateDevices) {
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
+        const videoInputs = devices.filter(device => device.kind === 'videoinput');
+        setVideoDevices(videoInputs);
+        if (videoInputs.length > 0) {
+          // Set default to first device.
+          setSelectedDeviceId(videoInputs[0].deviceId);
+        }
+      }).catch(err => console.error('Error enumerating devices', err));
+    }
   }, []);
 
-  // Common processing for scanned content
+  // Common processing for scanned content.
   const processScannedContent = (scannedContent) => {
     setRawContent(scannedContent);
     const decodedData = decompressAndDecode(scannedContent);
-
     if (decodedData) {
       try {
         const parsedData = JSON.parse(decodedData);
@@ -71,14 +94,12 @@ function QrScannerPage() {
     } else {
       setDecodedContent({ error: 'Decompression error', raw: scannedContent });
     }
-
     setModalIsOpen(true);
     toast.success('QR code scanned successfully!');
   };
 
   const startScan = async () => {
-    // Use native MLKit scanning when available; otherwise, use the fallback scanner (react-zxing)
-    if (cameraAvailable) {
+    if (useNative && cameraAvailable) {
       try {
         const status = await BarcodeScanner.requestPermissions();
         if (status.camera === 'granted') {
@@ -101,10 +122,10 @@ function QrScannerPage() {
           alert('Camera permission is required to scan QR codes');
         }
       } catch (error) {
-        console.error('Error starting scan:', error);
+        console.error('Error starting native scan:', error);
       }
     } else {
-      // Activate the fallback scanner using react-zxing
+      // Fallback scanning via react-zxing.
       setIsScanning(true);
     }
   };
@@ -137,13 +158,50 @@ function QrScannerPage() {
     <div className="qr-scanner-page">
       <div className="qr-scanner-container">
         <h1 className="qr-scanner-title">QR Code Scanner</h1>
-        {cameraAvailable ? (
-          <ScanButton isScanning={isScanning} startScan={startScan} stopScan={stopScan} />
-        ) : (
-          // When the native API isn't available, show a fallback scan button.
-          <button onClick={startScan} className="fallback-scan-button">
-            Start Web Scan
+        <div className="scan-options">
+          {/* Toggle scanning mode if native is supported */}
+          {cameraAvailable && (
+            <div className="mode-toggle">
+              <label>
+                <input
+                  type="radio"
+                  name="scanMode"
+                  checked={useNative}
+                  onChange={() => setUseNative(true)}
+                />
+                Native Scan
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="scanMode"
+                  checked={!useNative}
+                  onChange={() => setUseNative(false)}
+                />
+                Web Scan
+              </label>
+            </div>
+          )}
+          <button onClick={startScan} className="scan-button">
+            {useNative && cameraAvailable ? 'Start Native Scan' : 'Start Web Scan'}
           </button>
+        </div>
+        {/* Render device selector for fallback scanning if more than one device is available */}
+        {(!useNative && videoDevices.length > 1) && (
+          <div className="device-selector">
+            <label htmlFor="videoDeviceSelect">Select Camera: </label>
+            <select
+              id="videoDeviceSelect"
+              value={selectedDeviceId || ''}
+              onChange={(e) => setSelectedDeviceId(e.target.value)}
+            >
+              {videoDevices.map(device => (
+                <option key={device.deviceId} value={device.deviceId}>
+                  {device.label || `Camera ${device.deviceId}`}
+                </option>
+              ))}
+            </select>
+          </div>
         )}
       </div>
 
@@ -156,8 +214,8 @@ function QrScannerPage() {
         handleSave={handleSave}
       />
 
-      {/* Fallback scanner rendered when native API is not supported */}
-      {!cameraAvailable && isScanning && (
+      {/* Fallback scanner rendered when native scanning is not used */}
+      {(!useNative && isScanning) && (
         <div className="fallback-scanner-container" style={{ width: '100%', maxWidth: '400px', margin: 'auto' }}>
           <video
             ref={scannerRef}
