@@ -60,18 +60,32 @@ function QrScannerPage() {
   // Fallback scan using getUserMedia and jsQR
   const fallbackScan = async () => {
     setIsScanning(true);
+    // Create a container for the video preview
+    const videoContainer = document.createElement('div');
+    videoContainer.className = 'video-preview-container';
+    // You can add custom styling via CSS for .video-preview-container if needed
+  
+    const video = document.createElement('video');
+    video.className = 'video-preview';
+    // Adjust size as needed
+    video.style.width = '100%';
+    video.style.maxHeight = '400px';
+    videoContainer.appendChild(video);
+    document.body.appendChild(videoContainer);
+  
     document.querySelector('body')?.classList.add('barcode-scanner-active');
-
+  
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-      const video = document.createElement('video');
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' },
+      });
       video.srcObject = stream;
       await video.play();
-
+  
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
       let scanning = true;
-
+  
       const scanLoop = () => {
         if (!scanning) return;
         if (video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -83,21 +97,23 @@ function QrScannerPage() {
           if (code) {
             scanning = false;
             processScannedContent(code.data);
-            stream.getTracks().forEach(track => track.stop());
+            stream.getTracks().forEach((track) => track.stop());
             document.querySelector('body')?.classList.remove('barcode-scanner-active');
             setIsScanning(false);
+            videoContainer.remove();
             return;
           }
         }
         requestAnimationFrame(scanLoop);
       };
-
+  
       scanLoop();
     } catch (error) {
       console.error('Fallback scanning error:', error);
       toast.error('Error accessing camera for scanning.');
       setIsScanning(false);
       document.querySelector('body')?.classList.remove('barcode-scanner-active');
+      videoContainer.remove();
     }
   };
 
