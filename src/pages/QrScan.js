@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning';
 import Modal from 'react-modal';
-import jsQR from 'jsqr';
+import { useZxing } from 'react-zxing';
 import '../App.css';
 import ScanButton from '../components/ScanComponents/ScanButton';
 import ScanModal from '../components/ScanComponents/ScanModal';
@@ -18,6 +18,25 @@ function QrScannerPage() {
   const [submissions, setSubmissions] = useState([]);
   const [isScanning, setIsScanning] = useState(false);
   const [, setRawContent] = useState(null);
+
+  // Initialize the useZxing hook for fallback scanning.
+  // When isScanning is false the hook is paused.
+  const { ref: scannerRef } = useZxing({
+    onDecodeResult: (result) => {
+      processScannedContent(result.getText());
+      setIsScanning(false);
+    },
+    onDecodeError: (error) => {
+      // Optionally ignore decode errors.
+    },
+    onError: (error) => {
+      console.error('react-zxing error:', error);
+      toast.error('Error accessing camera.');
+      setIsScanning(false);
+    },
+    paused: !isScanning,
+    constraints: { video: { facingMode: 'environment' }, audio: false },
+  });
 
   useEffect(() => {
     const checkSupport = async () => {
@@ -57,71 +76,8 @@ function QrScannerPage() {
     toast.success('QR code scanned successfully!');
   };
 
-  // Fallback scan using getUserMedia and jsQR
-  const fallbackScan = async () => {
-    setIsScanning(true);
-    // Create a container for the video preview
-    const videoContainer = document.createElement('div');
-    videoContainer.className = 'video-preview-container';
-
-    const video = document.createElement('video');
-    video.className = 'video-preview';
-    video.style.width = '100%';
-    video.style.maxHeight = '400px';
-    // Add attributes for autoplay policies on desktop browsers
-    video.setAttribute('playsinline', 'true');
-    video.muted = true;
-    video.autoplay = true;
-
-    videoContainer.appendChild(video);
-    document.body.appendChild(videoContainer);
-
-    document.querySelector('body')?.classList.add('barcode-scanner-active');
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' },
-      });
-      video.srcObject = stream;
-      await video.play();
-
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      let scanning = true;
-
-      const scanLoop = () => {
-        if (!scanning) return;
-        if (video.readyState === video.HAVE_ENOUGH_DATA) {
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-          const code = jsQR(imageData.data, canvas.width, canvas.height);
-          if (code) {
-            scanning = false;
-            processScannedContent(code.data);
-            stream.getTracks().forEach((track) => track.stop());
-            document.querySelector('body')?.classList.remove('barcode-scanner-active');
-            setIsScanning(false);
-            videoContainer.remove();
-            return;
-          }
-        }
-        requestAnimationFrame(scanLoop);
-      };
-
-      scanLoop();
-    } catch (error) {
-      console.error('Fallback scanning error:', error);
-      toast.error('Error accessing camera for scanning.');
-      setIsScanning(false);
-      document.querySelector('body')?.classList.remove('barcode-scanner-active');
-      videoContainer.remove();
-    }
-  };
-
   const startScan = async () => {
-    // Use Capacitor MLKit when available; otherwise, fallback to web scanning
+    // Use native MLKit scanning when available; otherwise, use the fallback scanner (react-zxing)
     if (cameraAvailable) {
       try {
         const status = await BarcodeScanner.requestPermissions();
@@ -132,9 +88,7 @@ function QrScannerPage() {
           const listener = await BarcodeScanner.addListener('barcodeScanned', async result => {
             const scannedContent = result.barcode.displayValue;
             console.log('Scanned Content:', scannedContent);
-
             processScannedContent(scannedContent);
-
             await listener.remove();
             stopScan();
           });
@@ -150,8 +104,8 @@ function QrScannerPage() {
         console.error('Error starting scan:', error);
       }
     } else {
-      // Fallback for non-supported platforms (e.g., website)
-      await fallbackScan();
+      // Activate the fallback scanner using react-zxing
+      setIsScanning(true);
     }
   };
 
@@ -186,7 +140,7 @@ function QrScannerPage() {
         {cameraAvailable ? (
           <ScanButton isScanning={isScanning} startScan={startScan} stopScan={stopScan} />
         ) : (
-          // When the native API isn’t available, show a fallback scan button.
+          // When the native API isn't available, show a fallback scan button.
           <button onClick={startScan} className="fallback-scan-button">
             Start Web Scan
           </button>
@@ -201,6 +155,19 @@ function QrScannerPage() {
         decodedContent={decodedContent}
         handleSave={handleSave}
       />
+
+      {/* Fallback scanner rendered when native API is not supported */}
+      {!cameraAvailable && isScanning && (
+        <div className="fallback-scanner-container" style={{ width: '100%', maxWidth: '400px', margin: 'auto' }}>
+          <video
+            ref={scannerRef}
+            style={{ width: '100%' }}
+            autoPlay
+            playsInline
+            muted
+          />
+        </div>
+      )}
     </div>
   );
 }
