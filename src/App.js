@@ -15,6 +15,7 @@ function App() {
 
   // Function to initialize localStorage values
   useEffect(() => {
+    let didFix = false;
     const keysAndDefaults = {
       scouting_data: {},
       princess_data: {},
@@ -23,22 +24,25 @@ function App() {
       princessSubmissions: [],
       scouting_data_url: ''
     };
-  
+
     Object.entries(keysAndDefaults).forEach(([key, defaultValue]) => {
       try {
         const storedValue = localStorage.getItem(key);
         if (storedValue === null) {
           localStorage.setItem(key, JSON.stringify(defaultValue));
+          didFix = true;
         } else {
           if (typeof defaultValue === 'object') {
             let parsedValue = JSON.parse(storedValue);
             if (Array.isArray(defaultValue)) {
               if (!Array.isArray(parsedValue)) {
                 localStorage.setItem(key, JSON.stringify(defaultValue));
+                didFix = true;
               }
             } else {
               if (typeof parsedValue !== 'object' || Array.isArray(parsedValue)) {
                 localStorage.setItem(key, JSON.stringify(defaultValue));
+                didFix = true;
               }
             }
           } else {
@@ -50,14 +54,21 @@ function App() {
             }
             if (typeof parsedValue !== typeof defaultValue) {
               localStorage.setItem(key, JSON.stringify(defaultValue));
+              didFix = true;
             }
           }
         }
       } catch (error) {
         localStorage.setItem(key, JSON.stringify(defaultValue));
+        didFix = true;
       }
     });
-  }, []);  
+
+    if (didFix && !sessionStorage.getItem('localStorageFixed')) {
+      sessionStorage.setItem('localStorageFixed', 'true');
+      window.location.reload();
+    }
+  }, []);
 
   return (
     <Router>
@@ -81,7 +92,7 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/qrscan" element={<QrScan />} />
           <Route path="/visualization" element={<Visualization />} />
-          <Route path="/update-entries" element={<UpdateEntriesPage />} /> 
+          <Route path="/update-entries" element={<UpdateEntriesPage />} />
           <Route path="/princessform" element={<PrincessForm />} />
         </Routes>
       </div>
