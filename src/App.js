@@ -15,35 +15,49 @@ function App() {
 
   // Function to initialize localStorage values
   useEffect(() => {
-    const initializeLocalStorage = () => {
-      if (!localStorage.getItem('scouting_data')) {
-        localStorage.setItem('scouting_data', JSON.stringify({}));
-      }
-
-      if (!localStorage.getItem('princess_data')) {
-        localStorage.setItem('princess_data', JSON.stringify({}));
-      }
-
-      if (!localStorage.getItem('password')) {
-        localStorage.setItem('password', ''); 
-      }
-
-      if (!localStorage.getItem('submissions')) {
-        localStorage.setItem('submissions', JSON.stringify([])); 
-      }
-
-      if (!localStorage.getItem('princessSubmissions')) {
-        localStorage.setItem('princessSubmissions', JSON.stringify({})); 
-      }
-
-      if (!localStorage.getItem('scouting_data_url')) {
-        localStorage.setItem('scouting_data_url', '');
-      }
+    const keysAndDefaults = {
+      scouting_data: {},
+      princess_data: {},
+      password: '',
+      submissions: [],
+      princessSubmissions: [],
+      scouting_data_url: ''
     };
-
-    // Call the function to initialize localStorage
-    initializeLocalStorage();
-  }, []);
+  
+    Object.entries(keysAndDefaults).forEach(([key, defaultValue]) => {
+      try {
+        const storedValue = localStorage.getItem(key);
+        if (storedValue === null) {
+          localStorage.setItem(key, JSON.stringify(defaultValue));
+        } else {
+          if (typeof defaultValue === 'object') {
+            let parsedValue = JSON.parse(storedValue);
+            if (Array.isArray(defaultValue)) {
+              if (!Array.isArray(parsedValue)) {
+                localStorage.setItem(key, JSON.stringify(defaultValue));
+              }
+            } else {
+              if (typeof parsedValue !== 'object' || Array.isArray(parsedValue)) {
+                localStorage.setItem(key, JSON.stringify(defaultValue));
+              }
+            }
+          } else {
+            let parsedValue;
+            try {
+              parsedValue = JSON.parse(storedValue);
+            } catch {
+              parsedValue = storedValue;
+            }
+            if (typeof parsedValue !== typeof defaultValue) {
+              localStorage.setItem(key, JSON.stringify(defaultValue));
+            }
+          }
+        }
+      } catch (error) {
+        localStorage.setItem(key, JSON.stringify(defaultValue));
+      }
+    });
+  }, []);  
 
   return (
     <Router>
