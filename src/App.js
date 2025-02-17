@@ -17,8 +17,8 @@ function App() {
   useEffect(() => {
     let didFix = false;
     const keysAndDefaults = {
-      scouting_data: {},
-      princess_data: {},
+      // scouting_data: {},
+      // princess_data: {},
       password: '',
       submissions: [],
       princessSubmissions: [],
