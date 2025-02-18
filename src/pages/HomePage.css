@@ -66,6 +66,7 @@
 }
 
 .home-button {
+    text-decoration: none;
     background-color: #e74c3c;
     color: white;
     border: none;

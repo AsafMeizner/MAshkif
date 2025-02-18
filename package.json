@@ -1,6 +1,7 @@
 {
   "name": "Mashkif",
   "version": "0.3.0",
+  "homepage": ".",
   "description": "General purpose scouting app for all applications with easy to use interface and data management",
   "author": {
     "name": "Asaf Meizner",
@@ -43,11 +44,38 @@
     "recharts": "^2.12.7",
     "web-vitals": "^2.1.4"
   },
+  "main": "main.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "electron-dev": "concurrently \"npm run start\" \"wait-on http://localhost:3000 && cross-env ELECTRON_START_URL=http://localhost:3000 electron .\"",
+    "electron-prod": "npm run build && electron .",
+    "dist": "npm run build && electron-builder"
+  },
+  "build": {
+    "extends": null,
+    "appId": "com.asafmeizner.mashkif",
+    "productName": "Mashkif",
+    "directories": {
+      "output": "release-builds",
+      "buildResources": "assets"
+    },
+    "files": [
+      "build/**/*",
+      "main.js"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -68,6 +96,11 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/assets": "^3.0.5"
+    "@capacitor/assets": "^3.0.5",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8",
+    "wait-on": "^8.0.2"
   }
 }

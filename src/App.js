@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import QuizForm from './pages/QuizForm';
 import HomePage from './pages/Home';
@@ -12,8 +12,11 @@ import PrincessForm from './pages/PrincessForm';
 import { ToastContainer } from 'react-toastify';
 
 function App() {
+  // Detect if we're running inside Electron
+  const isElectron = navigator.userAgent.toLowerCase().indexOf('electron') > -1;
+  const RouterComponent = isElectron ? HashRouter : BrowserRouter;
 
-  // Function to initialize localStorage values
+  // Initialize localStorage values
   useEffect(() => {
     let didFix = false;
     const keysAndDefaults = {
@@ -71,7 +74,7 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    <RouterComponent>
       <div className="App">
         <ToastContainer
           position="bottom-right"
@@ -96,7 +99,7 @@ function App() {
           <Route path="/princessform" element={<PrincessForm />} />
         </Routes>
       </div>
-    </Router>
+    </RouterComponent>
   );
 }
 
