@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const MultiCounterField = ({ field, onChange, value }) => {
-  const [counts, setCounts] = useState(
+  // Helper to initialize counts from the prop value or subField defaults
+  const getInitialCounts = () =>
     field.subFields.reduce((acc, subField) => {
-      acc[subField.code] = value?.[subField.code] || subField.defaultValue || 0;
+      acc[subField.code] = value?.[subField.code] ?? subField.defaultValue ?? 0;
       return acc;
-    }, {})
-  );
+    }, {});
+
+  const [counts, setCounts] = useState(getInitialCounts());
+
+  // Update local state when the external value changes (e.g., on reset)
+  useEffect(() => {
+    setCounts(getInitialCounts());
+  }, [value, field.subFields]);
 
   const increment = (code) => {
     setCounts((prevCounts) => {
@@ -18,7 +25,8 @@ const MultiCounterField = ({ field, onChange, value }) => {
 
   const decrement = (code) => {
     setCounts((prevCounts) => {
-      if (prevCounts[code] > field.subFields.find((sf) => sf.code === code).min) {
+      const subField = field.subFields.find((sf) => sf.code === code);
+      if (prevCounts[code] > subField.min) {
         const newCounts = { ...prevCounts, [code]: prevCounts[code] - 1 };
         onChange(newCounts);
         return newCounts;
@@ -34,9 +42,13 @@ const MultiCounterField = ({ field, onChange, value }) => {
         {field.subFields.map((subField) => (
           <div key={subField.code} className="counter">
             <span>{subField.title}</span>
-            <button type="button" onClick={() => increment(subField.code)}>+</button>
+            <button type="button" onClick={() => increment(subField.code)}>
+              +
+            </button>
             <span>{counts[subField.code]}</span>
-            <button type="button" onClick={() => decrement(subField.code)}>-</button>
+            <button type="button" onClick={() => decrement(subField.code)}>
+              -
+            </button>
           </div>
         ))}
       </div>

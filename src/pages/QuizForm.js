@@ -24,10 +24,8 @@ const QuizForm = () => {
 
   useEffect(() => {
     const quizData = defaultQuizData;
-
     setSections(quizData.sections);
     setPageTitle(quizData.page_title || defaultQuizData.page_title);
-
     const savedSubmissions = JSON.parse(localStorage.getItem('submissions')) || [];
     setSubmissions(savedSubmissions);
   }, []);
@@ -153,7 +151,16 @@ const QuizForm = () => {
                   <Controller
                     name={field.code}
                     control={control}
-                    defaultValue={field.type === 'number' ? 0 : field.defaultValue || ''}
+                    defaultValue={
+                      field.type === 'number'
+                        ? 0
+                        : field.type === 'multi-counter'
+                        ? field.subFields.reduce((acc, subField) => {
+                            acc[subField.code] = subField.defaultValue || 0;
+                            return acc;
+                          }, {})
+                        : field.defaultValue || ''
+                    }
                     render={({ field: controllerField }) => (
                       <FieldRenderer
                         field={field}
