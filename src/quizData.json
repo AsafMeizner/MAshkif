@@ -107,7 +107,7 @@
                     ]
                 },
                 {
-                    "title": "איסוף",
+                    "title": "כדורים",
                     "type": "multi-counter",
                     "code": "collectionLevels",
                     "subFields": [
