@@ -524,10 +524,10 @@ const Visualization = () => {
             {isSectionOpen('endgame') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        {/* <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig(scoutingDataRed)} /> */}
+                        <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig(scoutingDataRed)} />
                     </div>
                     <div className="graph-item">
-                        {/* <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig(scoutingDataBlue)} /> */}
+                        <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig(scoutingDataBlue)} />
                     </div>
                     <div className="graph-item">
                         <MultiNumberDisplay config={reportConfigs.averageTrap(scoutingData, redAlliance, "Average / Max Trap for red aliance", "#e7492a")} />

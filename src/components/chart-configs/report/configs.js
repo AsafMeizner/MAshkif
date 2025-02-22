@@ -1,5 +1,10 @@
 import * as reportFunctions from './functions';
 
+
+
+
+
+
 export const alianceNoteAveragMultiNumber = (scoutingData, teamNumbers, title, color) => {
     const team1Average = reportFunctions.matchNoteAverage(scoutingData, teamNumbers[0]);
     const team2Average = reportFunctions.matchNoteAverage(scoutingData, teamNumbers[1]);
