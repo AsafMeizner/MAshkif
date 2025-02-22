@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './tableChart.css'; 
+import './tableChart.css';
 
 const TableChart = ({ config }) => {
   const defaultConfig = {
@@ -9,12 +9,13 @@ const TableChart = ({ config }) => {
   };
 
   const finalConfig = { ...defaultConfig, ...config };
-
   const { data, columns, title } = finalConfig;
+
+  const isHebrew = (text) => /[\u0591-\u05F4]/.test(text);
 
   const [columnWidths, setColumnWidths] = useState(
     columns.reduce((acc, col) => {
-      acc[col.key] = 200; 
+      acc[col.key] = null;
       return acc;
     }, {})
   );
@@ -22,13 +23,16 @@ const TableChart = ({ config }) => {
   const handleMouseDown = (e, colKey) => {
     e.preventDefault();
     const startX = e.clientX;
-    const startWidth = columnWidths[colKey];
+    let startWidth = columnWidths[colKey];
+    if (startWidth === null) {
+      startWidth = e.target.parentElement.offsetWidth || 200;
+    }
 
     const onMouseMove = (e) => {
       const newWidth = startWidth + (e.clientX - startX);
       setColumnWidths((prevWidths) => ({
         ...prevWidths,
-        [colKey]: Math.max(newWidth, 50), 
+        [colKey]: Math.max(newWidth, 50),
       }));
     };
 
@@ -51,7 +55,7 @@ const TableChart = ({ config }) => {
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  style={{ width: columnWidths[col.key] }}
+                  style={{ width: columnWidths[col.key] ? `${columnWidths[col.key]}px` : 'auto' }}
                   className="resizable-header"
                 >
                   {col.label}
@@ -70,11 +74,25 @@ const TableChart = ({ config }) => {
                   <td key={col.key}>
                     {typeof row[col.key] === 'string'
                       ? row[col.key].split('\n').map((line, i) => (
-                          <React.Fragment key={i}>
-                            {line}
-                            <br />
-                          </React.Fragment>
-                        ))
+                        <React.Fragment key={i}>
+                          {isHebrew(line)
+                            ? (
+                              <span
+                                dir="rtl"
+                                style={{
+                                  textAlign: 'right',
+                                  display: 'block',
+                                  overflow: 'visible',
+                                  whiteSpace: 'normal',
+                                }}
+                              >
+                                {line}
+                              </span>
+                            )
+                            : line}
+                          <br />
+                        </React.Fragment>
+                      ))
                       : row[col.key]
                     }
                   </td>

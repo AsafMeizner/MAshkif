@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const MultiCounterField = ({ field, onChange, value }) => {
-  // Helper to initialize counts from the prop value or subField defaults
-  const getInitialCounts = () =>
+  const getInitialCounts = useCallback(() =>
     field.subFields.reduce((acc, subField) => {
       acc[subField.code] = value?.[subField.code] ?? subField.defaultValue ?? 0;
       return acc;
-    }, {});
+    }, {}), [value, field.subFields]
+  );
 
   const [counts, setCounts] = useState(getInitialCounts());
 
-  // Update local state when the external value changes (e.g., on reset)
   useEffect(() => {
     setCounts(getInitialCounts());
-  }, [value, field.subFields]);
+  }, [getInitialCounts]);
 
   const increment = (code) => {
     setCounts((prevCounts) => {
