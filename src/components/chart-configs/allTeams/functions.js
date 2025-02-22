@@ -706,3 +706,53 @@ export function generalSummeryCompetition(scoutingData) {
         maxEndPosition
     };
 }
+
+
+export function coralHeightSummeryCompetition(scoutingData) {
+    // maxL1, maxL2, maxL3, maxL4, averageL1, averageL2, averageL3, averageL4
+    // across all teams and matches
+    if (!scoutingData.length) { return 0; }
+
+    const maxL1 = scoutingData.reduce((acc, entry) => {
+        return Math.max(acc, entry.L1sc || 0);
+    }, 0);
+
+    const maxL2 = scoutingData.reduce((acc, entry) => {
+        return Math.max(acc, entry.L2sc || 0);
+    }, 0);
+
+    const maxL3 = scoutingData.reduce((acc, entry) => {
+        return Math.max(acc, entry.L3sc || 0);
+    }, 0);
+
+    const maxL4 = scoutingData.reduce((acc, entry) => {
+        return Math.max(acc, entry.L4sc || 0);
+    }, 0);
+
+    const averageL1 = scoutingData.reduce((acc, entry) => {
+        return acc + (entry.L1sc || 0);
+    }, 0) / scoutingData.length;
+
+    const averageL2 = scoutingData.reduce((acc, entry) => {
+        return acc + (entry.L2sc || 0);
+    }, 0) / scoutingData.length;
+
+    const averageL3 = scoutingData.reduce((acc, entry) => {
+        return acc + (entry.L3sc || 0);
+    }, 0) / scoutingData.length;
+
+    const averageL4 = scoutingData.reduce((acc, entry) => {
+        return acc + (entry.L4sc || 0);
+    }, 0) / scoutingData.length;
+
+    return {
+        maxL1,
+        maxL2,
+        maxL3,
+        maxL4,
+        averageL1,
+        averageL2,
+        averageL3,
+        averageL4
+    };
+}

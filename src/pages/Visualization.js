@@ -283,6 +283,9 @@ const Visualization = () => {
                     <div className="graph-item">
                         <RadarGraph config={specificTeamConfigs.teamPerformanceRadarConfig(scoutingData, teamNumber)} />
                     </div>
+                    <div className="graph-item">
+                        <RadarGraph config={specificTeamConfigs.teamCoralHeightRadarConfig(scoutingData, teamNumber)} />
+                    </div>
                 </div>
             )}
         </div>
@@ -410,6 +413,12 @@ const Visualization = () => {
                     </div>
                     <div className="graph-item">
                         <RadarGraph config={specificTeamConfigs.teamMaxRadarConfig(scoutingData, team1Number, team2Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <RadarGraph config={specificTeamConfigs.compareAlliancesAverageCoralsConfig(scoutingData, team1Number, team2Number)} />
+                    </div>
+                    <div className="graph-item">
+                        <RadarGraph config={specificTeamConfigs.compareAlliancesMaxCoralsConfig(scoutingData, team1Number, team2Number)} />
                     </div>
                 </div>
             )}

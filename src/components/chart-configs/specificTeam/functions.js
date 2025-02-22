@@ -602,7 +602,6 @@ export function generalSummery(scoutingData, teamNumber) {
     }
 }
 
-
 // =======================================================================
 
 // princess functions

@@ -130,7 +130,7 @@ export const commentsPerTeamTableConfig = (scoutingData, teamNumber) => {
 export const autonomousScoreByMatchConfig = (scoutingData, teamNumber) => {
     return {
         data: specificTeamFunctions.autonomousAverageByMatch(scoutingData, teamNumber),
-        title: `Autonomous Average by Match for Team ${teamNumber}`,
+        title: `Autonomous Scored by Match for Team ${teamNumber}`,
         scoringTypes: [
             {
                 key: 'l1Score',
@@ -867,6 +867,236 @@ export const teamMaxRadarConfig = (scoutingData, team1Number, team2Number) => {
     };
 };
 
+export const teamCoralHeightRadarConfig = (scoutingData, teamNumber) => {
+    // max values for specific team
+    const teamL1Max = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).maxL1Score;
+    const teamL2Max = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).maxL2Score;
+    const teamL3Max = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).maxL3Score;
+    const teamL4Max = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).maxL4Score;
+
+    // average values for specific team
+    const teamL1Average = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).averageL1Score;
+    const teamL2Average = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).averageL2Score;
+    const teamL3Average = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).averageL3Score;
+    const teamL4Average = specificTeamFunctions.teleopCoralSummery(scoutingData, teamNumber).averageL4Score;
+
+    // max values for all teams
+    const allL1Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL1;
+    const allL2Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL2;
+    const allL3Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL3;
+    const allL4Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL4;
+
+    // average values for all teams
+    const allL1Average = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).averageL1;
+    const allL2Average = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).averageL2;
+    const allL3Average = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).averageL3;
+    const allL4Average = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).averageL4;
+
+    // normalize each category's data to its own maximum value
+    const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
+    
+    const data = [
+        {
+            subject: 'L1',
+            [`Team ${teamNumber} Average`]: normalizeValue(teamL1Average, allL1Max),
+            'Competition Average': normalizeValue(allL1Average, allL1Max),
+            [`Team ${teamNumber} Max`]: normalizeValue(teamL1Max, allL1Max),
+        },
+        {
+            subject: 'L2',
+            [`Team ${teamNumber} Average`]: normalizeValue(teamL2Average, allL2Max),
+            'Competition Average': normalizeValue(allL2Average, allL2Max),
+            [`Team ${teamNumber} Max`]: normalizeValue(teamL2Max, allL2Max),
+        },
+        {
+            subject: 'L3',
+            [`Team ${teamNumber} Average`]: normalizeValue(teamL3Average, allL3Max),
+            'Competition Average': normalizeValue(allL3Average, allL3Max),
+            [`Team ${teamNumber} Max`]: normalizeValue(teamL3Max, allL3Max),
+        },
+        {
+            subject: 'L4',
+            [`Team ${teamNumber} Average`]: normalizeValue(teamL4Average, allL4Max),
+            'Competition Average': normalizeValue(allL4Average, allL4Max),
+            [`Team ${teamNumber} Max`]: normalizeValue(teamL4Max, allL4Max),
+        },
+    ];
+
+    return {
+        data,
+        radars: [
+            {
+                key: `Team ${teamNumber} Average`,
+                label: `Team ${teamNumber} Average`,
+                color: '#8884d8',
+            },
+            {
+                key: 'Competition Average',
+                label: 'Competition Average',
+                color: '#82ca9d',
+            },
+            {
+                key: `Team ${teamNumber} Max`,
+                label: `Team ${teamNumber} Max`,
+                color: '#ff4444',
+            },
+        ],
+        showRadiusAxis: false,
+        customLabels: {
+            'L1': 'L1',
+            'L2': 'L2',
+            'L3': 'L3',
+            'L4': 'L4',
+        },
+        gridType: 'polygon',
+        showTooltip: false,
+        title: 'Coral Height Comparison',
+    };
+};
+
+export const compareAlliancesAverageCoralsConfig = (scoutingData, team1Number, team2Number) => {
+    // average values for first specific team for the coral levels
+    const teamL1Average = specificTeamFunctions.teleopCoralSummery(scoutingData, team1Number).averageL1Score;
+    const teamL2Average = specificTeamFunctions.teleopCoralSummery(scoutingData, team1Number).averageL2Score;
+    const teamL3Average = specificTeamFunctions.teleopCoralSummery(scoutingData, team1Number).averageL3Score;
+    const teamL4Average = specificTeamFunctions.teleopCoralSummery(scoutingData, team1Number).averageL4Score;
+
+    // average values for second specific team for the coral levels
+    const teamL1Average2 = specificTeamFunctions.teleopCoralSummery(scoutingData, team2Number).averageL1Score;
+    const teamL2Average2 = specificTeamFunctions.teleopCoralSummery(scoutingData, team2Number).averageL2Score;
+    const teamL3Average2 = specificTeamFunctions.teleopCoralSummery(scoutingData, team2Number).averageL3Score;
+    const teamL4Average2 = specificTeamFunctions.teleopCoralSummery(scoutingData, team2Number).averageL4Score;
+
+    // max values for all teams for the coral levels
+    const allL1Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL1;
+    const allL2Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL2;
+    const allL3Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL3;
+    const allL4Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL4;
+
+    // normalize each category's data to its own maximum value
+    const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
+
+    const data = [
+        {
+            subject: 'L1',
+            [`Team ${team1Number} Average`]: normalizeValue(teamL1Average, allL1Max),
+            [`Team ${team2Number} Average`]: normalizeValue(teamL1Average2, allL1Max),
+        },
+        {
+            subject: 'L2',
+            [`Team ${team1Number} Average`]: normalizeValue(teamL2Average, allL2Max),
+            [`Team ${team2Number} Average`]: normalizeValue(teamL2Average2, allL2Max),
+        },
+        {
+            subject: 'L3',
+            [`Team ${team1Number} Average`]: normalizeValue(teamL3Average, allL3Max),
+            [`Team ${team2Number} Average`]: normalizeValue(teamL3Average2, allL3Max),
+        },
+        {
+            subject: 'L4',
+            [`Team ${team1Number} Average`]: normalizeValue(teamL4Average, allL4Max),
+            [`Team ${team2Number} Average`]: normalizeValue(teamL4Average2, allL4Max),
+        },
+    ];
+
+    return {
+        data,
+        radars: [
+            {
+                key: `Team ${team1Number} Average`,
+                label: `Team ${team1Number} Average`,
+                color: '#aee5ff',
+            },
+            {
+                key: `Team ${team2Number} Average`,
+                label: `Team ${team2Number} Average`,
+                color: '#e74c3c',
+            },
+        ],
+        showRadiusAxis: false,
+        customLabels: {
+            'L1': 'L1',
+            'L2': 'L2',
+            'L3': 'L3',
+            'L4': 'L4',
+        },
+        gridType: 'polygon',
+        showTooltip: false,
+        title: 'Coral Height Comparison',
+    };
+};
+
+export const compareAlliancesMaxCoralsConfig = (scoutingData, team1Number, team2Number) => {
+    // max values for first specific team for the coral levels
+    const teamL1Max = specificTeamFunctions.teleopCoralSummery(scoutingData, team1Number).maxL1Score;
+    const teamL2Max = specificTeamFunctions.teleopCoralSummery(scoutingData, team1Number).maxL2Score;
+    const teamL3Max = specificTeamFunctions.teleopCoralSummery(scoutingData, team1Number).maxL3Score;
+    const teamL4Max = specificTeamFunctions.teleopCoralSummery(scoutingData, team1Number).maxL4Score;
+
+    // max values for second specific team for the coral levels
+    const teamL1Max2 = specificTeamFunctions.teleopCoralSummery(scoutingData, team2Number).maxL1Score;
+    const teamL2Max2 = specificTeamFunctions.teleopCoralSummery(scoutingData, team2Number).maxL2Score;
+    const teamL3Max2 = specificTeamFunctions.teleopCoralSummery(scoutingData, team2Number).maxL3Score;
+    const teamL4Max2 = specificTeamFunctions.teleopCoralSummery(scoutingData, team2Number).maxL4Score;
+
+    // max values for all teams for the coral levels
+    const allL1Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL1;
+    const allL2Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL2;
+    const allL3Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL3;
+    const allL4Max = allTeamsFunctions.coralHeightSummeryCompetition(scoutingData).maxL4;
+
+    // normalize each category's data to its own maximum value
+    const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
+
+    const data = [
+        {
+            subject: 'L1',
+            [`Team ${team1Number} Max`]: normalizeValue(teamL1Max, allL1Max),
+            [`Team ${team2Number} Max`]: normalizeValue(teamL1Max2, allL1Max),
+        },
+        {
+            subject: 'L2',
+            [`Team ${team1Number} Max`]: normalizeValue(teamL2Max, allL2Max),
+            [`Team ${team2Number} Max`]: normalizeValue(teamL2Max2, allL2Max),
+        },
+        {
+            subject: 'L3',
+            [`Team ${team1Number} Max`]: normalizeValue(teamL3Max, allL3Max),
+            [`Team ${team2Number} Max`]: normalizeValue(teamL3Max2, allL3Max),
+        },
+        {
+            subject: 'L4',
+            [`Team ${team1Number} Max`]: normalizeValue(teamL4Max, allL4Max),
+            [`Team ${team2Number} Max`]: normalizeValue(teamL4Max2, allL4Max),
+        },
+    ];
+
+    return {
+        data,
+        radars: [
+            {
+                key: `Team ${team1Number} Max`,
+                label: `Team ${team1Number} Max`,
+                color: '#8884d8',
+            },
+            {
+                key: `Team ${team2Number} Max`,
+                label: `Team ${team2Number} Max`,
+                color: '#ff4444',
+            },
+        ],
+        showRadiusAxis: false,
+        customLabels: {
+            'L1': 'L1',
+            'L2': 'L2',
+            'L3': 'L3',
+            'L4': 'L4',
+        },
+        gridType: 'polygon',
+        showTooltip: false,
+        title: 'Coral Height Comparison',
+    };
+};
 
 // =======================================================================
 
