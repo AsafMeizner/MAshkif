@@ -8,23 +8,23 @@ export const averageMatchScoreConfig = (scoutingData) => ({
     scoringTypes: [
         {
             key: 'averageCoralScore',
-            label: 'Average Coral Score',
+            label: 'Average Coral Scored',
             color: '#3498db',
             stacked: true,
-            name: 'Match Coral Score',
+            name: 'Match Coral Scored',
         },
         {
             key: 'averageAlgeeScore',
-            label: 'Average Algee Score',
+            label: 'Average Algee Scored',
             color: '#1ed760',
             stacked: true,
-            name: 'Match Average Algee Score',
+            name: 'Match Average Algee Scored',
         }
     ],
     xKey: 'teamNumber',
     yKey: 'averageScore',
     xAxisLabel: 'Team Number',
-    yAxisLabel: 'Average Score',
+    yAxisLabel: 'Average Scored',
 });
 
 export const maxMatchScoreConfig = (scoutingData) => ({
@@ -33,23 +33,23 @@ export const maxMatchScoreConfig = (scoutingData) => ({
     scoringTypes: [
         {
             key: 'maxCoralScore',
-            label: 'Max Coral Score',
+            label: 'Max Coral Scored',
             color: '#e74c3c',
             stacked: true,
-            name: 'Match Max Coral Score',
+            name: 'Match Max Coral Scored',
         },
         {
             key: 'maxAlgeeScore',
-            label: 'Max Algee Score',
+            label: 'Max Algee Scored',
             color: '#c652b8',
             stacked: true,
-            name: 'Match Max Algee Score',
+            name: 'Match Max Algee Scored',
         }
     ],
     xKey: 'teamNumber',
     yKey: 'maxScore',
     xAxisLabel: 'Team Number',
-    yAxisLabel: 'Max Score',
+    yAxisLabel: 'Max Scored',
 });
 
 // autonomous chart configs
@@ -60,37 +60,37 @@ export const autoCoralAveragesConfig = (scoutingData) => ({
     scoringTypes: [
         {
             key: 'averageCoralL4Score',
-            label: 'Average Coral Score',
+            label: 'Average Coral Scored',
             color: '#080660',
             stacked: true,
-            name: 'Autonomous Coral L4 Score',
+            name: 'Autonomous Coral L4 Scored',
         },
         {
             key: 'averageCoralL3Score',
-            label: 'Average Coral Score',
+            label: 'Average Coral Scored',
             color: '#415a81',
             stacked: true,
-            name: 'Autonomous Coral L3 Score',
+            name: 'Autonomous Coral L3 Scored',
         },
         {
             key: 'averageCoralL2Score',
-            label: 'Average Coral Score',
+            label: 'Average Coral Scored',
             color: '#2878b8',
             stacked: true,
-            name: 'Autonomous Coral L2 Score',
+            name: 'Autonomous Coral L2 Scored',
         },
         {
             key: 'averageCoralL1Score',
-            label: 'Average Coral Score',
+            label: 'Average Coral Scored',
             color: '#9ae0f0',
             stacked: true,
-            name: 'Autonomous Coral L1 Score',
+            name: 'Autonomous Coral L1 Scored',
         }
     ],
     xKey: 'teamNumber',
     yKey: 'averageScore',
     xAxisLabel: 'Team Number',
-    yAxisLabel: 'Average Score',
+    yAxisLabel: 'Average Scored',
 });
 
 export const autoCoralMaxesConfig = (scoutingData) => ({
@@ -99,37 +99,37 @@ export const autoCoralMaxesConfig = (scoutingData) => ({
     scoringTypes: [
         {
             key: 'maxCoralL4Score',
-            label: 'Max Coral L4 Score',
+            label: 'Max Coral L4 Scored',
             color: '#f1c40f',
             stacked: true,
-            name: 'Autonomous Max L4 Coral Score',
+            name: 'Autonomous Max L4 Coral Scored',
         },
         {
             key: 'maxCoralL3Score',
-            label: 'Max Coral L3 Score',
+            label: 'Max Coral L3 Scored',
             color: '#e67e22',
             stacked: true,
-            name: 'Autonomous Max L3 Coral Score',
+            name: 'Autonomous Max L3 Coral Scored',
         },
         {
             key: 'maxCoralL2Score',
-            label: 'Max Coral L2 Score',
+            label: 'Max Coral L2 Scored',
             color: '#e74c3c',
             stacked: true,
-            name: 'Autonomous Max L2 Coral Score',
+            name: 'Autonomous Max L2 Coral Scored',
         },
         {
             key: 'maxCoralL1Score',
-            label: 'Max Coral L1 Score',
+            label: 'Max Coral L1 Scored',
             color: '#b33b2e',
             stacked: true,
-            name: 'Autonomous Max L1 Coral Score',
+            name: 'Autonomous Max L1 Coral Scored',
         }
     ],
     xKey: 'teamNumber',
     yKey: 'maxScore',
     xAxisLabel: 'Team Number',
-    yAxisLabel: 'Max Score',
+    yAxisLabel: 'Max Scored',
 });
 
 export const autoAlgeeAveragesConfig = (scoutingData) => ({
@@ -138,16 +138,16 @@ export const autoAlgeeAveragesConfig = (scoutingData) => ({
     scoringTypes: [
         {
             key: 'averageAlgeeScore',
-            label: 'Average auto Algae scored',
+            label: 'Average auto Algae Scored',
             color: '#1ed760',
             stacked: true,
-            name: 'Average auto Algae scored',
+            name: 'Average auto Algae Scored',
         }
     ],
     xKey: 'teamNumber',
     yKey: 'averageAlgeeScore',
     xAxisLabel: 'Team Number',
-    yAxisLabel: 'Average Score',
+    yAxisLabel: 'Average Scored',
 });
 
 export const autoAlgeeMaxesConfig = (scoutingData) => ({
@@ -156,28 +156,28 @@ export const autoAlgeeMaxesConfig = (scoutingData) => ({
     scoringTypes: [
         {
             key: 'maxAlgeeScore',
-            label: 'Max Algee Score',
+            label: 'Max Algee Scored',
             color: '#c652b8',
             stacked: true,
-            name: 'Max Algee Score',
+            name: 'Max Algee Scored',
         }
     ],
     xKey: 'teamNumber',
     yKey: 'maxAlgeeScore',
     xAxisLabel: 'Team Number',
-    yAxisLabel: 'Max Score',
+    yAxisLabel: 'Max Scored',
 });
 
 export const autoCoralScorePercentageConfig = (scoutingData) => ({
     data: functions.autoCoralScorePrecentage(scoutingData),
-    title: 'Autonomous Coral Score Percentage by Team',
+    title: 'Autonomous Coral Scored Percentage by Team',
     scoringTypes: [
         {
             key: 'precentInAuto',
-            label: 'Coral Score Percentage',
+            label: 'Coral Scored Percentage',
             color: '#3498db',
             stacked: true,
-            name: 'Coral Score Percentage',
+            name: 'Coral Scored Percentage',
         }
     ],
     xKey: 'teamNumber',
@@ -214,37 +214,37 @@ export const teleopCoralAveragesConfig = (scoutingData) => ({
     scoringTypes: [
         {
             key: 'averageCoralL4Score',
-            label: 'Average Coral Score',
+            label: 'Average Coral Scored',
             color: '#aee5ff',
             stacked: true,
-            name: 'Teleop Coral L4 Score',
+            name: 'Teleop Coral L4 Scored',
         },
         {
             key: 'averageCoralL3Score',
-            label: 'Average Coral Score',
+            label: 'Average Coral Scored',
             color: '#82ccdd',
             stacked: true,
-            name: 'Teleop Coral L3 Score',
+            name: 'Teleop Coral L3 Scored',
         },
         {
             key: 'averageCoralL2Score',
-            label: 'Average Coral Score',
+            label: 'Average Coral Scored',
             color: '#6e93cc',
             stacked: true,
-            name: 'Teleop Coral L2 Score',
+            name: 'Teleop Coral L2 Scored',
         },
         {
             key: 'averageCoralL1Score',
-            label: 'Average Coral Score',
+            label: 'Average Coral Scored',
             color: '#526e99',
             stacked: true,
-            name: 'Teleop Coral L1 Score',
+            name: 'Teleop Coral L1 Scored',
         }
     ],
     xKey: 'teamNumber',
     yKey: 'averageScore',
     xAxisLabel: 'Team Number',
-    yAxisLabel: 'Average Score',
+    yAxisLabel: 'Average Scored',
 });
 
 export const teleopCoralMaxesConfig = (scoutingData) => ({
@@ -253,37 +253,37 @@ export const teleopCoralMaxesConfig = (scoutingData) => ({
     scoringTypes: [
         {
             key: 'maxCoralL4Score',
-            label: 'Max Coral L4 Score',
+            label: 'Max Coral L4 Scored',
             color: '#f1c40f',
             stacked: true,
-            name: 'Teleop Max L4 Coral Score',
+            name: 'Teleop Max L4 Coral Scored',
         },
         {
             key: 'maxCoralL3Score',
-            label: 'Max Coral L3 Score',
+            label: 'Max Coral L3 Scored',
             color: '#e67e22',
             stacked: true,
-            name: 'Teleop Max L3 Coral Score',
+            name: 'Teleop Max L3 Coral Scored',
         },
         {
             key: 'maxCoralL2Score',
-            label: 'Max Coral L2 Score',
+            label: 'Max Coral L2 Scored',
             color: '#e74c3c',
             stacked: true,
-            name: 'Teleop Max L2 Coral Score',
+            name: 'Teleop Max L2 Coral Scored',
         },
         {
             key: 'maxCoralL1Score',
-            label: 'Max Coral L1 Score',
+            label: 'Max Coral L1 Scored',
             color: '#b33b2e',
             stacked: true,
-            name: 'Teleop Max L1 Coral Score',
+            name: 'Teleop Max L1 Coral Scored',
         }
     ],
     xKey: 'teamNumber',
     yKey: 'maxScore',
     xAxisLabel: 'Team Number',
-    yAxisLabel: 'Max Score',
+    yAxisLabel: 'Max Scored',
 });
 
 export const teleopAlgeeAveragesConfig = (scoutingData) => ({
@@ -292,23 +292,23 @@ export const teleopAlgeeAveragesConfig = (scoutingData) => ({
     scoringTypes: [
         {
             key: 'averageAlgeeProcessorScore',
-            label: 'Average Algee Processor Score',
+            label: 'Average Algee Processor Scored',
             color: '#138a3d',
             stacked: true,
-            name: 'Teleop Algee Processor Score',
+            name: 'Teleop Algee Processor Scored',
         },
         {
             key: 'averageAlgeeBargeScore',
-            label: 'Average Algee Barge Score',
+            label: 'Average Algee Barge Scored',
             color: '#1ed760',
             stacked: true,
-            name: 'Teleop Algee Barge Score',
+            name: 'Teleop Algee Barge Scored',
         }
     ],
     xKey: 'teamNumber',
     yKey: 'averageAlgeeScore',
     xAxisLabel: 'Team Number',
-    yAxisLabel: 'Average Score',
+    yAxisLabel: 'Average Scored',
 });
 
 export const teleopAlgeeMaxesConfig = (scoutingData) => ({
@@ -317,35 +317,35 @@ export const teleopAlgeeMaxesConfig = (scoutingData) => ({
     scoringTypes: [
         {
             key: 'maxAlgeeProcessorScore',
-            label: 'Max Algee Processor Score',
+            label: 'Max Algee Processor Scored',
             color: '#138a3d',
             stacked: true,
-            name: 'Teleop Max Algee Processor Score',
+            name: 'Teleop Max Algee Processor Scored',
         },
         {
             key: 'maxAlgeeBargeScore',
-            label: 'Max Algee Barge Score',
+            label: 'Max Algee Barge Scored',
             color: '#1ed760',
             stacked: true,
-            name: 'Teleop Max Algee Barge Score',
+            name: 'Teleop Max Algee Barge Scored',
         }
     ],
     xKey: 'teamNumber',
     yKey: 'maxAlgeeScore',
     xAxisLabel: 'Team Number',
-    yAxisLabel: 'Max Score',
+    yAxisLabel: 'Max Scored',
 });
 
 export const teleopCoralScorePercentageConfig = (scoutingData) => ({
     data: functions.teleopCoralScorePrecentage(scoutingData),
-    title: 'Teleop Coral Score Percentage by Team (No L1)',
+    title: 'Teleop Coral Scored Percentage by Team (No L1)',
     scoringTypes: [
         {
             key: 'precentInTeleop',
-            label: 'Coral Score Percentage',
+            label: 'Coral Scored Percentage',
             color: '#3498db',
             stacked: true,
-            name: 'Coral Score Percentage',
+            name: 'Coral Scored Percentage',
         }
     ],
     xKey: 'teamNumber',
@@ -390,7 +390,7 @@ export const teleopSummeryConfig = (scoutingData) => {
         values: [
             {
                 color: "#c4162a",
-                title: "Average / Max Coral Score",
+                title: "Average / Max Coral Scored",
                 min: 0,
                 max: maxCoralScore,
                 value: averageCoralScore,
@@ -404,7 +404,7 @@ export const teleopSummeryConfig = (scoutingData) => {
             },
             {
                 color: "#1ed760",
-                title: "Average / Max Algee Score",
+                title: "Average / Max Algee Scored",
                 min: 0,
                 max: maxAlgeeScore,
                 value: averageAlgeeScore,
