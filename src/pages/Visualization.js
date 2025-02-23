@@ -12,6 +12,9 @@ import { getPrincessData } from '../components/utils';
 
 import * as reportConfigs from '../components/chart-configs/report/configs';
 
+import { calculateEstimatedMaxRP } from '../components/chart-configs/report/matchRpGoalCalculator';
+import { calculateEstemaitedMaxPoints } from '../components/chart-configs/report/matchPointCalculator';
+
 const Visualization = () => {
     const [isPortrait, setIsPortrait] = useState(window.matchMedia("(orientation: portrait)").matches);
     const [activeTab, setActiveTab] = useState('AllTeams');
@@ -28,6 +31,23 @@ const Visualization = () => {
     const [selectedTeams, setSelectedTeams] = useState([]);
     const scoutingData = getScoutingData();
     const princessData = getPrincessData();
+
+    console.log("rp strategy: ================================")
+
+    const calculatedScoresRP = calculateEstimatedMaxRP(scoutingData, 1, 2, 3);
+
+    console.log("best score: " + calculatedScoresRP.bestScore)
+    console.log("best RP (without win): " + calculatedScoresRP.maxRP)
+    // console.log("distribution: ")
+    // console.log(calculatedScoresRP.distribution)
+    // console.log("details: ")
+    // console.log(calculatedScoresRP.details)
+
+    console.log("point strategy: ================================")
+
+    const calculatedScoresPoints = calculateEstemaitedMaxPoints(scoutingData, 1, 2, 3);
+
+    console.log("best score: " + calculatedScoresPoints)
 
     useEffect(() => {
         const handleOrientationChange = (e) => {
