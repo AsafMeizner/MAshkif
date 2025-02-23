@@ -3,6 +3,7 @@ import BarGraph from '../components/charts/barChart';
 import PieGraph from '../components/charts/pieChart';
 import TableChart from '../components/charts/tableChart';
 import MultiNumberDisplay from '../components/charts/MultiNumberDisplay';
+import MultiPieChart from '../components/charts/multiPieChart';
 import RadarGraph from '../components/charts/radarChart';
 import './Visualization.css';
 import * as allTeamsConfigs from '../components/chart-configs/allTeams/configs';
@@ -11,9 +12,6 @@ import { getScoutingData } from '../components/utils';
 import { getPrincessData } from '../components/utils';
 
 import * as reportConfigs from '../components/chart-configs/report/configs';
-
-import { calculateEstimatedMaxRP } from '../components/chart-configs/report/matchRpGoalCalculator';
-import { calculateEstemaitedMaxPoints } from '../components/chart-configs/report/matchPointCalculator';
 
 const Visualization = () => {
     const [isPortrait, setIsPortrait] = useState(window.matchMedia("(orientation: portrait)").matches);
@@ -31,18 +29,6 @@ const Visualization = () => {
     const [selectedTeams, setSelectedTeams] = useState([]);
     const scoutingData = getScoutingData();
     const princessData = getPrincessData();
-
-    console.log("rp strategy: ================================")
-
-    const calculatedScoresRP = calculateEstimatedMaxRP(scoutingData, 70, 72, 71);
-
-    console.log("best score: " + calculatedScoresRP)
-
-    console.log("point strategy: ================================")
-
-    const calculatedScoresPoints = calculateEstemaitedMaxPoints(scoutingData, 70, 72, 71);
-
-    console.log("best score: " + calculatedScoresPoints)
 
     useEffect(() => {
         const handleOrientationChange = (e) => {
@@ -472,10 +458,10 @@ const Visualization = () => {
             {isSectionOpen('general') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.alianceNoteAveragMultiNumber(scoutingData, redAlliance, "Average / Max Match notes for red aliance", "#e7492a")} />
+                        <MultiNumberDisplay config={reportConfigs.allianceFocusPoints(scoutingData, redAlliance, "Different Strategy Predicted Score For Red Alliance", "#e7492a")} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.alianceNoteAveragMultiNumber(scoutingData, blueAlliance, "Average / Max Match notes for blue aliance", "#1aa3e8")} />
+                        <MultiNumberDisplay config={reportConfigs.allianceFocusPoints(scoutingData, blueAlliance, "Different Strategy Predicted Score For Blue Alliance", "#1aa3e8")} />
                     </div>
                 </div>
             )}
@@ -490,10 +476,10 @@ const Visualization = () => {
             {isSectionOpen('autonomous') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.averageAutoSpeaker(scoutingData, redAlliance, "Average / Max Auto notes for red aliance", "#e7492a")} />
+                        <MultiNumberDisplay config={reportConfigs.averageAutoCoral(scoutingData, redAlliance, "Average / Max Auto coral score for red aliance", "#e7492a")} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.averageAutoSpeaker(scoutingData, blueAlliance, "Average / Max Auto notes for blue aliance", "#1aa3e8")} />
+                        <MultiNumberDisplay config={reportConfigs.averageAutoCoral(scoutingData, blueAlliance, "Average / Max Auto coral score for blue aliance", "#1aa3e8")} />
                     </div>
                 </div>
             )}
@@ -508,22 +494,22 @@ const Visualization = () => {
             {isSectionOpen('teleop') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.alianceAmpAveragMultiNumber(scoutingData, redAlliance, "Average / Max TeleOp AMP for red aliance", "#e7492a")} />
+                        <MultiNumberDisplay config={reportConfigs.averageTeleopCoral(scoutingData, redAlliance, "Average / Max TeleOp Coral Score for red aliance", "#e7492a")} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.alianceAmpAveragMultiNumber(scoutingData, blueAlliance, "Average / Max TeleOp AMP for blue aliance", "#1aa3e8")} />
+                        <MultiNumberDisplay config={reportConfigs.averageTeleopCoral(scoutingData, blueAlliance, "Average / Max TeleOp Coral Score for blue aliance", "#1aa3e8")} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.alianceSpeakerTeleopAveragMultiNumber(scoutingData, redAlliance, "Average / Max TeleOp Speaker for red aliance", "#e7492a")} />
+                        <MultiPieChart config={reportConfigs.alliancePerHeightAverages(scoutingData, redAlliance, "Average Coral Amount Scored By Team for Red Alliance", "#b33b2e", "#e74c3c", "#e67e22")} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.alianceSpeakerTeleopAveragMultiNumber(scoutingData, blueAlliance, "Average / Max TeleOp Speaker for blue aliance", "#1aa3e8")} />
+                        <MultiPieChart config={reportConfigs.alliancePerHeightAverages(scoutingData, blueAlliance, "Average Coral Amount Scored By Team for Red Alliance", "#1aa3e8", "#3498db", "#9ae0f0")} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.feedingAverage(scoutingData, redAlliance, "Average / Max Feeding for red aliance", "#e7492a")} />
+                        <MultiNumberDisplay config={reportConfigs.averageTeleopAlgee(scoutingData, redAlliance, "Average / Max Amount Algee for red aliance", "#e7492a")} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.feedingAverage(scoutingData, blueAlliance, "Average / Max Feeding for blue aliance", "#1aa3e8")} />
+                        <MultiNumberDisplay config={reportConfigs.averageTeleopAlgee(scoutingData, blueAlliance, "Average / Max Amount Algee for blue aliance", "#1aa3e8")} />
                     </div>
                 </div>
             )}
@@ -545,10 +531,10 @@ const Visualization = () => {
                         <BarGraph config={allTeamsConfigs.endgameClimbPercentByTeamConfig(scoutingDataBlue)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.averageTrap(scoutingData, redAlliance, "Average / Max Trap for red aliance", "#e7492a")} />
+                        <MultiNumberDisplay config={reportConfigs.averageClimbPoints(scoutingData, redAlliance, "Average / Max Climb Points for red aliance", "#e7492a")} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.averageTrap(scoutingData, blueAlliance, "Average / Max Trap for blue aliance", "#1aa3e8")} />
+                        <MultiNumberDisplay config={reportConfigs.averageClimbPoints(scoutingData, blueAlliance, "Average / Max Climb Points for blue aliance", "#1aa3e8")} />
                     </div>
                 </div>
             )}

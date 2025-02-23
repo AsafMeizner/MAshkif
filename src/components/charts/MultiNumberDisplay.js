@@ -4,6 +4,8 @@ import { ResponsiveContainer } from 'recharts';
 const MultiNumberDisplay = ({ config }) => {
   const defaultConfig = {
     mainTitle: '', 
+    showPercentage: true,
+    showOutOf: true,
     values: [
       {
         color: '#00acc1',
@@ -17,6 +19,8 @@ const MultiNumberDisplay = ({ config }) => {
 
   const finalConfig = { ...defaultConfig, ...config };
   const { mainTitle, values } = finalConfig;
+  const { showPercentage } = finalConfig;
+  const { showOutOf } = finalConfig;
 
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', color: '#ffffff' }}>
@@ -56,12 +60,12 @@ const MultiNumberDisplay = ({ config }) => {
                 style={circleStyle}
                 />
                 <text x="18" y="20.35" className="percentage" textAnchor="middle" fill="#ffffff" fontSize="0.5rem">
-                {`${(value ? value.toFixed(2) : "NaN")}/${(max ? max : "NaN")}`}
+                {showOutOf ? `${(value ? value.toFixed(2) : "NaN")}/${(max ? max : "NaN")}` : `${(value ? value.toFixed(2) : "NaN")}`}
                 </text>
               </svg>
               </ResponsiveContainer>
               <p style={{ fontSize: '1.5rem', marginTop: '10px', color: '#ffffff' }}>
-              {`${(percentage ? percentage.toFixed(2) : "NaN")}%`}
+              {showPercentage ? `${(percentage ? percentage.toFixed(2) : "NaN")}%` : ''}
               </p>
             </div>
             );
