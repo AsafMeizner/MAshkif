@@ -36,12 +36,7 @@ const Visualization = () => {
 
     const calculatedScoresRP = calculateEstimatedMaxRP(scoutingData, 70, 72, 71);
 
-    console.log("best score: " + calculatedScoresRP.bestScore)
-    console.log("best RP (without win): " + calculatedScoresRP.bestRP)
-    console.log("distribution: ")
-    console.log(calculatedScoresRP.distribution)
-    console.log("can pass 5: " + calculatedScoresRP.canPass5)
-    console.log("can pass 3: " + calculatedScoresRP.canPass3)
+    console.log("best score: " + calculatedScoresRP)
 
     console.log("point strategy: ================================")
 
