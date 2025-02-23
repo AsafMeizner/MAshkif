@@ -11,22 +11,22 @@ export function calculateEstemaitedMaxPoints(data, team1number, team2number, tea
   if (canScoreL3orL4(data, team2number)) { total += calaculateAvgCycle(data, team2number); }
   if (canScoreL3orL4(data, team3number)) { total += calaculateAvgCycle(data, team3number); }
   const S1 = total;
-  const r1 = Math.min(9 - 0, Math.ceil(team1totalAvgCycle - Math.max(0, a4 + a3 - S1)));
-  if (ifCanDoNet(data, team1number)) { const r1 = 0; }
+  let r1 = Math.min(9 - 0, Math.ceil(team1totalAvgCycle - Math.max(0, a4 + a3 - S1)));
+  if (ifCanDoNet(data, team1number)) { r1 = 0; }
 
   total = 0;
   if (canScoreL3orL4(data, team1number)) { total += calaculateAvgCycle(data, team1number); }
   if (canScoreL3orL4(data, team3number)) { total += calaculateAvgCycle(data, team3number); }
   const S2 = total - (r1 * (canScoreL3orL4(data, team1number) ? 1 : 0));
-  const r2 = Math.min(9 - r1, Math.ceil(team2totalAvgCycle - Math.max(0, a4 + a3 - S2)));
-  if (!ifCanDoNet(data, team2number)) { const r2 = 0; }
+  let r2 = Math.min(9 - r1, Math.ceil(team2totalAvgCycle - Math.max(0, a4 + a3 - S2)));
+  if (!ifCanDoNet(data, team2number)) { r2 = 0; }
 
   total = 0;
   if (canScoreL3orL4(data, team1number)) { total += calaculateAvgCycle(data, team1number); }
   if (canScoreL3orL4(data, team2number)) { total += calaculateAvgCycle(data, team2number); }
   const S3 = total - (r1 * (canScoreL3orL4(data, team1number) ? 1 : 0)) + (r2 * (canScoreL3orL4(data, team2number) ? 1 : 0));
-  const r3 = Math.min(9 - r1 - r2, Math.ceil(team3totalAvgCycle - Math.max(0, a4 + a3 - S3)));
-  if (!ifCanDoNet(data, team3number)) { const r3 = 0; }
+  let r3 = Math.min(9 - r1 - r2, Math.ceil(team3totalAvgCycle - Math.max(0, a4 + a3 - S3)));
+  if (!ifCanDoNet(data, team3number)) { r3 = 0; }
 
   const Rtotal = r1 + r2 + r3;
   const a2 = Math.min(12, totalAvgCycle - a4 - a3 - Math.floor(Rtotal / 0.75));
