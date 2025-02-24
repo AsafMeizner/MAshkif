@@ -102,6 +102,9 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('general') && (
                 <div className="graph-container">
+                    <div className="wide-graph-item">
+                        <TableChart config={allTeamsConfigs.princessTableConfig(princessData)} />
+                    </div>
                     <div className="graph-item">
                         <BarGraph config={allTeamsConfigs.averageMatchScoreConfig(filteredScoutingData)} />
                     </div>

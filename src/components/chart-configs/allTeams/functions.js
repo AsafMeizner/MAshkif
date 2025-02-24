@@ -756,3 +756,25 @@ export function coralHeightSummeryCompetition(scoutingData) {
         averageL4
     };
 }
+
+// =======================================================================
+
+// princess functions
+
+export function princessTable(princessData) {
+    if (!princessData.length) {
+        return [];
+    }
+
+    const formattedData = princessData.map((entry) => ({
+        submissionTime: new Date(entry.submissionTime).toLocaleString(),
+        matchNumber: entry.matchNumber,
+        scouter: entry.scouter,
+        comment: entry.co || 'No Comment',
+        teamNumber: entry.teamNumber,
+    }));
+
+    formattedData.sort((a, b) => a.teamNumber - b.teamNumber);
+
+    return formattedData;
+}

@@ -476,4 +476,53 @@ export const endgameClimbPercentByTeamConfig = (scoutingData) => ({
     yAxisMax: 100,
 });
 
-// ===================================================================================================
+// =======================================================================
+
+// princess functions
+
+export const princessTableConfig = (princessData, teamNumber) => {
+    return {
+        data: functions.princessTable(princessData),
+        title: `Princess Data For All Teams`,
+        columns: [
+            {
+                key: 'submissionTime',
+                label: 'Submission Time',
+            },
+            {
+                key: 'teamNumber',
+                label: 'Team Number'
+            },
+            {
+                key: 'matchNumber',
+                label: 'Match Number',
+            },
+            {
+                key: 'scouter',
+                label: 'Princess Name',
+            },
+            {
+                key: 'comment',
+                label: 'Text',
+            },
+        ],
+        tableSettings: {
+            showGridlines: true,
+            responsive: true,
+            maintainAspectRatio: true,
+            enableSorting: true, 
+            sortBy: 'matchNumber', 
+            sortOrder: 'ascending',
+        },
+        columnResizeSettings: {
+            resizable: true,
+            minColumnWidth: 100,
+        },
+        pagination: true,
+        rowsPerPage: 10,
+        paginationSettings: {
+            showPaginationControls: true,
+            paginationControlPosition: 'bottom',
+        },
+    };
+}
