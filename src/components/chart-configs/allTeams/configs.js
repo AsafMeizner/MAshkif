@@ -363,7 +363,6 @@ export const teleopRemovedAlgeeFromReefConfig = (scoutingData) => ({
             key: 'removedAlgeeFromReef',
             label: 'Algee Removed',
             color: '#1ed760',
-            stacked: true,
             name: 'Algee Removed',
         }
     ],

@@ -58,8 +58,8 @@ export const matchTeamAverages = (scoutingData) => {
             acc[team] = { teamNumber: team, totalCoralScore: 0, totalAlgeeScore: 0, totalScore: 0, count: 0 };
         }
 
-        const totalCoralScore = entry.tL1sc + entry.tL2sc + entry.tL3sc + entry.tL4sc;
-        const totalAlgeeScore = entry.tScAb + entry.tScAp;
+        const totalCoralScore = entry.tL1sc + entry.tL2sc + entry.tL3sc + entry.tL4sc + entry.L1sc + entry.L2sc + entry.L3sc + entry.L4sc;
+        const totalAlgeeScore = entry.tScAb + entry.tScAp + entry.ScAb + entry.ScAp;
         const totalScore = totalCoralScore + totalAlgeeScore;
 
         acc[team].totalCoralScore += totalCoralScore;
@@ -86,8 +86,8 @@ export const matchTeamMax = (scoutingData) => {
             acc[team] = { teamNumber: team, maxCoralScore: 0, maxAlgeeScore: 0, maxScore: 0 };
         }
 
-        const totalCoralScore = Number(entry.tL1sc) + Number(entry.tL2sc) + Number(entry.tL3sc) + Number(entry.tL4sc);
-        const totalAlgeeScore = Number(entry.tScAb) + Number(entry.tScAp);
+        const totalCoralScore = Number(entry.tL1sc) + Number(entry.tL2sc) + Number(entry.tL3sc) + Number(entry.tL4sc) + Number(entry.L1sc) + Number(entry.L2sc) + Number(entry.L3sc) + Number(entry.L4sc);
+        const totalAlgeeScore = Number(entry.tScAb) + Number(entry.tScAp) + Number(entry.ScAb) + Number(entry.ScAp);
 
         acc[team].maxCoralScore = Math.max(acc[team].maxCoralScore, totalCoralScore);
         acc[team].maxAlgeeScore = Math.max(acc[team].maxAlgeeScore, totalAlgeeScore);
@@ -425,7 +425,7 @@ export const teleopRemovedAlgeeFromReef = (scoutingData) => {
 
     return Object.values(teleopScores).map(team => ({
         teamNumber: team.teamNumber,
-        removedAlgeeFromReef: Math.round((team.removedAlgeeFromReef / team.count) * 100)
+        removedAlgeeFromReef: ((team.removedAlgeeFromReef / team.count).toFixed(2))
     }));
 }
 

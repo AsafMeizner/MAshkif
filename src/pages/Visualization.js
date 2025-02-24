@@ -16,7 +16,7 @@ import * as reportConfigs from '../components/chart-configs/report/configs';
 const Visualization = () => {
     const [isPortrait, setIsPortrait] = useState(window.matchMedia("(orientation: portrait)").matches);
     const [activeTab, setActiveTab] = useState('AllTeams');
-    const [openSections, setOpenSections] = useState(['general', 'autonomous', 'teleop', 'endgame', 'summary']);
+    const [openSections, setOpenSections] = useState(['princess', 'general', 'autonomous', 'teleop', 'endgame', 'summary']);
     const [teamNumber, setTeamNumber] = useState(5951);
     const [team1Number, setTeam1Number] = useState(5951);
     const [team2Number, setTeam2Number] = useState(5951);
@@ -81,6 +81,25 @@ const Visualization = () => {
         selectedTeams.length === 0 || selectedTeams.includes(entry.teamNumber)
     );
 
+    const filtredPrincessData = princessData.filter(entry =>
+        selectedTeams.length === 0 || selectedTeams.includes(entry.teamNumber)
+    );
+
+    const allTeamsRenderPrincessSection = () => (
+        <div className="section">
+            <h2 className="chart-section-title" onClick={() => toggleSection('princess')}>
+                Princess {isSectionOpen('princess') ? '▲' : '▼'}
+            </h2>
+            {isSectionOpen('princess') && (
+                <div className="graph-container">
+                    <div className="wide-graph-item">
+                        <TableChart config={allTeamsConfigs.princessTableConfig(filtredPrincessData)} />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
     const allTeamsRenderGeneralSection = () => (
         <div className="section">
             <h2 className="chart-section-title" onClick={() => toggleSection('general')}>
@@ -88,9 +107,6 @@ const Visualization = () => {
             </h2>
             {isSectionOpen('general') && (
                 <div className="graph-container">
-                    <div className="wide-graph-item">
-                        <TableChart config={allTeamsConfigs.princessTableConfig(princessData)} />
-                    </div>
                     <div className="graph-item">
                         <BarGraph config={allTeamsConfigs.averageMatchScoreConfig(filteredScoutingData)} />
                     </div>
@@ -647,6 +663,7 @@ const Visualization = () => {
                     ))}
                 </div>
             </div>
+            {allTeamsRenderPrincessSection()}
             {allTeamsRenderGeneralSection()}
             {allTeamsRenderAutonomousSection()}
             {allTeamsRenderTeleopSection()}
