@@ -1,7 +1,29 @@
 import React, { useState } from 'react';
 import './UpdateEntriesPage.css';
-import { updateScoutingDataFromAPI, postAllSubmissions, getPasswordFromLocalStorage } from '../components/utils';
+import {
+  updateScoutingDataFromAPI,
+  postAllSubmissions,
+  getPasswordFromLocalStorage
+} from '../components/utils';
 import { toast } from 'react-toastify';
+
+// Helper function to produce a friendly error message.
+const getFriendlyErrorMessage = (errorMessage, operationType) => {
+  const lowerMsg = errorMessage.toLowerCase();
+  // Choose a prefix based on the operation type.
+  const prefix =
+    operationType === "update" ? "Failed to update data:" : "Failed to upload:";
+  // If the error indicates a 403 or forbidden password error, assume it's a password issue.
+  if (lowerMsg.includes("403") || (lowerMsg.includes("forbidden") && lowerMsg.includes("invalid password"))) {
+    return `${prefix} Incorrect Password`;
+  }
+  // If it says "failed to fetch," assume it's a server URL issue.
+  if (lowerMsg.includes("failed to fetch")) {
+    return `${prefix} Incorrect Server URL`;
+  }
+  // Otherwise, return the original message.
+  return `${prefix} ${errorMessage}`;
+};
 
 const UpdateEntriesPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,11 +41,16 @@ const UpdateEntriesPage = () => {
         {
           pending: 'Updating data...',
           success: 'Data updated successfully.',
-          error: 'Failed to update data.'
+          error: {
+            render({ data }) {
+              // data.message is the error thrown from updateScoutingDataFromAPI
+              return getFriendlyErrorMessage(data.message, "update");
+            }
+          }
         }
       );
       console.log('Data update completed.');
-      console.log('data: ', localStorage.getItem('scouting_data'));
+      console.log('data:', localStorage.getItem('scouting_data'));
     } catch (error) {
       console.error(error);
     } finally {
@@ -44,7 +71,11 @@ const UpdateEntriesPage = () => {
         {
           pending: 'Uploading submissions...',
           success: 'Submissions uploaded successfully.',
-          error: 'Failed to upload submissions.'
+          error: {
+            render({ data }) {
+              return getFriendlyErrorMessage(data.message, "upload");
+            }
+          }
         }
       );
     } catch (error) {
@@ -58,18 +89,16 @@ const UpdateEntriesPage = () => {
     <div className="update-entries-page">
       <div className="update-entries-container">
         <h1 className="update-entries-title">Manage Data</h1>
-
-        <button 
-          className="update-entries-button" 
-          onClick={handleUpdateData} 
+        <button
+          className="update-entries-button"
+          onClick={handleUpdateData}
           disabled={isLoading}
         >
           {isLoading ? 'Processing...' : 'Update Local Entries'}
         </button>
-
-        <button 
-          className="update-entries-button" 
-          onClick={handleUploadSubmissions} 
+        <button
+          className="update-entries-button"
+          onClick={handleUploadSubmissions}
           disabled={isLoading}
         >
           {isLoading ? 'Processing...' : 'Upload Submissions'}

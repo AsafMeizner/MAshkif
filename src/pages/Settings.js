@@ -11,15 +11,24 @@ function SettingsPage() {
     const [savedApiUrl, setSavedApiUrl] = useState('');
     const [password, setPassword] = useState('');
     const [savedPassword, setSavedPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false); // new state
+    const [competitionId, setCompetitionId] = useState('');
+    const [savedCompetitionId, setSavedCompetitionId] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
-        const storedApiUrl = localStorage.getItem('scouting_data_url');
+        // Load API URL if exists
+        const storedApiUrl = localStorage.getItem('api_url');
         if (storedApiUrl) {
             setSavedApiUrl(storedApiUrl);
             setApiUrl(storedApiUrl);
         }
-
+        // Load competition id if exists
+        const storedCompetitionId = localStorage.getItem('competition_id');
+        if (storedCompetitionId) {
+            setSavedCompetitionId(storedCompetitionId);
+            setCompetitionId(storedCompetitionId);
+        }
+        // Load password if exists, using key "password"
         const storedPassword = localStorage.getItem('password');
         if (storedPassword) {
             setSavedPassword(storedPassword);
@@ -55,6 +64,16 @@ function SettingsPage() {
         }
     }
 
+    function handleSaveCompetitionId() {
+        if (competitionId) {
+            localStorage.setItem('competition_id', competitionId);
+            toast.success('Competition ID saved successfully.');
+            setSavedCompetitionId(competitionId);
+        } else {
+            toast.error('Please enter a valid Competition ID.');
+        }
+    }
+
     function toggleShowPassword() {
         setShowPassword(!showPassword);
     }
@@ -81,7 +100,25 @@ function SettingsPage() {
                     )}
                 </div>
 
-                {/* password input and save button */}
+                {/* Competition ID input and save button */}
+                <div className="simple-text-section">
+                    <label htmlFor="competitionId">Competition ID:</label>
+                    <input
+                        type="text"
+                        id="competitionId"
+                        value={competitionId}
+                        onChange={(e) => setCompetitionId(e.target.value)}
+                        placeholder="Enter Competition ID"
+                    />
+                    <button onClick={handleSaveCompetitionId} className="simple-save-button">
+                        Save Competition ID
+                    </button>
+                    {savedCompetitionId && (
+                        <p>Saved Competition ID: {savedCompetitionId}</p>
+                    )}
+                </div>
+
+                {/* Password input and save button */}
                 <div className="simple-text-section">
                     <label htmlFor="password">Password:</label>
                     <div className="password-input-container">
@@ -92,9 +129,9 @@ function SettingsPage() {
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter password"
                         />
-                        <button 
-                            type="button" 
-                            onClick={toggleShowPassword} 
+                        <button
+                            type="button"
+                            onClick={toggleShowPassword}
                             className="toggle-password-button"
                         >
                             {showPassword ? 'Hide' : 'Show'}

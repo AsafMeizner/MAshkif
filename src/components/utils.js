@@ -3,19 +3,13 @@
 // Function to retrieve scouting data from localStorage
 export const getScoutingData = () => {
   const storedData = JSON.parse(localStorage.getItem('scouting_data') || '{}');
-  if (storedData && Array.isArray(storedData.entries)) {
-    return storedData.entries;
-  }
-  return [];
+  return storedData && Array.isArray(storedData.entries) ? storedData.entries : [];
 };
 
 export const getPrincessData = () => {
   const storedData = JSON.parse(localStorage.getItem('princess_data') || '{}');
-  if (storedData && Array.isArray(storedData.entries)) {
-    return storedData.entries;
-  }
-  return [];
-}
+  return storedData && Array.isArray(storedData.entries) ? storedData.entries : [];
+};
 
 // Function to save scouting data to localStorage
 export const saveScoutingData = (scoutingData) => {
@@ -34,176 +28,164 @@ export const savePrincessData = (princessData) => {
   }
 };
 
-
-// Function to update scouting data from API
+// Function to update scouting data from API with error propagation
 export const updateScoutingDataFromAPI = async (password) => {
-  const apiUrl = localStorage.getItem('scouting_data_url')
-  const princessApiUrl = localStorage.getItem('scouting_data_url') + '/princess';
+  const competitionId = localStorage.getItem('competition_id');
+  const baseUrl = localStorage.getItem('api_url');
+  const apiUrl = `${baseUrl}${competitionId}/entries`;
+  const princessApiUrl = `${baseUrl}${competitionId}/princess`;
 
+  const errorMessages = [];
+
+  // Fetch scouting (entries) data
   try {
     const response = await fetch(apiUrl, {
       method: 'GET',
-      headers: {
-        'x-password': password,
-      },
+      headers: { 'x-password': password },
     });
-
     if (!response.ok) {
-      const responseText = await response.text();
-      console.error('Error response text:', responseText);
-      throw new Error(`Failed to fetch scouting data: ${response.statusText}`);
+      const text = await response.text();
+      throw new Error(`Failed to fetch scouting data (${response.status}): ${text}`);
     }
-
     const contentType = response.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
-      const responseText = await response.text();
-      console.error('Non-JSON response:', responseText);
-      throw new Error('Received non-JSON response from the server');
+      throw new Error('Received non-JSON response for scouting data');
     }
-
     const data = await response.json();
     if (data && Array.isArray(data)) {
       saveScoutingData(data);
       console.log('Scouting data updated successfully');
     } else {
-      console.error('Invalid data format received from API');
+      throw new Error('Invalid data format received for scouting data');
     }
   } catch (error) {
-    console.error('Error updating scouting data:', error);
+    errorMessages.push(error.message);
   }
-  
+
+  // Fetch princess data
   try {
     const response = await fetch(princessApiUrl, {
       method: 'GET',
-      headers: {
-        'x-password': password,
-      },
+      headers: { 'x-password': password },
     });
-
     if (!response.ok) {
-      const responseText = await response.text();
-      console.error('Error response text:', responseText);
-      throw new Error(`Failed to fetch scouting data: ${response.statusText}`);
+      const text = await response.text();
+      throw new Error(`Failed to fetch princess data (${response.status}): ${text}`);
     }
-
     const contentType = response.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
-      const responseText = await response.text();
-      console.error('Non-JSON response:', responseText);
-      throw new Error('Received non-JSON response from the server');
+      throw new Error('Received non-JSON response for princess data');
     }
-
     const data = await response.json();
     if (data && Array.isArray(data)) {
       savePrincessData(data);
-      console.log('Scouting data updated successfully');
+      console.log('Princess data updated successfully');
     } else {
-      console.error('Invalid data format received from API');
+      throw new Error('Invalid data format received for princess data');
     }
   } catch (error) {
-    console.error('Error updating scouting data:', error);
+    errorMessages.push(error.message);
+  }
+
+  if (errorMessages.length > 0) {
+    throw new Error(errorMessages.join(' | '));
   }
 };
 
-
-// Function to upload all submissions from localStorage to API
+// Function to upload all submissions from localStorage to API with error propagation
 export const postAllSubmissions = async (password) => {
-  const apiUrl = localStorage.getItem('scouting_data_url')
-  const princessApiUrl = localStorage.getItem('scouting_data_url') + '/princess';
+  const competitionId = localStorage.getItem('competition_id');
+  const baseUrl = localStorage.getItem('api_url');
+  const apiUrl = `${baseUrl}${competitionId}/entries`;
+  const princessApiUrl = `${baseUrl}${competitionId}/princess`;
 
   const compressedSubmissions = JSON.parse(localStorage.getItem('submissions') || '[]');
   const compressedPrincessSubmissions = JSON.parse(localStorage.getItem('princessSubmissions') || '[]');
 
   if (!apiUrl || !princessApiUrl) {
-    console.error('Submission API URL not found in localStorage');
-    return;
+    throw new Error('Submission API URL not found in localStorage');
   }
 
-  if (compressedSubmissions.length === 0) {
-    console.warn('No submissions to upload');
-  }
-
-  if (compressedPrincessSubmissions.length === 0) {
-    console.warn('No princess submissions to upload');
-  }
-
+  // If there are no submissions for both entries and princess, throw an error.
   if (compressedSubmissions.length === 0 && compressedPrincessSubmissions.length === 0) {
-    return;
+    throw new Error('No submissions to upload');
   }
 
-  // Decompress and parse each submission
-  const submissions = compressedSubmissions.map(submission => {
+  const errorMessages = [];
+
+  // Decompress and parse each entry submission
+  const submissions = compressedSubmissions.map((submission) => {
     const decompressed = decompressAndDecode(submission);
     try {
-      return JSON.parse(decompressed); // Ensure decompressed data is a JavaScript object
+      return JSON.parse(decompressed);
     } catch (e) {
       console.error('Error parsing decompressed submission:', decompressed);
       return null;
     }
-  }).filter(submission => submission !== null); // Filter out any invalid entries
+  }).filter((submission) => submission !== null);
 
-  console.log('Uploading submissions to API:', apiUrl);
-  console.log('Submissions:', submissions);
-
-  try {
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-password': password,
-      },
-      body: JSON.stringify({ entries: submissions }),  // Send the parsed entries
-    });
-
-    if (!response.ok) {
-      const responseText = await response.text();
-      console.error('Error response from server:', responseText);
-      throw new Error('Failed to upload submissions');
+  // If there were submissions stored but none parsed correctly, register an error.
+  if (compressedSubmissions.length > 0 && submissions.length === 0) {
+    errorMessages.push('All scouting submissions failed to parse');
+  } else if (submissions.length > 0) {
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-password': password,
+        },
+        body: JSON.stringify({ entries: submissions }),
+      });
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Failed to upload scouting submissions (${response.status}): ${text}`);
+      }
+      localStorage.removeItem('submissions');
+      console.log('Scouting submissions uploaded successfully');
+    } catch (error) {
+      errorMessages.push(error.message);
     }
-
-    localStorage.removeItem('submissions');
-    console.log('Submissions uploaded successfully');
-  } catch (error) {
-    console.error('Error uploading submissions:', error);
   }
 
-  // now for princess submissions
-  const princessSubmissions = compressedPrincessSubmissions.map(submission => {
+  // Decompress and parse each princess submission
+  const princessSubmissions = compressedPrincessSubmissions.map((submission) => {
     const decompressed = decompressAndDecode(submission);
     try {
-      return JSON.parse(decompressed); // Ensure decompressed data is a JavaScript object
+      return JSON.parse(decompressed);
     } catch (e) {
-      console.error('Error parsing decompressed submission:', decompressed);
+      console.error('Error parsing decompressed princess submission:', decompressed);
       return null;
     }
-  }).filter(submission => submission !== null); // Filter out any invalid entries
+  }).filter((submission) => submission !== null);
 
-  console.log('Uploading submissions to API:', princessApiUrl);
-  console.log('Submissions:', princessSubmissions);
-
-  try {
-    const response = await fetch(princessApiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-password': password,
-      },
-      body: JSON.stringify({ entries: princessSubmissions }),  // Send the parsed entries
-    });
-
-    if (!response.ok) {
-      const responseText = await response.text();
-      console.error('Error response from server:', responseText);
-      throw new Error('Failed to upload submissions');
+  if (compressedPrincessSubmissions.length > 0 && princessSubmissions.length === 0) {
+    errorMessages.push('All princess submissions failed to parse');
+  } else if (princessSubmissions.length > 0) {
+    try {
+      const response = await fetch(princessApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-password': password,
+        },
+        body: JSON.stringify({ entries: princessSubmissions }),
+      });
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Failed to upload princess submissions (${response.status}): ${text}`);
+      }
+      localStorage.removeItem('princessSubmissions');
+      console.log('Princess submissions uploaded successfully');
+    } catch (error) {
+      errorMessages.push(error.message);
     }
+  }
 
-    localStorage.removeItem('princessSubmissions');
-    console.log('Submissions uploaded successfully');
-  } catch (error) {
-    console.error('Error uploading submissions:', error);
+  if (errorMessages.length > 0) {
+    throw new Error(errorMessages.join(' | '));
   }
 };
-
 
 // Function to save the API URL to localStorage
 export const saveAPIURLToLocalStorage = (url) => {
@@ -213,7 +195,7 @@ export const saveAPIURLToLocalStorage = (url) => {
       console.error('Invalid URL protocol. URL must start with "http://" or "https://".');
       return [false, 'Invalid URL protocol. URL must start with "http://" or "https://".'];
     }
-    localStorage.setItem('scouting_data_url', validatedUrl.toString());
+    localStorage.setItem('api_url', validatedUrl.toString());
     console.log('API URL saved to localStorage.');
     return [true, 'API URL saved successfully.'];
   } catch (error) {

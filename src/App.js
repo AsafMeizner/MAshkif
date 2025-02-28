@@ -22,10 +22,10 @@ function App() {
     const keysAndDefaults = {
       // scouting_data: {},
       // princess_data: {},
-      password: '',
+      // password: '',
+      // api_url: ''
       submissions: [],
       princessSubmissions: [],
-      scouting_data_url: ''
     };
 
     Object.entries(keysAndDefaults).forEach(([key, defaultValue]) => {
