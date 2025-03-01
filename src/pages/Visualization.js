@@ -27,6 +27,9 @@ const Visualization = () => {
     const [blue2Number, setBlue2Number] = useState(1576);
     const [blue3Number, setBlue3Number] = useState(3339);
     const [selectedTeams, setSelectedTeams] = useState([]);
+    const [startMatchNumber, setStartMatchNumber] = useState(0);
+    const [endMatchNumber, setEndMatchNumber] = useState(100);
+    const [selectedMatchNumbers, setSelectedMatchNumbers] = useState([]);
     const scoutingData = getScoutingData();
     const princessData = getPrincessData();
 
@@ -77,8 +80,39 @@ const Visualization = () => {
         setSelectedTeams([]);
     };
 
+    const handleStartMatchNumberChange = (e) => {
+        setStartMatchNumber(parseInt(e.target.value, 10));
+    };
+
+    const handleEndMatchNumberChange = (e) => {
+        setEndMatchNumber(parseInt(e.target.value, 10));
+    };
+
+    const matchNumbers = [...new Set(scoutingData.filter(entry => entry.teamNumber === teamNumber).map(entry => entry.matchNumber))];
+
+    const handleMatchSelection = (matchNumber) => {
+        setSelectedMatchNumbers(prevSelected =>
+            prevSelected.includes(matchNumber)
+                ? prevSelected.filter(num => num !== matchNumber)
+                : [...prevSelected, matchNumber]
+        );
+    };
+
+    const selectAllMatches = () => {
+        setSelectedMatchNumbers(matchNumbers);
+    };
+
+    const deselectAllMatches = () => {
+        setSelectedMatchNumbers([]);
+    };
+
+    const specificTeamFiltredMatchesData = scoutingData.filter(entry =>
+        selectedMatchNumbers.length === 0 || selectedMatchNumbers.includes(entry.matchNumber)
+    );
+
     const filteredScoutingData = scoutingData.filter(entry =>
-        selectedTeams.length === 0 || selectedTeams.includes(entry.teamNumber)
+        (selectedTeams.length === 0 || selectedTeams.includes(entry.teamNumber)) && 
+            entry.matchNumber >= startMatchNumber && entry.matchNumber <= endMatchNumber
     );
 
     const filtredPrincessData = princessData.filter(entry =>
@@ -208,13 +242,13 @@ const Visualization = () => {
                         <TableChart config={specificTeamConfigs.princessTableConfig(princessData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.matchScoreByRoundConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.matchScoreByRoundConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.averageScoreConfig(scoutingData, teamNumber)} />
+                        <MultiNumberDisplay config={specificTeamConfigs.averageScoreConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="wide-graph-item">
-                        <TableChart config={specificTeamConfigs.commentsPerTeamTableConfig(scoutingData, teamNumber)} />
+                        <TableChart config={specificTeamConfigs.commentsPerTeamTableConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                 </div>
             )}
@@ -229,16 +263,16 @@ const Visualization = () => {
             {isSectionOpen('autonomous') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.autonomousScoreByMatchConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.autonomousScoreByMatchConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.autonomousSummeryConfig(scoutingData, teamNumber)} />
+                        <MultiNumberDisplay config={specificTeamConfigs.autonomousSummeryConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.autonomousCoralPrecentInConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.autonomousCoralPrecentInConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.autonomousLeftStartingLineConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.autonomousLeftStartingLineConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                 </div>
             )}
@@ -663,6 +697,28 @@ const Visualization = () => {
                     ))}
                 </div>
             </div>
+            <div className="team-number-input">
+                <label htmlFor="startMatchNumber">Select Start Match Number:</label>
+                <input
+                    type="number"
+                    id="startMatchNumber"
+                    value={startMatchNumber}
+                    onChange={handleStartMatchNumberChange}
+                    min="0"
+                    placeholder="Enter Start Match Number"
+                />
+            </div>
+            <div className="team-number-input">
+                <label htmlFor="endMatchNumber">Select End Match Number:</label>
+                <input
+                    type="number"
+                    id="endMatchNumber"
+                    value={endMatchNumber}
+                    onChange={handleEndMatchNumberChange}
+                    min="0"
+                    placeholder="Enter End Match Number"
+                />
+            </div>
             {allTeamsRenderPrincessSection()}
             {allTeamsRenderGeneralSection()}
             {allTeamsRenderAutonomousSection()}
@@ -683,6 +739,25 @@ const Visualization = () => {
                     min="0"
                     placeholder="Enter team number"
                 />
+            </div>
+            <div className="team-selection-container">
+                <div className="team-selection-buttons">
+                    <button onClick={selectAllMatches}>Select All</button>
+                    <button onClick={deselectAllMatches}>Deselect All</button>
+                </div>
+
+                <div className="team-selection">
+                    {matchNumbers.sort((a, b) => a - b).map(matchNumber => (
+                        <label key={matchNumber}>
+                            <input
+                                type="checkbox"
+                                checked={selectedMatchNumbers.includes(matchNumber)}
+                                onChange={() => handleMatchSelection(matchNumber)}
+                            />
+                            Match {matchNumber}
+                        </label>
+                    ))}
+                </div>
             </div>
             {specificTeamRenderGeneralSection()}
             {specificTeamRenderAutonomousSection()}
