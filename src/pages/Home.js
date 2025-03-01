@@ -16,12 +16,12 @@ function HomePage() {
         </header>
         <p className="home-description">This is the scouting app made by Makers Assemble 5951</p>
         <div className="button-container">
+          <Link to="/settings" className="home-button">Settings</Link>
           <Link to="/quizform" className="home-button">Scouting Form</Link>
-          <Link to="/settings" className="home-button">Setup</Link>
+          <Link to="/princessform" className="home-button">Princess Form</Link>
           <Link to="/qrscan" className="home-button">Scan QR</Link>
           <Link to="/update-entries" className="home-button">Update Data</Link>
           <Link to="/visualization" className="home-button">Visualization</Link>
-          <Link to="/princessform" className="home-button">Princess Form</Link>
         </div>
       </div>
     </div>
