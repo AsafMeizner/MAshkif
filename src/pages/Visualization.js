@@ -287,22 +287,22 @@ const Visualization = () => {
             {isSectionOpen('teleop') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopCoralByMatchConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.teleopCoralByMatchConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopAlgeeByMatchConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.teleopAlgeeByMatchConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.teleopCoralLevelsSummeryConfig(scoutingData, teamNumber)} />
+                        <MultiNumberDisplay config={specificTeamConfigs.teleopCoralLevelsSummeryConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopCoralPrecentInConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.teleopCoralPrecentInConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={specificTeamConfigs.teleopSummeryConfig(scoutingData, teamNumber)} />
+                        <MultiNumberDisplay config={specificTeamConfigs.teleopSummeryConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={allTeamsConfigs.teleopSummeryConfig(scoutingData, teamNumber)} />
+                        <MultiNumberDisplay config={allTeamsConfigs.teleopSummeryConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                 </div>
             )}
@@ -317,10 +317,10 @@ const Visualization = () => {
             {isSectionOpen('endgame') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.endgameClimbDataPerRoundConfig(scoutingData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.endgameClimbDataPerRoundConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <PieGraph config={specificTeamConfigs.endgameClimbUsagePieConfig(scoutingData, teamNumber)} />
+                        <PieGraph config={specificTeamConfigs.endgameClimbUsagePieConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                 </div>
             )}
@@ -335,10 +335,10 @@ const Visualization = () => {
             {isSectionOpen('summary') && (
                 <div className="graph-container">
                     <div className="graph-item">
-                        <RadarGraph config={specificTeamConfigs.teamPerformanceRadarConfig(scoutingData, teamNumber)} />
+                        <RadarGraph config={specificTeamConfigs.teamPerformanceRadarConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <RadarGraph config={specificTeamConfigs.teamCoralHeightRadarConfig(scoutingData, teamNumber)} />
+                        <RadarGraph config={specificTeamConfigs.teamCoralHeightRadarConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                 </div>
             )}
