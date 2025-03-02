@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>MAshkif Tray Menu</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #181b1f;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .menu-item {
+            padding: 12px;
+            margin: 10px 0;
+            background-color: #3b3b3b;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 1.1em;
+        }
+
+        .menu-item:hover {
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">MAshkif Quick Menu</div>
+    <div class="menu-item" id="open">Open</div>
+    <div class="menu-item" id="update">Update Local Entries</div>
+    <div class="menu-item" id="upload">Upload Submissions</div>
+    <div class="menu-item" id="clear">Clear Local Storage</div>
+    <div class="menu-item" id="close">Close</div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        // Send the content height to the main process to auto-resize the tray window.
+        function sendResize() {
+            const height = document.body.scrollHeight;
+            ipcRenderer.send('tray-resize', height);
+        }
+        // Call sendResize after content loads.
+        window.onload = sendResize;
+
+        document.getElementById('open').addEventListener('click', () => {
+            ipcRenderer.send('tray-open');
+        });
+        document.getElementById('update').addEventListener('click', () => {
+            ipcRenderer.send('tray-update');
+        });
+        document.getElementById('upload').addEventListener('click', () => {
+            ipcRenderer.send('tray-upload');
+        });
+        document.getElementById('clear').addEventListener('click', () => {
+            ipcRenderer.send('tray-clear');
+        });
+        document.getElementById('close').addEventListener('click', () => {
+            ipcRenderer.send('tray-close');
+        });
+    </script>
+</body>
+
+</html>

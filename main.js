@@ -1,9 +1,10 @@
 // main.js
-const { app, BrowserWindow, Menu, Tray, nativeImage, Notification } = require('electron');
+const { app, BrowserWindow, Tray, nativeImage, Notification, ipcMain, screen } = require('electron');
 const path = require('path');
 
 let mainWindow;
 let tray = null;
+let trayWindow = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -18,11 +19,11 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
-      contextIsolation: false, // For demo; consider using contextBridge in production
+      contextIsolation: false, // For demo purposes; use contextBridge in production
     },
   });
 
-  Menu.setApplicationMenu(null);
+  mainWindow.setMenu(null);
 
   const startUrl = process.env.ELECTRON_START_URL ||
     `file://${path.join(__dirname, 'build', 'index.html')}`;
@@ -33,83 +34,105 @@ function createWindow() {
   });
 }
 
+function createTrayWindow() {
+  // Start with an initial height; it will be resized later.
+  trayWindow = new BrowserWindow({
+    width: 260,
+    height: 100,
+    show: false,
+    frame: false,
+    resizable: false,
+    movable: false,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+    transparent: true,
+    webPreferences: {
+      nodeIntegration: true, // Needed to load our local HTML file
+      contextIsolation: false,
+    },
+  });
+
+  trayWindow.loadURL(`file://${path.join(__dirname, 'tray.html')}`);
+
+  trayWindow.on('blur', () => {
+    if (trayWindow) trayWindow.hide();
+  });
+}
+
 function createTray() {
-  // Use your favicon as the tray icon.
   const trayIconPath = path.join(__dirname, 'public', 'favicon.ico');
   const trayIcon = nativeImage.createFromPath(trayIconPath);
   tray = new Tray(trayIcon);
 
-  const trayMenu = Menu.buildFromTemplate([
-    {
-      label: '🚀 MAshkif', // Header with emoji flair (non-clickable)
-      enabled: false,
-    },
-    { type: 'separator' },
-    {
-      label: '⚡ Open',
-      icon: nativeImage.createFromPath(path.join(__dirname, 'public', 'open.png')) || trayIcon,
-      click: () => {
-        if (mainWindow) mainWindow.show();
-      },
-    },
-    {
-      label: '🔄 Update Local Entries',
-      icon: nativeImage.createFromPath(path.join(__dirname, 'public', 'update.png')) || trayIcon,
-      click: () => {
-        if (mainWindow) {
-          mainWindow.webContents.send('update-local-entries');
-        }
-      },
-    },
-    {
-      label: '📤 Upload Submissions',
-      icon: nativeImage.createFromPath(path.join(__dirname, 'public', 'upload.png')) || trayIcon,
-      click: () => {
-        if (mainWindow) {
-          mainWindow.webContents.send('upload-submissions');
-        }
-      },
-    },
-    {
-      label: '🧹 Clear Local Storage',
-      icon: nativeImage.createFromPath(path.join(__dirname, 'public', 'clear.png')) || trayIcon,
-      click: () => {
-        if (mainWindow) {
-          mainWindow.webContents.executeJavaScript(
-            'localStorage.clear(); console.log("Local storage cleared");'
-          );
-          new Notification({
-            title: 'MAshkif',
-            body: 'Local storage cleared.',
-            icon: path.join(__dirname, 'public', 'favicon.ico')
-          }).show();
-        }
-      },
-    },
-    { type: 'separator' },
-    {
-      label: '❌ Close',
-      icon: nativeImage.createFromPath(path.join(__dirname, 'public', 'close.png')) || trayIcon,
-      click: () => {
-        app.quit();
-      },
-    },
-  ]);
-
-  tray.setToolTip('MAshkif');
-  tray.setContextMenu(trayMenu);
-
-  // Enable left-click to open the main window.
-  tray.on('click', () => {
-    if (mainWindow) {
-      mainWindow.show();
+  tray.on('click', (event, bounds) => {
+    if (trayWindow && trayWindow.isVisible()) {
+      trayWindow.hide();
+    } else {
+      const { x, y } = bounds;
+      const { width, height } = trayWindow.getBounds();
+      const display = screen.getPrimaryDisplay();
+      let trayWindowX = Math.round(x - width / 2);
+      let trayWindowY = process.platform === 'darwin' ? y : y - height;
+      trayWindowX = Math.max(0, Math.min(trayWindowX, display.workArea.width - width));
+      trayWindow.setPosition(trayWindowX, trayWindowY, false);
+      trayWindow.show();
+      trayWindow.focus();
     }
   });
+
+  tray.on('right-click', () => {
+    if (trayWindow && trayWindow.isVisible()) {
+      trayWindow.hide();
+    } else {
+      trayWindow.show();
+    }
+  });
+
+  tray.setToolTip('MAshkif');
 }
 
 app.whenReady().then(() => {
   createWindow();
+  createTrayWindow();
   createTray();
+
+  // IPC handlers for tray window button actions.
+  ipcMain.on('tray-open', () => {
+    if (mainWindow) mainWindow.show();
+    if (trayWindow) trayWindow.hide();
+  });
+  ipcMain.on('tray-update', () => {
+    if (mainWindow) {
+      mainWindow.webContents.send('update-local-entries');
+    }
+    if (trayWindow) trayWindow.hide();
+  });
+  ipcMain.on('tray-upload', () => {
+    if (mainWindow) {
+      mainWindow.webContents.send('upload-submissions');
+    }
+    if (trayWindow) trayWindow.hide();
+  });
+  ipcMain.on('tray-clear', () => {
+    if (mainWindow) {
+      mainWindow.webContents.executeJavaScript('localStorage.clear(); console.log("Local storage cleared");');
+      new Notification({
+        title: 'MAshkif',
+        body: 'Local storage cleared.',
+        icon: path.join(__dirname, 'public', 'favicon.ico'),
+      }).show();
+    }
+    if (trayWindow) trayWindow.hide();
+  });
+  ipcMain.on('tray-close', () => {
+    app.quit();
+  });
+  // Listen for the resize message from the tray window.
+  ipcMain.on('tray-resize', (event, height) => {
+    if (trayWindow) {
+      trayWindow.setSize(260, height, false);
+    }
+  });
 });
 
 app.on('window-all-closed', () => {
