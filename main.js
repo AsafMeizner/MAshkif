@@ -103,15 +103,22 @@ function setupIpcHandlers() {
   });
   ipcMain.on('tray-update', () => {
     if (mainWindow) {
-      mainWindow.webContents.send('update-local-entries');
-      console.log('Sent update-local-entries IPC to renderer');
+      mainWindow.webContents.executeJavaScript(
+        'window.updateLocalEntries && window.updateLocalEntries()'
+      )
+        .then(() => console.log('Executed updateLocalEntries in renderer'))
+        .catch(err => console.error(err));
     }
     if (trayWindow) trayWindow.hide();
   });
+
   ipcMain.on('tray-upload', () => {
     if (mainWindow) {
-      mainWindow.webContents.send('upload-submissions');
-      console.log('Sent upload-submissions IPC to renderer');
+      mainWindow.webContents.executeJavaScript(
+        'window.uploadSubmissions && window.uploadSubmissions()'
+      )
+        .then(() => console.log('Executed uploadSubmissions in renderer'))
+        .catch(err => console.error(err));
     }
     if (trayWindow) trayWindow.hide();
   });
