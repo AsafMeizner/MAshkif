@@ -1,46 +1,121 @@
 // main.js
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu, Tray, nativeImage, Notification } = require('electron');
 const path = require('path');
 
 let mainWindow;
+let tray = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 768,
+    frame: true,
+    icon: path.join(__dirname, 'public', 'favicon.ico'), // Use your custom app icon
+    titleBarOverlay: {
+      color: '#de4a37',
+      symbolColor: '#ffffff',
+    },
     webPreferences: {
-      // Enable preload script if needed:
-      // preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: false, // For security, avoid enabling Node integration in renderer.
-      contextIsolation: true, // Recommended for security.
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: false, // For demo; consider using contextBridge in production
     },
   });
 
-  // In development, load the React dev server URL.
-  // In production, load the built index.html.
-  const startUrl = process.env.ELECTRON_START_URL || 
+  Menu.setApplicationMenu(null);
+
+  const startUrl = process.env.ELECTRON_START_URL ||
     `file://${path.join(__dirname, 'build', 'index.html')}`;
   mainWindow.loadURL(startUrl);
-
-  // Optionally open DevTools:
-  // mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
 }
 
-app.whenReady().then(createWindow);
+function createTray() {
+  // Use your favicon as the tray icon.
+  const trayIconPath = path.join(__dirname, 'public', 'favicon.ico');
+  const trayIcon = nativeImage.createFromPath(trayIconPath);
+  tray = new Tray(trayIcon);
 
-// Quit when all windows are closed.
+  const trayMenu = Menu.buildFromTemplate([
+    {
+      label: '🚀 MAshkif', // Header with emoji flair (non-clickable)
+      enabled: false,
+    },
+    { type: 'separator' },
+    {
+      label: '⚡ Open',
+      icon: nativeImage.createFromPath(path.join(__dirname, 'public', 'open.png')) || trayIcon,
+      click: () => {
+        if (mainWindow) mainWindow.show();
+      },
+    },
+    {
+      label: '🔄 Update Local Entries',
+      icon: nativeImage.createFromPath(path.join(__dirname, 'public', 'update.png')) || trayIcon,
+      click: () => {
+        if (mainWindow) {
+          mainWindow.webContents.send('update-local-entries');
+        }
+      },
+    },
+    {
+      label: '📤 Upload Submissions',
+      icon: nativeImage.createFromPath(path.join(__dirname, 'public', 'upload.png')) || trayIcon,
+      click: () => {
+        if (mainWindow) {
+          mainWindow.webContents.send('upload-submissions');
+        }
+      },
+    },
+    {
+      label: '🧹 Clear Local Storage',
+      icon: nativeImage.createFromPath(path.join(__dirname, 'public', 'clear.png')) || trayIcon,
+      click: () => {
+        if (mainWindow) {
+          mainWindow.webContents.executeJavaScript(
+            'localStorage.clear(); console.log("Local storage cleared");'
+          );
+          new Notification({
+            title: 'MAshkif',
+            body: 'Local storage cleared.',
+            icon: path.join(__dirname, 'public', 'favicon.ico')
+          }).show();
+        }
+      },
+    },
+    { type: 'separator' },
+    {
+      label: '❌ Close',
+      icon: nativeImage.createFromPath(path.join(__dirname, 'public', 'close.png')) || trayIcon,
+      click: () => {
+        app.quit();
+      },
+    },
+  ]);
+
+  tray.setToolTip('MAshkif');
+  tray.setContextMenu(trayMenu);
+
+  // Enable left-click to open the main window.
+  tray.on('click', () => {
+    if (mainWindow) {
+      mainWindow.show();
+    }
+  });
+}
+
+app.whenReady().then(() => {
+  createWindow();
+  createTray();
+});
+
 app.on('window-all-closed', () => {
-  // On macOS, it is common for applications to stay open until explicitly quit.
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('activate', () => {
-  // On macOS, re-create a window when the dock icon is clicked.
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
