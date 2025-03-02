@@ -6,7 +6,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { updateLocalEntries, uploadSubmissions } from './globalUpdateHandlers';
 
-// Attach global functions to the window object.
 window.updateLocalEntries = updateLocalEntries;
 window.uploadSubmissions = uploadSubmissions;
 
@@ -15,6 +14,6 @@ root.render(
     <React.StrictMode>
         <App />
     </React.StrictMode>
-); 
+);
 
 reportWebVitals();

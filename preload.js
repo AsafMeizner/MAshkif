@@ -1,13 +1,10 @@
 // preload.js
 const { ipcRenderer } = require('electron');
 
-// Helper to show improved notifications in the renderer.
 function notify(message) {
-    // The native Notification API in browsers automatically displays the notification.
     new Notification('MAshkif', { body: message, icon: 'favicon.ico' });
 }
 
-// Remove duplicate listeners to prevent multiple activations.
 ipcRenderer.removeAllListeners('update-local-entries');
 ipcRenderer.removeAllListeners('upload-submissions');
 

@@ -62,7 +62,21 @@
     },
     "files": [
       "build/**/*",
-      "main.js"
+      "main.js",
+      "preload.js",
+      "tray.html",
+      "public/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "public",
+        "to": "public",
+        "filter": [
+          "**/*"
+        ]
+      },
+      "tray.html",
+      "preload.js"
     ],
     "win": {
       "target": "nsis",

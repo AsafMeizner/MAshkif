@@ -2,6 +2,13 @@
 const { app, BrowserWindow, Tray, nativeImage, Notification, ipcMain, screen } = require('electron');
 const path = require('path');
 
+// Helper: Resolve asset paths reliably.
+function getAssetPath(...paths) {
+  return app.isPackaged
+    ? path.join(process.resourcesPath, ...paths)
+    : path.join(__dirname, ...paths);
+}
+
 let mainWindow;
 let tray = null;
 let trayWindow = null;
@@ -11,20 +18,19 @@ function createWindow() {
     width: 1024,
     height: 768,
     frame: true,
-    icon: path.join(__dirname, 'public', 'favicon.ico'), // Use your custom app icon
+    icon: getAssetPath('public', 'favicon.ico'),
     titleBarOverlay: {
       color: '#de4a37',
-      symbolColor: '#ffffff',
+      symbolColor: '#ffffff'
     },
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
-      contextIsolation: false, // For demo purposes; use contextBridge in production
-    },
+      contextIsolation: false
+    }
   });
 
   mainWindow.setMenu(null);
-
   const startUrl = process.env.ELECTRON_START_URL ||
     `file://${path.join(__dirname, 'build', 'index.html')}`;
   mainWindow.loadURL(startUrl);
@@ -35,7 +41,6 @@ function createWindow() {
 }
 
 function createTrayWindow() {
-  // Start with an initial height; it will be resized later.
   trayWindow = new BrowserWindow({
     width: 260,
     height: 100,
@@ -47,20 +52,19 @@ function createTrayWindow() {
     skipTaskbar: true,
     transparent: true,
     webPreferences: {
-      nodeIntegration: true, // Needed to load our local HTML file
-      contextIsolation: false,
-    },
+      nodeIntegration: true,
+      contextIsolation: false
+    }
   });
 
-  trayWindow.loadURL(`file://${path.join(__dirname, 'tray.html')}`);
-
+  trayWindow.loadURL(`file://${getAssetPath('tray.html')}`);
   trayWindow.on('blur', () => {
     if (trayWindow) trayWindow.hide();
   });
 }
 
 function createTray() {
-  const trayIconPath = path.join(__dirname, 'public', 'favicon.ico');
+  const trayIconPath = getAssetPath('public', 'favicon.ico');
   const trayIcon = nativeImage.createFromPath(trayIconPath);
   tray = new Tray(trayIcon);
 
@@ -68,7 +72,7 @@ function createTray() {
     if (trayWindow && trayWindow.isVisible()) {
       trayWindow.hide();
     } else {
-      const { x, y } = bounds;
+      const { x, y } = bounds || { x: 100, y: 100 };
       const { width, height } = trayWindow.getBounds();
       const display = screen.getPrimaryDisplay();
       let trayWindowX = Math.round(x - width / 2);
@@ -89,14 +93,10 @@ function createTray() {
   });
 
   tray.setToolTip('MAshkif');
+  console.log('Tray created using icon:', trayIconPath);
 }
 
-app.whenReady().then(() => {
-  createWindow();
-  createTrayWindow();
-  createTray();
-
-  // IPC handlers for tray window button actions.
+function setupIpcHandlers() {
   ipcMain.on('tray-open', () => {
     if (mainWindow) mainWindow.show();
     if (trayWindow) trayWindow.hide();
@@ -104,12 +104,14 @@ app.whenReady().then(() => {
   ipcMain.on('tray-update', () => {
     if (mainWindow) {
       mainWindow.webContents.send('update-local-entries');
+      console.log('Sent update-local-entries IPC to renderer');
     }
     if (trayWindow) trayWindow.hide();
   });
   ipcMain.on('tray-upload', () => {
     if (mainWindow) {
       mainWindow.webContents.send('upload-submissions');
+      console.log('Sent upload-submissions IPC to renderer');
     }
     if (trayWindow) trayWindow.hide();
   });
@@ -119,7 +121,7 @@ app.whenReady().then(() => {
       new Notification({
         title: 'MAshkif',
         body: 'Local storage cleared.',
-        icon: path.join(__dirname, 'public', 'favicon.ico'),
+        icon: getAssetPath('public', 'favicon.ico')
       }).show();
     }
     if (trayWindow) trayWindow.hide();
@@ -127,12 +129,18 @@ app.whenReady().then(() => {
   ipcMain.on('tray-close', () => {
     app.quit();
   });
-  // Listen for the resize message from the tray window.
   ipcMain.on('tray-resize', (event, height) => {
     if (trayWindow) {
       trayWindow.setSize(260, height, false);
     }
   });
+}
+
+app.whenReady().then(() => {
+  createWindow();
+  createTrayWindow();
+  createTray();
+  setupIpcHandlers();
 });
 
 app.on('window-all-closed', () => {

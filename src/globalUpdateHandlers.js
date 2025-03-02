@@ -28,7 +28,6 @@ export async function updateLocalEntries() {
         await updateScoutingDataFromAPI(password);
         const notif = new Notification("MAshkif", { body: "Data updated successfully.", icon: 'favicon.ico' });
         notif.onclick = () => {
-            // Navigate to /visualization when the notification is clicked.
             window.location.hash = '#/visualization';
         };
     } catch (error) {

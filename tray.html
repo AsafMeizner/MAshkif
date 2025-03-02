@@ -48,16 +48,13 @@
     <div class="menu-item" id="upload">Upload Submissions</div>
     <div class="menu-item" id="clear">Clear Local Storage</div>
     <div class="menu-item" id="close">Close</div>
-
     <script>
         const { ipcRenderer } = require('electron');
 
-        // Send the content height to the main process to auto-resize the tray window.
         function sendResize() {
             const height = document.body.scrollHeight;
             ipcRenderer.send('tray-resize', height);
         }
-        // Call sendResize after content loads.
         window.onload = sendResize;
 
         document.getElementById('open').addEventListener('click', () => {
