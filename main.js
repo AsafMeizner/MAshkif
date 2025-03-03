@@ -1,6 +1,20 @@
-// main.js
 const { app, BrowserWindow, Tray, nativeImage, Notification, ipcMain, screen } = require('electron');
 const path = require('path');
+
+// Ensure single instance
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on('second-instance', () => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
+      }
+      mainWindow.focus();
+    }
+  });
+}
 
 // Helper: Resolve asset paths reliably.
 function getAssetPath(...paths) {
@@ -59,7 +73,9 @@ function createTrayWindow() {
 
   trayWindow.loadURL(`file://${getAssetPath('tray.html')}`);
   trayWindow.on('blur', () => {
-    if (trayWindow) trayWindow.hide();
+    if (trayWindow) {
+      trayWindow.hide();
+    }
   });
 }
 
@@ -98,9 +114,19 @@ function createTray() {
 
 function setupIpcHandlers() {
   ipcMain.on('tray-open', () => {
-    if (mainWindow) mainWindow.show();
-    if (trayWindow) trayWindow.hide();
+    if (!mainWindow) {
+      createWindow();
+    } else {
+      if (!mainWindow.isVisible()) {
+        mainWindow.show();
+      }
+      mainWindow.focus();
+    }
+    if (trayWindow) {
+      trayWindow.hide();
+    }
   });
+
   ipcMain.on('tray-update', () => {
     if (mainWindow) {
       mainWindow.webContents.executeJavaScript(
@@ -109,7 +135,9 @@ function setupIpcHandlers() {
         .then(() => console.log('Executed updateLocalEntries in renderer'))
         .catch(err => console.error(err));
     }
-    if (trayWindow) trayWindow.hide();
+    if (trayWindow) {
+      trayWindow.hide();
+    }
   });
 
   ipcMain.on('tray-upload', () => {
@@ -120,8 +148,11 @@ function setupIpcHandlers() {
         .then(() => console.log('Executed uploadSubmissions in renderer'))
         .catch(err => console.error(err));
     }
-    if (trayWindow) trayWindow.hide();
+    if (trayWindow) {
+      trayWindow.hide();
+    }
   });
+
   ipcMain.on('tray-clear', () => {
     if (mainWindow) {
       mainWindow.webContents.executeJavaScript('localStorage.clear(); console.log("Local storage cleared");');
@@ -131,11 +162,15 @@ function setupIpcHandlers() {
         icon: getAssetPath('public', 'favicon.ico')
       }).show();
     }
-    if (trayWindow) trayWindow.hide();
+    if (trayWindow) {
+      trayWindow.hide();
+    }
   });
+
   ipcMain.on('tray-close', () => {
     app.quit();
   });
+
   ipcMain.on('tray-resize', (event, height) => {
     if (trayWindow) {
       trayWindow.setSize(260, height, false);
@@ -151,9 +186,13 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
 });
 
 app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
 });

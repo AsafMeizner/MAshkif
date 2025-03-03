@@ -8,12 +8,17 @@
         body {
             margin: 0;
             padding: 20px;
-            background-color: #181b1f;
-            color: #fff;
+            background: transparent;
             font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .tray-container {
+            background-color: #181b1f;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
             overflow: hidden;
+            padding: 20px;
         }
 
         .header {
@@ -33,6 +38,8 @@
             cursor: pointer;
             transition: background 0.2s;
             font-size: 1.1em;
+            color: white;
+            /* makes text white on the buttons */
         }
 
         .menu-item:hover {
@@ -42,12 +49,14 @@
 </head>
 
 <body>
-    <div class="header">MAshkif Quick Menu</div>
-    <div class="menu-item" id="open">Open</div>
-    <div class="menu-item" id="update">Update Local Entries</div>
-    <div class="menu-item" id="upload">Upload Submissions</div>
-    <div class="menu-item" id="clear">Clear Local Storage</div>
-    <div class="menu-item" id="close">Close</div>
+    <div class="tray-container">
+        <div class="header">MAshkif Quick Menu</div>
+        <div class="menu-item" id="open">Open</div>
+        <div class="menu-item" id="update">Update Local Data</div>
+        <div class="menu-item" id="upload">Upload Submissions</div>
+        <div class="menu-item" id="clear">Clear Local Storage</div>
+        <div class="menu-item" id="close">Close App</div>
+    </div>
     <script>
         const { ipcRenderer } = require('electron');
 
