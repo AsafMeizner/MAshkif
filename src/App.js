@@ -9,21 +9,17 @@ import Navbar from './components/Navbar';
 import Visualization from './pages/Visualization';
 import UpdateEntriesPage from './pages/UpdateEntriesPage';
 import PrincessForm from './pages/PrincessForm';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import { updateScoutingDataFromAPI, getPasswordFromLocalStorage } from './components/utils';
 
 function App() {
-  // Detect if we're running inside Electron
   const isElectron = navigator.userAgent.toLowerCase().indexOf('electron') > -1;
   const RouterComponent = isElectron ? HashRouter : BrowserRouter;
 
-  // Initialize localStorage values
+  // Existing localStorage fixup
   useEffect(() => {
     let didFix = false;
     const keysAndDefaults = {
-      // scouting_data: {},
-      // princess_data: {},
-      // password: '',
-      // api_url: ''
       submissions: [],
       princessSubmissions: [],
     };
@@ -71,6 +67,41 @@ function App() {
       sessionStorage.setItem('localStorageFixed', 'true');
       window.location.reload();
     }
+  }, []);
+
+  // New background updater: every 3 minutes, if online, run update local entries.
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (navigator.onLine) {
+        const password = getPasswordFromLocalStorage();
+        if (!password) {
+          toast.error('Password not found in local storage for auto-update.');
+          return;
+        }
+        toast.promise(
+          updateScoutingDataFromAPI(password),
+          {
+            pending: 'Auto-updating local entries...',
+            success: 'Local entries updated automatically.',
+            error: {
+              render({ data }) {
+                const lowerMsg = data.message.toLowerCase();
+                const prefix = "Failed to auto-update data:";
+                if (lowerMsg.includes("403") || (lowerMsg.includes("forbidden") && lowerMsg.includes("invalid password"))) {
+                  return `${prefix} Incorrect Password`;
+                }
+                if (lowerMsg.includes("failed to fetch")) {
+                  return `${prefix} Incorrect Server URL`;
+                }
+                return `${prefix} ${data.message}`;
+              }
+            }
+          }
+        );
+      }
+    }, 180000); // 180,000 ms = 3 minutes
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
