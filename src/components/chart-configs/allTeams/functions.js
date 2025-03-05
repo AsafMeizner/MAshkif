@@ -55,15 +55,15 @@ export const matchTeamAverages = (scoutingData) => {
         const team = entry.teamNumber;
 
         if (!acc[team]) {
-            acc[team] = { teamNumber: team, totalCoralScore: 0, totalAlgeeScore: 0, totalScore: 0, count: 0 };
+            acc[team] = { teamNumber: team, totalCoralScore: 0, totalAlgaeScore: 0, totalScore: 0, count: 0 };
         }
 
         const totalCoralScore = entry.tL1sc + entry.tL2sc + entry.tL3sc + entry.tL4sc + entry.L1sc + entry.L2sc + entry.L3sc + entry.L4sc;
-        const totalAlgeeScore = entry.tScAb + entry.tScAp + entry.ScAb + entry.ScAp;
-        const totalScore = totalCoralScore + totalAlgeeScore;
+        const totalAlgaeScore = entry.tScAb + entry.tScAp + entry.ScAb + entry.ScAp;
+        const totalScore = totalCoralScore + totalAlgaeScore;
 
         acc[team].totalCoralScore += totalCoralScore;
-        acc[team].totalAlgeeScore += totalAlgeeScore;
+        acc[team].totalAlgaeScore += totalAlgaeScore;
         acc[team].totalScore += totalScore;
         acc[team].count += 1;
 
@@ -73,7 +73,7 @@ export const matchTeamAverages = (scoutingData) => {
     return Object.values(teamScores).map(team => ({
         teamNumber: team.teamNumber,
         averageCoralScore: Math.round((team.totalCoralScore / team.count) * 100) / 100,
-        averageAlgeeScore: Math.round((team.totalAlgeeScore / team.count) * 100) / 100,
+        averageAlgaeScore: Math.round((team.totalAlgaeScore / team.count) * 100) / 100,
         averageScore: Math.round((team.totalScore / team.count) * 100) / 100
     }));
 };
@@ -83,23 +83,23 @@ export const matchTeamMax = (scoutingData) => {
         const team = entry.teamNumber;
 
         if (!acc[team]) {
-            acc[team] = { teamNumber: team, maxCoralScore: 0, maxAlgeeScore: 0, maxScore: 0 };
+            acc[team] = { teamNumber: team, maxCoralScore: 0, maxAlgaeScore: 0, maxScore: 0 };
         }
 
         const totalCoralScore = Number(entry.tL1sc) + Number(entry.tL2sc) + Number(entry.tL3sc) + Number(entry.tL4sc) + Number(entry.L1sc) + Number(entry.L2sc) + Number(entry.L3sc) + Number(entry.L4sc);
-        const totalAlgeeScore = Number(entry.tScAb) + Number(entry.tScAp) + Number(entry.ScAb) + Number(entry.ScAp);
+        const totalAlgaeScore = Number(entry.tScAb) + Number(entry.tScAp) + Number(entry.ScAb) + Number(entry.ScAp);
 
         acc[team].maxCoralScore = Math.max(acc[team].maxCoralScore, totalCoralScore);
-        acc[team].maxAlgeeScore = Math.max(acc[team].maxAlgeeScore, totalAlgeeScore);
+        acc[team].maxAlgaeScore = Math.max(acc[team].maxAlgaeScore, totalAlgaeScore);
 
         return acc;
     }, {});
 
     return Object.values(teamScores).map(team => ({
         teamNumber: team.teamNumber,
-        maxScore: team.maxCoralScore + team.maxAlgeeScore,
+        maxScore: team.maxCoralScore + team.maxAlgaeScore,
         maxCoralScore: team.maxCoralScore,
-        maxAlgeeScore: team.maxAlgeeScore
+        maxAlgaeScore: team.maxAlgaeScore
     }));
 };
 
@@ -170,17 +170,17 @@ export const autoMaxesCoral = (scoutingData) => {
     }));
 }
 
-export const autoAveragesAlgee = (scoutingData) => {
+export const autoAveragesAlgae = (scoutingData) => {
     const autoScores = scoutingData.reduce((acc, entry) => {
         const team = entry.teamNumber;
 
         if (!acc[team]) {
-            acc[team] = { teamNumber: team, totalAlgeeScore: 0, count: 0 };
+            acc[team] = { teamNumber: team, totalAlgaeScore: 0, count: 0 };
         }
 
-        const totalAlgeeScore = Number(entry.ScAb) + Number(entry.ScAp);
+        const totalAlgaeScore = Number(entry.ScAb) + Number(entry.ScAp);
 
-        acc[team].totalAlgeeScore += totalAlgeeScore;
+        acc[team].totalAlgaeScore += totalAlgaeScore;
         acc[team].count += 1;
 
         return acc;
@@ -188,28 +188,28 @@ export const autoAveragesAlgee = (scoutingData) => {
 
     return Object.values(autoScores).map(team => ({
         teamNumber: team.teamNumber,
-        averageAlgeeScore: Math.round((team.totalAlgeeScore / team.count) * 100) / 100
+        averageAlgaeScore: Math.round((team.totalAlgaeScore / team.count) * 100) / 100
     }));
 }
 
-export const autoMaxesAlgee = (scoutingData) => {
+export const autoMaxesAlgae = (scoutingData) => {
     const autoScores = scoutingData.reduce((acc, entry) => {
         const team = entry.teamNumber;
 
         if (!acc[team]) {
-            acc[team] = { teamNumber: team, maxAlgeeScore: 0 };
+            acc[team] = { teamNumber: team, maxAlgaeScore: 0 };
         }
 
-        const totalAlgeeScore = Number(entry.ScAb) + Number(entry.ScAp);
+        const totalAlgaeScore = Number(entry.ScAb) + Number(entry.ScAp);
 
-        acc[team].maxAlgeeScore = Math.max(acc[team].maxAlgeeScore, totalAlgeeScore);
+        acc[team].maxAlgaeScore = Math.max(acc[team].maxAlgaeScore, totalAlgaeScore);
 
         return acc;
     }, {});
 
     return Object.values(autoScores).map(team => ({
         teamNumber: team.teamNumber,
-        maxAlgeeScore: team.maxAlgeeScore
+        maxAlgaeScore: team.maxAlgaeScore
     }));
 }
 
@@ -327,20 +327,20 @@ export const teleopMaxCoral = (scoutingData) => {
     }));
 }
 
-export const teleopAverageAlgee = (scoutingData) => {
+export const teleopAverageAlgae = (scoutingData) => {
     const teleopScores = scoutingData.reduce((acc, entry) => {
         const team = entry.teamNumber;
 
         if (!acc[team]) {
-            acc[team] = { teamNumber: team, totalAlgeeProcessorScore: 0, totalAlgeeBargeScore: 0, totalAlgeeScore: 0, count: 0 };
+            acc[team] = { teamNumber: team, totalAlgaeProcessorScore: 0, totalAlgaeBargeScore: 0, totalAlgaeScore: 0, count: 0 };
         }
 
-        const totalAlgeeProcessorScore = Number(entry.tScAp);
-        const totalAlgeeBargeScore = Number(entry.tScAb);
+        const totalAlgaeProcessorScore = Number(entry.tScAp);
+        const totalAlgaeBargeScore = Number(entry.tScAb);
 
-        acc[team].totalAlgeeProcessorScore += totalAlgeeProcessorScore;
-        acc[team].totalAlgeeBargeScore += totalAlgeeBargeScore;
-        acc[team].totalAlgeeScore += totalAlgeeProcessorScore + totalAlgeeBargeScore;
+        acc[team].totalAlgaeProcessorScore += totalAlgaeProcessorScore;
+        acc[team].totalAlgaeBargeScore += totalAlgaeBargeScore;
+        acc[team].totalAlgaeScore += totalAlgaeProcessorScore + totalAlgaeBargeScore;
         acc[team].count += 1;
 
         return acc;
@@ -348,36 +348,36 @@ export const teleopAverageAlgee = (scoutingData) => {
 
     return Object.values(teleopScores).map(team => ({
         teamNumber: team.teamNumber,
-        averageAlgeeProcessorScore: Math.round((team.totalAlgeeProcessorScore / team.count) * 100) / 100,
-        averageAlgeeBargeScore: Math.round((team.totalAlgeeBargeScore / team.count) * 100) / 100,
-        averageAlgeeScore: Math.round((team.totalAlgeeScore / team.count) * 100) / 100
+        averageAlgaeProcessorScore: Math.round((team.totalAlgaeProcessorScore / team.count) * 100) / 100,
+        averageAlgaeBargeScore: Math.round((team.totalAlgaeBargeScore / team.count) * 100) / 100,
+        averageAlgaeScore: Math.round((team.totalAlgaeScore / team.count) * 100) / 100
     }));
 }
 
-export const teleopMaxAlgee = (scoutingData) => {
+export const teleopMaxAlgae = (scoutingData) => {
     const teleopScores = scoutingData.reduce((acc, entry) => {
         const team = entry.teamNumber;
 
         if (!acc[team]) {
-            acc[team] = { teamNumber: team, maxAlgeeScore: 0, maxAlgeeProcessorScore: 0, maxAlgeeBargeScore: 0 };
+            acc[team] = { teamNumber: team, maxAlgaeScore: 0, maxAlgaeProcessorScore: 0, maxAlgaeBargeScore: 0 };
         }
 
-        const maxAlgeeProcessorScore = Number(entry.tScAp);
-        const maxAlgeeBargeScore = Number(entry.tScAb);
-        const totalAlgeeScore = maxAlgeeProcessorScore + maxAlgeeBargeScore;
+        const maxAlgaeProcessorScore = Number(entry.tScAp);
+        const maxAlgaeBargeScore = Number(entry.tScAb);
+        const totalAlgaeScore = maxAlgaeProcessorScore + maxAlgaeBargeScore;
 
-        acc[team].maxAlgeeProcessorScore = Math.max(acc[team].maxAlgeeProcessorScore, maxAlgeeProcessorScore);
-        acc[team].maxAlgeeBargeScore = Math.max(acc[team].maxAlgeeBargeScore, maxAlgeeBargeScore);
-        acc[team].maxAlgeeScore = Math.max(acc[team].maxAlgeeScore, totalAlgeeScore);
+        acc[team].maxAlgaeProcessorScore = Math.max(acc[team].maxAlgaeProcessorScore, maxAlgaeProcessorScore);
+        acc[team].maxAlgaeBargeScore = Math.max(acc[team].maxAlgaeBargeScore, maxAlgaeBargeScore);
+        acc[team].maxAlgaeScore = Math.max(acc[team].maxAlgaeScore, totalAlgaeScore);
 
         return acc;
     }, {});
 
     return Object.values(teleopScores).map(team => ({
         teamNumber: team.teamNumber,
-        maxAlgeeProcessorScore: team.maxAlgeeProcessorScore,
-        maxAlgeeBargeScore: team.maxAlgeeBargeScore,
-        maxAlgeeScore: team.maxAlgeeScore
+        maxAlgaeProcessorScore: team.maxAlgaeProcessorScore,
+        maxAlgaeBargeScore: team.maxAlgaeBargeScore,
+        maxAlgaeScore: team.maxAlgaeScore
     }));
 }
 
@@ -407,17 +407,17 @@ export const teleopCoralScorePrecentage = (scoutingData) => {
     }));
 }
 
-export const teleopRemovedAlgeeFromReef = (scoutingData) => {
+export const teleopRemovedAlgaeFromReef = (scoutingData) => {
     const teleopScores = scoutingData.reduce((acc, entry) => {
         const team = entry.teamNumber;
 
         if (!acc[team]) {
-            acc[team] = { teamNumber: team, removedAlgeeFromReef: 0, count: 0 };
+            acc[team] = { teamNumber: team, removedAlgaeFromReef: 0, count: 0 };
         }
 
-        const removedAlgeeFromReef = Number(entry.tRmAr);
+        const removedAlgaeFromReef = Number(entry.tRmAr);
 
-        acc[team].removedAlgeeFromReef += removedAlgeeFromReef;
+        acc[team].removedAlgaeFromReef += removedAlgaeFromReef;
         acc[team].count += 1;
 
         return acc;
@@ -425,7 +425,7 @@ export const teleopRemovedAlgeeFromReef = (scoutingData) => {
 
     return Object.values(teleopScores).map(team => ({
         teamNumber: team.teamNumber,
-        removedAlgeeFromReef: ((team.removedAlgeeFromReef / team.count).toFixed(2))
+        removedAlgaeFromReef: ((team.removedAlgaeFromReef / team.count).toFixed(2))
     }));
 }
 
@@ -453,26 +453,26 @@ export function teleopSummeryCompetition(scoutingData) {
         return Math.max(acc, matchCoralScore);
     }, 0);
 
-    const averageAlgeeScore =
+    const averageAlgaeScore =
         scoutingData.reduce((acc, entry) => {
-            const matchAlgeeScore = (entry.tScAb || 0) + (entry.tScAp || 0);
-            return acc + matchAlgeeScore;
+            const matchAlgaeScore = (entry.tScAb || 0) + (entry.tScAp || 0);
+            return acc + matchAlgaeScore;
         }, 0) / scoutingData.length;
 
-    const maxAlgeeScore = scoutingData.reduce((acc, entry) => {
-        const matchAlgeeScore = (entry.tScAb || 0) + (entry.tScAp || 0);
-        return Math.max(acc, matchAlgeeScore);
+    const maxAlgaeScore = scoutingData.reduce((acc, entry) => {
+        const matchAlgaeScore = (entry.tScAb || 0) + (entry.tScAp || 0);
+        return Math.max(acc, matchAlgaeScore);
     }, 0);
 
-    const averageAlgeeRemovedFromReef =
+    const averageAlgaeRemovedFromReef =
         scoutingData.reduce((acc, entry) => {
-            const matchAlgeeRemoved = (entry.tRmAr || 0) + (entry.tRmAg || 0);
-            return acc + matchAlgeeRemoved;
+            const matchAlgaeRemoved = (entry.tRmAr || 0) + (entry.tRmAg || 0);
+            return acc + matchAlgaeRemoved;
         }, 0) / scoutingData.length;
 
-    const maxAlgeeRemovedFromReef = scoutingData.reduce((acc, entry) => {
-        const matchAlgeeRemoved = (entry.tRmAr || 0) + (entry.tRmAg || 0);
-        return Math.max(acc, matchAlgeeRemoved);
+    const maxAlgaeRemovedFromReef = scoutingData.reduce((acc, entry) => {
+        const matchAlgaeRemoved = (entry.tRmAr || 0) + (entry.tRmAg || 0);
+        return Math.max(acc, matchAlgaeRemoved);
     }, 0);
 
     const averageCoralPrecent =
@@ -521,13 +521,13 @@ export function teleopSummeryCompetition(scoutingData) {
 
     return {
         averageCoralScore,
-        averageAlgeeScore,
+        averageAlgaeScore,
         maxCoralScore,
-        maxAlgeeScore,
+        maxAlgaeScore,
         averageCoralPrecent,
         maxCoralPrecent,
-        averageAlgeeRemovedFromReef,
-        maxAlgeeRemovedFromReef,
+        averageAlgaeRemovedFromReef,
+        maxAlgaeRemovedFromReef,
     };
 }
 
@@ -592,9 +592,9 @@ export function generalSummeryCompetition(scoutingData) {
     // Combined scores for both autonomous and teleop:
     // - Coral Scored
     // - Coral Percent Accuracy (teleop only)
-    // - Algee Barge
-    // - Algee Processor
-    // - Algee Removed From Reef
+    // - Algae Barge
+    // - Algae Processor
+    // - Algae Removed From Reef
     // - End Position
 
     const averageCoralScore = scoutingData.reduce((acc, entry) => {
@@ -638,34 +638,34 @@ export function generalSummeryCompetition(scoutingData) {
         return Math.max(acc, matchCoralPrecent);
     }, 0);
 
-    const averageAlgeeBarge = scoutingData.reduce((acc, entry) => {
-        const matchAlgeeScore = (entry.ScAb || 0) + (entry.tScAb || 0);
-        return acc + matchAlgeeScore;
+    const averageAlgaeBarge = scoutingData.reduce((acc, entry) => {
+        const matchAlgaeScore = (entry.ScAb || 0) + (entry.tScAb || 0);
+        return acc + matchAlgaeScore;
     }, 0) / scoutingData.length;
 
-    const maxAlgeeBarge = scoutingData.reduce((acc, entry) => {
-        const matchAlgeeScore = (entry.ScAb || 0) + (entry.tScAb || 0);
-        return Math.max(acc, matchAlgeeScore);
+    const maxAlgaeBarge = scoutingData.reduce((acc, entry) => {
+        const matchAlgaeScore = (entry.ScAb || 0) + (entry.tScAb || 0);
+        return Math.max(acc, matchAlgaeScore);
     }, 0);
 
-    const averageAlgeeProcessor = scoutingData.reduce((acc, entry) => {
-        const matchAlgeeScore = (entry.ScAp || 0) + (entry.tScAp || 0);
-        return acc + matchAlgeeScore;
+    const averageAlgaeProcessor = scoutingData.reduce((acc, entry) => {
+        const matchAlgaeScore = (entry.ScAp || 0) + (entry.tScAp || 0);
+        return acc + matchAlgaeScore;
     }, 0) / scoutingData.length;
 
-    const maxAlgeeProcessor = scoutingData.reduce((acc, entry) => {
-        const matchAlgeeScore = (entry.ScAp || 0) + (entry.tScAp || 0);
-        return Math.max(acc, matchAlgeeScore);
+    const maxAlgaeProcessor = scoutingData.reduce((acc, entry) => {
+        const matchAlgaeScore = (entry.ScAp || 0) + (entry.tScAp || 0);
+        return Math.max(acc, matchAlgaeScore);
     }, 0);
 
-    const averageAlgeeRemovedFromReef = scoutingData.reduce((acc, entry) => {
-        const matchAlgeeScore = (entry.tRmAr || 0) + (entry.tRmAg || 0);
-        return acc + matchAlgeeScore;
+    const averageAlgaeRemovedFromReef = scoutingData.reduce((acc, entry) => {
+        const matchAlgaeScore = (entry.tRmAr || 0) + (entry.tRmAg || 0);
+        return acc + matchAlgaeScore;
     }, 0) / scoutingData.length;
 
-    const maxAlgeeRemovedFromReef = scoutingData.reduce((acc, entry) => {
-        const matchAlgeeScore = (entry.tRmAr || 0) + (entry.tRmAg || 0);
-        return Math.max(acc, matchAlgeeScore);
+    const maxAlgaeRemovedFromReef = scoutingData.reduce((acc, entry) => {
+        const matchAlgaeScore = (entry.tRmAr || 0) + (entry.tRmAg || 0);
+        return Math.max(acc, matchAlgaeScore);
     }, 0);
 
     // End Position: using updated scoring
@@ -696,12 +696,12 @@ export function generalSummeryCompetition(scoutingData) {
         maxCoralScore,
         averageCoralPrecent,
         maxCoralPrecent,
-        averageAlgeeBarge,
-        maxAlgeeBarge,
-        averageAlgeeProcessor,
-        maxAlgeeProcessor,
-        averageAlgeeRemovedFromReef,
-        maxAlgeeRemovedFromReef,
+        averageAlgaeBarge,
+        maxAlgaeBarge,
+        averageAlgaeProcessor,
+        maxAlgaeProcessor,
+        averageAlgaeRemovedFromReef,
+        maxAlgaeRemovedFromReef,
         averageEndPosition,
         maxEndPosition
     };

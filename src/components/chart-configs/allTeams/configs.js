@@ -14,11 +14,11 @@ export const averageMatchScoreConfig = (scoutingData) => ({
             name: 'Match Coral Scored',
         },
         {
-            key: 'averageAlgeeScore',
-            label: 'Average Algee Scored',
+            key: 'averageAlgaeScore',
+            label: 'Average Algae Scored',
             color: '#1ed760',
             stacked: true,
-            name: 'Match Average Algee Scored',
+            name: 'Match Average Algae Scored',
         }
     ],
     xKey: 'teamNumber',
@@ -39,11 +39,11 @@ export const maxMatchScoreConfig = (scoutingData) => ({
             name: 'Match Max Coral Scored',
         },
         {
-            key: 'maxAlgeeScore',
-            label: 'Max Algee Scored',
+            key: 'maxAlgaeScore',
+            label: 'Max Algae Scored',
             color: '#c652b8',
             stacked: true,
-            name: 'Match Max Algee Scored',
+            name: 'Match Max Algae Scored',
         }
     ],
     xKey: 'teamNumber',
@@ -132,12 +132,12 @@ export const autoCoralMaxesConfig = (scoutingData) => ({
     yAxisLabel: 'Max Scored',
 });
 
-export const autoAlgeeAveragesConfig = (scoutingData) => ({
-    data: functions.autoAveragesAlgee(scoutingData),
-    title: 'Autonomous Algee Averages by Team',
+export const autoAlgaeAveragesConfig = (scoutingData) => ({
+    data: functions.autoAveragesAlgae(scoutingData),
+    title: 'Autonomous Algae Averages by Team',
     scoringTypes: [
         {
-            key: 'averageAlgeeScore',
+            key: 'averageAlgaeScore',
             label: 'Average auto Algae Scored',
             color: '#1ed760',
             stacked: true,
@@ -145,25 +145,25 @@ export const autoAlgeeAveragesConfig = (scoutingData) => ({
         }
     ],
     xKey: 'teamNumber',
-    yKey: 'averageAlgeeScore',
+    yKey: 'averageAlgaeScore',
     xAxisLabel: 'Team Number',
     yAxisLabel: 'Average Scored',
 });
 
-export const autoAlgeeMaxesConfig = (scoutingData) => ({
-    data: functions.autoMaxesAlgee(scoutingData),
-    title: 'Autonomous Algee Maxes by Team',
+export const autoAlgaeMaxesConfig = (scoutingData) => ({
+    data: functions.autoMaxesAlgae(scoutingData),
+    title: 'Autonomous Algae Maxes by Team',
     scoringTypes: [
         {
-            key: 'maxAlgeeScore',
-            label: 'Max Algee Scored',
+            key: 'maxAlgaeScore',
+            label: 'Max Algae Scored',
             color: '#c652b8',
             stacked: true,
-            name: 'Max Algee Scored',
+            name: 'Max Algae Scored',
         }
     ],
     xKey: 'teamNumber',
-    yKey: 'maxAlgeeScore',
+    yKey: 'maxAlgaeScore',
     xAxisLabel: 'Team Number',
     yAxisLabel: 'Max Scored',
 });
@@ -286,52 +286,52 @@ export const teleopCoralMaxesConfig = (scoutingData) => ({
     yAxisLabel: 'Max Scored',
 });
 
-export const teleopAlgeeAveragesConfig = (scoutingData) => ({
-    data: functions.teleopAverageAlgee(scoutingData),
-    title: 'Teleop Algee Averages by Team',
+export const teleopAlgaeAveragesConfig = (scoutingData) => ({
+    data: functions.teleopAverageAlgae(scoutingData),
+    title: 'Teleop Algae Averages by Team',
     scoringTypes: [
         {
-            key: 'averageAlgeeProcessorScore',
-            label: 'Average Algee Processor Scored',
+            key: 'averageAlgaeProcessorScore',
+            label: 'Average Algae Processor Scored',
             color: '#138a3d',
             stacked: true,
-            name: 'Teleop Algee Processor Scored',
+            name: 'Teleop Algae Processor Scored',
         },
         {
-            key: 'averageAlgeeBargeScore',
-            label: 'Average Algee Barge Scored',
+            key: 'averageAlgaeBargeScore',
+            label: 'Average Algae Barge Scored',
             color: '#1ed760',
             stacked: true,
-            name: 'Teleop Algee Barge Scored',
+            name: 'Teleop Algae Barge Scored',
         }
     ],
     xKey: 'teamNumber',
-    yKey: 'averageAlgeeScore',
+    yKey: 'averageAlgaeScore',
     xAxisLabel: 'Team Number',
     yAxisLabel: 'Average Scored',
 });
 
-export const teleopAlgeeMaxesConfig = (scoutingData) => ({
-    data: functions.teleopMaxAlgee(scoutingData),
-    title: 'Teleop Algee Maxes by Team',
+export const teleopAlgaeMaxesConfig = (scoutingData) => ({
+    data: functions.teleopMaxAlgae(scoutingData),
+    title: 'Teleop Algae Maxes by Team',
     scoringTypes: [
         {
-            key: 'maxAlgeeProcessorScore',
-            label: 'Max Algee Processor Scored',
+            key: 'maxAlgaeProcessorScore',
+            label: 'Max Algae Processor Scored',
             color: '#138a3d',
             stacked: true,
-            name: 'Teleop Max Algee Processor Scored',
+            name: 'Teleop Max Algae Processor Scored',
         },
         {
-            key: 'maxAlgeeBargeScore',
-            label: 'Max Algee Barge Scored',
+            key: 'maxAlgaeBargeScore',
+            label: 'Max Algae Barge Scored',
             color: '#1ed760',
             stacked: true,
-            name: 'Teleop Max Algee Barge Scored',
+            name: 'Teleop Max Algae Barge Scored',
         }
     ],
     xKey: 'teamNumber',
-    yKey: 'maxAlgeeScore',
+    yKey: 'maxAlgaeScore',
     xAxisLabel: 'Team Number',
     yAxisLabel: 'Max Scored',
 });
@@ -355,31 +355,31 @@ export const teleopCoralScorePercentageConfig = (scoutingData) => ({
     yAxisMax: 100,
 });
 
-export const teleopRemovedAlgeeFromReefConfig = (scoutingData) => ({
-    data: functions.teleopRemovedAlgeeFromReef(scoutingData),
-    title: 'Algee Removed from Reef by Team',
+export const teleopRemovedAlgaeFromReefConfig = (scoutingData) => ({
+    data: functions.teleopRemovedAlgaeFromReef(scoutingData),
+    title: 'Algae Removed from Reef by Team',
     scoringTypes: [
         {
-            key: 'removedAlgeeFromReef',
-            label: 'Algee Removed',
+            key: 'removedAlgaeFromReef',
+            label: 'Algae Removed',
             color: '#1ed760',
-            name: 'Algee Removed',
+            name: 'Algae Removed',
         }
     ],
     xKey: 'teamNumber',
-    yKey: 'removedAlgeeFromReef',
+    yKey: 'removedAlgaeFromReef',
     xAxisLabel: 'Team Number',
-    yAxisLabel: 'Algee Removed',
+    yAxisLabel: 'Algae Removed',
 });
 
 export const teleopSummeryConfig = (scoutingData) => {
     const {
         averageCoralScore,
-        averageAlgeeScore,
+        averageAlgaeScore,
         maxCoralScore,
-        maxAlgeeScore,
-        averageAlgeeRemovedFromReef,
-        maxAlgeeRemovedFromReef,
+        maxAlgaeScore,
+        averageAlgaeRemovedFromReef,
+        maxAlgaeRemovedFromReef,
         averageCoralPrecent,
         maxCoralPrecent,
     } = functions.teleopSummeryCompetition(scoutingData);
@@ -403,17 +403,17 @@ export const teleopSummeryConfig = (scoutingData) => {
             },
             {
                 color: "#1ed760",
-                title: "Average / Max Algee Scored",
+                title: "Average / Max Algae Scored",
                 min: 0,
-                max: maxAlgeeScore,
-                value: averageAlgeeScore,
+                max: maxAlgaeScore,
+                value: averageAlgaeScore,
             },
             {
                 color: "#9c1ee9",
-                title: "Average / Max Algee Removed From Reef",
+                title: "Average / Max Algae Removed From Reef",
                 min: 0,
-                max: maxAlgeeRemovedFromReef,
-                value: averageAlgeeRemovedFromReef,
+                max: maxAlgaeRemovedFromReef,
+                value: averageAlgaeRemovedFromReef,
             },
         ],
     };

@@ -166,10 +166,10 @@ const Visualization = () => {
                         <BarGraph config={allTeamsConfigs.autoCoralMaxesConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.autoAlgeeAveragesConfig(filteredScoutingData)} />
+                        <BarGraph config={allTeamsConfigs.autoAlgaeAveragesConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.autoAlgeeMaxesConfig(filteredScoutingData)} />
+                        <BarGraph config={allTeamsConfigs.autoAlgaeMaxesConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
                         <BarGraph config={allTeamsConfigs.autoCoralScorePercentageConfig(filteredScoutingData)} />
@@ -196,16 +196,16 @@ const Visualization = () => {
                         <BarGraph config={allTeamsConfigs.teleopCoralMaxesConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopAlgeeAveragesConfig(filteredScoutingData)} />
+                        <BarGraph config={allTeamsConfigs.teleopAlgaeAveragesConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopAlgeeMaxesConfig(filteredScoutingData)} />
+                        <BarGraph config={allTeamsConfigs.teleopAlgaeMaxesConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
                         <BarGraph config={allTeamsConfigs.teleopCoralScorePercentageConfig(filteredScoutingData)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={allTeamsConfigs.teleopRemovedAlgeeFromReefConfig(filteredScoutingData)} />
+                        <BarGraph config={allTeamsConfigs.teleopRemovedAlgaeFromReefConfig(filteredScoutingData)} />
                     </div>
                 </div>
             )}
@@ -290,7 +290,7 @@ const Visualization = () => {
                         <BarGraph config={specificTeamConfigs.teleopCoralByMatchConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopAlgeeByMatchConfig(specificTeamFiltredMatchesData, teamNumber)} />
+                        <BarGraph config={specificTeamConfigs.teleopAlgaeByMatchConfig(specificTeamFiltredMatchesData, teamNumber)} />
                     </div>
                     <div className="graph-item">
                         <MultiNumberDisplay config={specificTeamConfigs.teleopCoralLevelsSummeryConfig(specificTeamFiltredMatchesData, teamNumber)} />
@@ -415,10 +415,10 @@ const Visualization = () => {
                         <BarGraph config={specificTeamConfigs.teleopCoralByMatchConfig(scoutingData, team2Number)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopAlgeeByMatchConfig(scoutingData, team1Number)} />
+                        <BarGraph config={specificTeamConfigs.teleopAlgaeByMatchConfig(scoutingData, team1Number)} />
                     </div>
                     <div className="graph-item">
-                        <BarGraph config={specificTeamConfigs.teleopAlgeeByMatchConfig(scoutingData, team2Number)} />
+                        <BarGraph config={specificTeamConfigs.teleopAlgaeByMatchConfig(scoutingData, team2Number)} />
                     </div>
                     <div className="graph-item">
                         <MultiNumberDisplay config={specificTeamConfigs.teleopCoralLevelsSummeryConfig(scoutingData, team1Number)} />
@@ -559,10 +559,10 @@ const Visualization = () => {
                         <MultiPieChart config={reportConfigs.alliancePerHeightAverages(scoutingData, blueAlliance, "Average Coral Amount Scored By Team for Red Alliance", "#1aa3e8", "#3498db", "#9ae0f0")} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.averageTeleopAlgee(scoutingData, redAlliance, "Average / Max Amount Algee for red aliance", "#e7492a")} />
+                        <MultiNumberDisplay config={reportConfigs.averageTeleopAlgae(scoutingData, redAlliance, "Average / Max Amount Algae for red aliance", "#e7492a")} />
                     </div>
                     <div className="graph-item">
-                        <MultiNumberDisplay config={reportConfigs.averageTeleopAlgee(scoutingData, blueAlliance, "Average / Max Amount Algee for blue aliance", "#1aa3e8")} />
+                        <MultiNumberDisplay config={reportConfigs.averageTeleopAlgae(scoutingData, blueAlliance, "Average / Max Amount Algae for blue aliance", "#1aa3e8")} />
                     </div>
                 </div>
             )}

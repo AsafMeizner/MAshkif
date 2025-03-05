@@ -186,15 +186,15 @@ export const alliancePerHeightAverages = (scoutingData, teamNumbers, title, colo
     }
 };
 
-export const averageTeleopAlgee = (scoutingData, teamNumbers, title, color) => {
-    const team1Average = reportFunctions.algeeTeleOpAverage(scoutingData, teamNumbers[0]);
-    const team2Average = reportFunctions.algeeTeleOpAverage(scoutingData, teamNumbers[1]);
-    const team3Average = reportFunctions.algeeTeleOpAverage(scoutingData, teamNumbers[2]);
+export const averageTeleopAlgae = (scoutingData, teamNumbers, title, color) => {
+    const team1Average = reportFunctions.AlgaeTeleOpAverage(scoutingData, teamNumbers[0]);
+    const team2Average = reportFunctions.AlgaeTeleOpAverage(scoutingData, teamNumbers[1]);
+    const team3Average = reportFunctions.AlgaeTeleOpAverage(scoutingData, teamNumbers[2]);
     const alianceAverage = (team1Average + team2Average + team3Average);
 
-    const team1Max = reportFunctions.algeeTeleOpMax(scoutingData, teamNumbers[0]);
-    const team2Max = reportFunctions.algeeTeleOpMax(scoutingData, teamNumbers[1]);
-    const team3Max = reportFunctions.algeeTeleOpMax(scoutingData, teamNumbers[2]);
+    const team1Max = reportFunctions.AlgaeTeleOpMax(scoutingData, teamNumbers[0]);
+    const team2Max = reportFunctions.AlgaeTeleOpMax(scoutingData, teamNumbers[1]);
+    const team3Max = reportFunctions.AlgaeTeleOpMax(scoutingData, teamNumbers[2]);
     const alianceMax = team1Max + team2Max + team3Max;
 
     return {

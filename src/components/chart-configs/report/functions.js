@@ -132,7 +132,7 @@ export function averageCoralPerHeight(scoutingData, team1Number, team2Number, te
     return [averageTeam1, averageTeam2, averageTeam3];
 }
 
-export function algeeTeleOpAverage(scoutingData, teamNumber) {
+export function AlgaeTeleOpAverage(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
   
     if (!teamData.length) {return 0;}
@@ -145,7 +145,7 @@ export function algeeTeleOpAverage(scoutingData, teamNumber) {
     return totalScore / teamData.length;
 }
 
-export function algeeTeleOpMax(scoutingData, teamNumber) {
+export function AlgaeTeleOpMax(scoutingData, teamNumber) {
     const teamData = scoutingData.filter((entry) => entry.teamNumber === teamNumber);
   
     if (!teamData.length) {return 0;}

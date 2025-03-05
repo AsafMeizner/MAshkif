@@ -15,10 +15,10 @@ export const matchScoreByRoundConfig = (scoutingData, teamNumber) => {
                 name: 'Round Coral Scored',
             },
             {
-                key: 'algeeScore',
-                label: 'Algee Scored',
+                key: 'AlgaeScore',
+                label: 'Algae Scored',
                 color: '#1ed760',
-                name: 'Round Algee Scored',
+                name: 'Round Algae Scored',
             }
         ],
         xKey: 'roundNumber',
@@ -36,9 +36,9 @@ export const matchScoreByRoundConfig = (scoutingData, teamNumber) => {
 
 export const averageScoreConfig = (scoutingData, teamNumber) => {
     const averageCoralScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).averageCoralScore;
-    const averageAlgeeScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).averageAlgeeScore;
+    const averageAlgaeScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).averageAlgaeScore;
     const maxCoralScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).maxCoralScore;
-    const maxAlgeeScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).maxAlgeeScore;
+    const maxAlgaeScore = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).maxAlgaeScore;
     const averageFouls = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).averageFouls;
     const maxFouls = specificTeamFunctions.scoresSummery(scoutingData, teamNumber).maxFouls;
 
@@ -54,10 +54,10 @@ export const averageScoreConfig = (scoutingData, teamNumber) => {
             },
             {
                 color: '#1ed760',
-                title: 'Average / Max Algee Scored',
+                title: 'Average / Max Algae Scored',
                 min: 0,
-                max: maxAlgeeScore,
-                value: averageAlgeeScore,
+                max: maxAlgaeScore,
+                value: averageAlgaeScore,
             },
             {
                 color: '#f4c20d',
@@ -141,7 +141,7 @@ export const autonomousScoreByMatchConfig = (scoutingData, teamNumber) => {
             },
             {
                 key: 'l2Score',
-                label: 'Algee Scored',
+                label: 'Algae Scored',
                 color: '#c4162a',
                 name: 'L2 Scored',
                 stacked: true,
@@ -155,16 +155,16 @@ export const autonomousScoreByMatchConfig = (scoutingData, teamNumber) => {
             },
             {
                 key: 'l4Score',
-                label: 'Algee Scored',
+                label: 'Algae Scored',
                 color: '#f4c20d',
                 name: 'L4 Scored',
                 stacked: true,
             },
             {
-                key: 'algeeScore',
-                label: 'Algee Scored',
+                key: 'AlgaeScore',
+                label: 'Algae Scored',
                 color: '#1ed760',
-                name: 'Algee Scored',
+                name: 'Algae Scored',
                 stacked: false,
             }
         ],
@@ -183,9 +183,9 @@ export const autonomousScoreByMatchConfig = (scoutingData, teamNumber) => {
 
 export const autonomousSummeryConfig = (scoutingData, teamNumber) => {
     const averageCoralScore = specificTeamFunctions.autonomousSummery(scoutingData, teamNumber).averageCoralScore;
-    const averageAlgeeScore = specificTeamFunctions.autonomousSummery(scoutingData, teamNumber).averageAlgeeScore;
+    const averageAlgaeScore = specificTeamFunctions.autonomousSummery(scoutingData, teamNumber).averageAlgaeScore;
     const maxCoralScore = specificTeamFunctions.autonomousSummery(scoutingData, teamNumber).maxCoralScore;
-    const maxAlgeeScore = specificTeamFunctions.autonomousSummery(scoutingData, teamNumber).maxAlgeeScore;
+    const maxAlgaeScore = specificTeamFunctions.autonomousSummery(scoutingData, teamNumber).maxAlgaeScore;
 
     return {
         mainTitle: `Autonomous Stats for Team ${teamNumber}`,
@@ -199,10 +199,10 @@ export const autonomousSummeryConfig = (scoutingData, teamNumber) => {
             },
             {
                 color: '#1ed760',
-                title: 'Average / Max Algee Scored',
+                title: 'Average / Max Algae Scored',
                 min: 0,
-                max: maxAlgeeScore,
-                value: averageAlgeeScore,
+                max: maxAlgaeScore,
+                value: averageAlgaeScore,
             },
         ],
     };
@@ -287,7 +287,7 @@ export const teleopCoralByMatchConfig = (scoutingData, teamNumber) => {
             },
             {
                 key: 'l2Score',
-                label: 'Algee Scored',
+                label: 'Algae Scored',
                 color: '#c4162a',
                 name: 'L2 Scored',
                 stacked: true,
@@ -301,7 +301,7 @@ export const teleopCoralByMatchConfig = (scoutingData, teamNumber) => {
             },
             {
                 key: 'l4Score',
-                label: 'Algee Scored',
+                label: 'Algae Scored',
                 color: '#f4c20d',
                 name: 'L4 Scored',
                 stacked: true,
@@ -320,23 +320,23 @@ export const teleopCoralByMatchConfig = (scoutingData, teamNumber) => {
     };
 }
 
-export const teleopAlgeeByMatchConfig = (scoutingData, teamNumber) => {
+export const teleopAlgaeByMatchConfig = (scoutingData, teamNumber) => {
     return {
         data: specificTeamFunctions.teleopAverageByMatch(scoutingData, teamNumber),
-        title: `Teleop Algee by Match for Team ${teamNumber}`,
+        title: `Teleop Algae by Match for Team ${teamNumber}`,
         scoringTypes: [
             {
-                key: 'algeeBargeScore',
-                label: 'Algee Barge Scored',
+                key: 'AlgaeBargeScore',
+                label: 'Algae Barge Scored',
                 color: '#1ed760',
-                name: 'Algee Barge Scored',
+                name: 'Algae Barge Scored',
                 stacked: true,
             },
             {
-                key: 'algeeProcessorScore',
-                label: 'Algee Processor Scored',
+                key: 'AlgaeProcessorScore',
+                label: 'Algae Processor Scored',
                 color: '#0f6f32',
-                name: 'Algee Processor Scored',
+                name: 'Algae Processor Scored',
                 stacked: true,
             }
         ],
@@ -382,12 +382,12 @@ export const teleopCoralPrecentInConfig = (scoutingData, teamNumber) => {
 
 export const teleopSummeryConfig = (scoutingData, teamNumber) => {
     const averageCoralScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageCoralScore;
-    const averageAlgeeScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageAlgeeScore;
+    const averageAlgaeScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageAlgaeScore;
     const maxCoralScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxCoralScore;
-    const maxAlgeeScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxAlgeeScore;
+    const maxAlgaeScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxAlgaeScore;
 
-    const averageAlgeeRemovedFromReef = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageAlgeeRemovedFromReef;
-    const maxAlgeeRemovedFromReef = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxAlgeeRemovedFromReef;
+    const averageAlgaeRemovedFromReef = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageAlgaeRemovedFromReef;
+    const maxAlgaeRemovedFromReef = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxAlgaeRemovedFromReef;
     const averageCoralPrecent = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageCoralPrecent;
     const maxCoralPrecent = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxCoralPrecent;
 
@@ -410,17 +410,17 @@ export const teleopSummeryConfig = (scoutingData, teamNumber) => {
             },
             {
                 color: '#1ed760',
-                title: 'Average / Max Algee Scored',
+                title: 'Average / Max Algae Scored',
                 min: 0,
-                max: maxAlgeeScore,
-                value: averageAlgeeScore,
+                max: maxAlgaeScore,
+                value: averageAlgaeScore,
             },
             {
                 color: '#9c1ee9',
-                title: 'Average / Max Algee Removed From Reef',
+                title: 'Average / Max Algae Removed From Reef',
                 min: 0,
-                max: maxAlgeeRemovedFromReef,
-                value: averageAlgeeRemovedFromReef,
+                max: maxAlgaeRemovedFromReef,
+                value: averageAlgaeRemovedFromReef,
             }
         ],
     };
@@ -584,32 +584,32 @@ export const teamPerformanceRadarConfig = (scoutingData, teamNumber) => {
     // Calculate the specific team's stats (averages)
     const averageCoralScore = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageCoralScore;
     const averageCoralPrecent = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageCoralPercent;
-    const averageAlgeeBarge = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageAlgeeBarge;
-    const averageAlgeeProcessor = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageAlgeeProcessor;
-    const averageAlgeeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageAlgeeRemovedFromReef;
+    const averageAlgaeBarge = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageAlgaeBarge;
+    const averageAlgaeProcessor = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageAlgaeProcessor;
+    const averageAlgaeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageAlgaeRemovedFromReef;
     const averageEndPosition = specificTeamFunctions.generalSummery(scoutingData, teamNumber).averageEndPosition;
 
     // Calculate the max values for the specific team max for each category
     const maxCoralScore = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxCoralScore;
     const maxCoralPrecent = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxCoralPercent;
-    const maxAlgeeBarge = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxAlgeeBarge;
-    const maxAlgeeProcessor = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxAlgeeProcessor;
-    const maxAlgeeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxAlgeeRemovedFromReef;
+    const maxAlgaeBarge = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxAlgaeBarge;
+    const maxAlgaeProcessor = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxAlgaeProcessor;
+    const maxAlgaeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, teamNumber).maxAlgaeRemovedFromReef;
 
     // Calculate competition-wide averages
     const allAverageCoralScore = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageCoralScore;
     const allAverageCoralPrecent = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageCoralPrecent;
-    const allAverageAlgeeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageAlgeeBarge;
-    const allAverageAlgeeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageAlgeeProcessor;
-    const allAverageAlgeeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageAlgeeRemovedFromReef;
+    const allAverageAlgaeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageAlgaeBarge;
+    const allAverageAlgaeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageAlgaeProcessor;
+    const allAverageAlgaeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageAlgaeRemovedFromReef;
     const allAverageEndPosition = allTeamsFunctions.generalSummeryCompetition(scoutingData).averageEndPosition;
 
     // Calculate the all teams max for each category
     const allMaxCoralScore = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralScore;
     const allMaxCoralPrecent = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralPrecent;
-    const allMaxAlgeeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeBarge;
-    const allMaxAlgeeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeProcessor;
-    const allMaxAlgeeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeRemovedFromReef;
+    const allMaxAlgaeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgaeBarge;
+    const allMaxAlgaeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgaeProcessor;
+    const allMaxAlgaeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgaeRemovedFromReef;
 
     // Normalize each category's data to its own maximum value
     const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
@@ -628,22 +628,22 @@ export const teamPerformanceRadarConfig = (scoutingData, teamNumber) => {
             [`Team ${teamNumber} Max`]: normalizeValue(maxCoralPrecent, allMaxCoralPrecent),
         },
         {
-            subject: 'Algee Barge',
-            [`Team ${teamNumber} Average`]: normalizeValue(averageAlgeeBarge, allMaxAlgeeBarge),
-            'Competition Average': normalizeValue(allAverageAlgeeBarge, allMaxAlgeeBarge),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxAlgeeBarge, allMaxAlgeeBarge),
+            subject: 'Algae Barge',
+            [`Team ${teamNumber} Average`]: normalizeValue(averageAlgaeBarge, allMaxAlgaeBarge),
+            'Competition Average': normalizeValue(allAverageAlgaeBarge, allMaxAlgaeBarge),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxAlgaeBarge, allMaxAlgaeBarge),
         },
         {
-            subject: 'Algee Processor',
-            [`Team ${teamNumber} Average`]: normalizeValue(averageAlgeeProcessor, allMaxAlgeeProcessor),
-            'Competition Average': normalizeValue(allAverageAlgeeProcessor, allMaxAlgeeProcessor),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxAlgeeProcessor, allMaxAlgeeProcessor),
+            subject: 'Algae Processor',
+            [`Team ${teamNumber} Average`]: normalizeValue(averageAlgaeProcessor, allMaxAlgaeProcessor),
+            'Competition Average': normalizeValue(allAverageAlgaeProcessor, allMaxAlgaeProcessor),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxAlgaeProcessor, allMaxAlgaeProcessor),
         },
         {
-            subject: 'Algee Removed From Reef',
-            [`Team ${teamNumber} Average`]: normalizeValue(averageAlgeeRemovedFromReef, allMaxAlgeeRemovedFromReef),
-            'Competition Average': normalizeValue(allAverageAlgeeRemovedFromReef, allMaxAlgeeRemovedFromReef),
-            [`Team ${teamNumber} Max`]: normalizeValue(maxAlgeeRemovedFromReef, allMaxAlgeeRemovedFromReef),
+            subject: 'Algae Removed From Reef',
+            [`Team ${teamNumber} Average`]: normalizeValue(averageAlgaeRemovedFromReef, allMaxAlgaeRemovedFromReef),
+            'Competition Average': normalizeValue(allAverageAlgaeRemovedFromReef, allMaxAlgaeRemovedFromReef),
+            [`Team ${teamNumber} Max`]: normalizeValue(maxAlgaeRemovedFromReef, allMaxAlgaeRemovedFromReef),
         },
         {
             subject: 'End Position',
@@ -693,25 +693,25 @@ export const teamsAverageRadarConfig = (scoutingData, team1Number, team2Number) 
     // Calculate the first specific team's stats (averages)
     const averageCoralScore = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageCoralScore;
     const averageCoralPrecent = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageCoralPercent;
-    const averageAlgeeBarge = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageAlgeeBarge;
-    const averageAlgeeProcessor = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageAlgeeProcessor;
-    const averageAlgeeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageAlgeeRemovedFromReef;
+    const averageAlgaeBarge = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageAlgaeBarge;
+    const averageAlgaeProcessor = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageAlgaeProcessor;
+    const averageAlgaeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageAlgaeRemovedFromReef;
     const averageEndPosition = specificTeamFunctions.generalSummery(scoutingData, team1Number).averageEndPosition;
 
     // Calculate the second specific team's stats (averages)
     const averageCoralScore2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageCoralScore;
     const averageCoralPrecent2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageCoralPercent;
-    const averageAlgeeBarge2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageAlgeeBarge;
-    const averageAlgeeProcessor2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageAlgeeProcessor;
-    const averageAlgeeRemovedFromReef2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageAlgeeRemovedFromReef;
+    const averageAlgaeBarge2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageAlgaeBarge;
+    const averageAlgaeProcessor2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageAlgaeProcessor;
+    const averageAlgaeRemovedFromReef2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageAlgaeRemovedFromReef;
     const averageEndPosition2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).averageEndPosition;
 
     // Calculate the all teams max for each category
     const allMaxCoralScore = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralScore;
     const allMaxCoralPrecent = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralPrecent;
-    const allMaxAlgeeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeBarge;
-    const allMaxAlgeeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeProcessor;
-    const allMaxAlgeeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeRemovedFromReef;
+    const allMaxAlgaeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgaeBarge;
+    const allMaxAlgaeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgaeProcessor;
+    const allMaxAlgaeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgaeRemovedFromReef;
 
     // Normalize each category's data to its own maximum value
     const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
@@ -728,19 +728,19 @@ export const teamsAverageRadarConfig = (scoutingData, team1Number, team2Number) 
             [`Team ${team2Number} Average`]: normalizeValue(averageCoralPrecent2, allMaxCoralPrecent),
         },
         {
-            subject: 'Algee Barge',
-            [`Team ${team1Number} Average`]: normalizeValue(averageAlgeeBarge, allMaxAlgeeBarge),
-            [`Team ${team2Number} Average`]: normalizeValue(averageAlgeeBarge2, allMaxAlgeeBarge),
+            subject: 'Algae Barge',
+            [`Team ${team1Number} Average`]: normalizeValue(averageAlgaeBarge, allMaxAlgaeBarge),
+            [`Team ${team2Number} Average`]: normalizeValue(averageAlgaeBarge2, allMaxAlgaeBarge),
         },
         {
-            subject: 'Algee Processor',
-            [`Team ${team1Number} Average`]: normalizeValue(averageAlgeeProcessor, allMaxAlgeeProcessor),
-            [`Team ${team2Number} Average`]: normalizeValue(averageAlgeeProcessor2, allMaxAlgeeProcessor),
+            subject: 'Algae Processor',
+            [`Team ${team1Number} Average`]: normalizeValue(averageAlgaeProcessor, allMaxAlgaeProcessor),
+            [`Team ${team2Number} Average`]: normalizeValue(averageAlgaeProcessor2, allMaxAlgaeProcessor),
         },
         {
-            subject: 'Algee Removed From Reef',
-            [`Team ${team1Number} Average`]: normalizeValue(averageAlgeeRemovedFromReef, allMaxAlgeeRemovedFromReef),
-            [`Team ${team2Number} Average`]: normalizeValue(averageAlgeeRemovedFromReef2, allMaxAlgeeRemovedFromReef),
+            subject: 'Algae Removed From Reef',
+            [`Team ${team1Number} Average`]: normalizeValue(averageAlgaeRemovedFromReef, allMaxAlgaeRemovedFromReef),
+            [`Team ${team2Number} Average`]: normalizeValue(averageAlgaeRemovedFromReef2, allMaxAlgaeRemovedFromReef),
         },
         {
             subject: 'End Position',
@@ -784,23 +784,23 @@ export const teamMaxRadarConfig = (scoutingData, team1Number, team2Number) => {
     // Calculate the max values for the first specific team max for each category
     const maxCoralScore = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxCoralScore;
     const maxCoralPrecent = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxCoralPercent;
-    const maxAlgeeBarge = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxAlgeeBarge;
-    const maxAlgeeProcessor = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxAlgeeProcessor;
-    const maxAlgeeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxAlgeeRemovedFromReef;
+    const maxAlgaeBarge = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxAlgaeBarge;
+    const maxAlgaeProcessor = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxAlgaeProcessor;
+    const maxAlgaeRemovedFromReef = specificTeamFunctions.generalSummery(scoutingData, team1Number).maxAlgaeRemovedFromReef;
 
     // Calculate the max values for the second specific team max for each category
     const maxCoralScore2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxCoralScore;
     const maxCoralPrecent2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxCoralPercent;
-    const maxAlgeeBarge2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxAlgeeBarge;
-    const maxAlgeeProcessor2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxAlgeeProcessor;
-    const maxAlgeeRemovedFromReef2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxAlgeeRemovedFromReef;
+    const maxAlgaeBarge2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxAlgaeBarge;
+    const maxAlgaeProcessor2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxAlgaeProcessor;
+    const maxAlgaeRemovedFromReef2 = specificTeamFunctions.generalSummery(scoutingData, team2Number).maxAlgaeRemovedFromReef;
 
     // Calculate the all teams max for each category
     const allMaxCoralScore = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralScore;
     const allMaxCoralPrecent = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxCoralPrecent;
-    const allMaxAlgeeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeBarge;
-    const allMaxAlgeeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeProcessor;
-    const allMaxAlgeeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgeeRemovedFromReef;
+    const allMaxAlgaeBarge = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgaeBarge;
+    const allMaxAlgaeProcessor = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgaeProcessor;
+    const allMaxAlgaeRemovedFromReef = allTeamsFunctions.generalSummeryCompetition(scoutingData).maxAlgaeRemovedFromReef;
 
     // Normalize each category's data to its own maximum value
     const normalizeValue = (value, max) => max > 0 ? (value / max) * 100 : 0;
@@ -817,19 +817,19 @@ export const teamMaxRadarConfig = (scoutingData, team1Number, team2Number) => {
             [`Team ${team2Number} Max`]: normalizeValue(maxCoralPrecent2, allMaxCoralPrecent),
         },
         {
-            subject: 'Algee Barge',
-            [`Team ${team1Number} Max`]: normalizeValue(maxAlgeeBarge, allMaxAlgeeBarge),
-            [`Team ${team2Number} Max`]: normalizeValue(maxAlgeeBarge2, allMaxAlgeeBarge),
+            subject: 'Algae Barge',
+            [`Team ${team1Number} Max`]: normalizeValue(maxAlgaeBarge, allMaxAlgaeBarge),
+            [`Team ${team2Number} Max`]: normalizeValue(maxAlgaeBarge2, allMaxAlgaeBarge),
         },
         {
-            subject: 'Algee Processor',
-            [`Team ${team1Number} Max`]: normalizeValue(maxAlgeeProcessor, allMaxAlgeeProcessor),
-            [`Team ${team2Number} Max`]: normalizeValue(maxAlgeeProcessor2, allMaxAlgeeProcessor),
+            subject: 'Algae Processor',
+            [`Team ${team1Number} Max`]: normalizeValue(maxAlgaeProcessor, allMaxAlgaeProcessor),
+            [`Team ${team2Number} Max`]: normalizeValue(maxAlgaeProcessor2, allMaxAlgaeProcessor),
         },
         {
-            subject: 'Algee Removed From Reef',
-            [`Team ${team1Number} Max`]: normalizeValue(maxAlgeeRemovedFromReef, allMaxAlgeeRemovedFromReef),
-            [`Team ${team2Number} Max`]: normalizeValue(maxAlgeeRemovedFromReef2, allMaxAlgeeRemovedFromReef),
+            subject: 'Algae Removed From Reef',
+            [`Team ${team1Number} Max`]: normalizeValue(maxAlgaeRemovedFromReef, allMaxAlgaeRemovedFromReef),
+            [`Team ${team2Number} Max`]: normalizeValue(maxAlgaeRemovedFromReef2, allMaxAlgaeRemovedFromReef),
         },
         {
             subject: 'End Position',
