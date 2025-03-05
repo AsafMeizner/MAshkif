@@ -16,6 +16,10 @@ if (!gotTheLock) {
   });
 }
 
+if (process.platform === 'win32') {
+  app.setAppUserModelId('MakersAssemble.MAshkif');
+}
+
 // Helper: Resolve asset paths reliably.
 function getAssetPath(...paths) {
   return app.isPackaged
