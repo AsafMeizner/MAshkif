@@ -233,7 +233,7 @@ export const autoCoralScorePrecentage = (scoutingData) => {
 
     return Object.values(autoScores).map(team => ({
         teamNumber: team.teamNumber,
-        precentInAuto: Math.round((team.scoredCoral / (team.scoredCoral + team.missedCoral)) * 100)
+        precentInAuto: (Math.round((team.scoredCoral / (team.scoredCoral + team.missedCoral)) * 100) || 0)
     }));
 }
 
@@ -403,7 +403,7 @@ export const teleopCoralScorePrecentage = (scoutingData) => {
 
     return Object.values(teleopScores).map(team => ({
         teamNumber: team.teamNumber,
-        precentInTeleop: Math.round((team.scoredCoral / (team.scoredCoral + team.missedCoral)) * 100)
+        precentInTeleop: (Math.round((team.scoredCoral / (team.scoredCoral + team.missedCoral)) * 100) || 0)
     }));
 }
 
