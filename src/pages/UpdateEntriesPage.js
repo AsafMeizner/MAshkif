@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './UpdateEntriesPage.css';
 import {
   updateScoutingDataFromAPI,
@@ -6,27 +6,34 @@ import {
   getPasswordFromLocalStorage
 } from '../components/utils';
 import { toast } from 'react-toastify';
+import HapticFeedback from '../components/HapticFeedback';
 
-// Helper function to produce a friendly error message.
 const getFriendlyErrorMessage = (errorMessage, operationType) => {
   const lowerMsg = errorMessage.toLowerCase();
-  // Choose a prefix based on the operation type.
-  const prefix =
-    operationType === "update" ? "Failed to update data:" : "Failed to upload:";
-  // If the error indicates a 403 or forbidden password error, assume it's a password issue.
+  const prefix = operationType === "update" ? "Failed to update data:" : "Failed to upload:";
+
   if (lowerMsg.includes("403") || (lowerMsg.includes("forbidden") && lowerMsg.includes("invalid password"))) {
     return `${prefix} Incorrect Password`;
   }
-  // If it says "failed to fetch," assume it's a server URL issue.
   if (lowerMsg.includes("failed to fetch")) {
     return `${prefix} Incorrect Server URL`;
   }
-  // Otherwise, return the original message.
   return `${prefix} ${errorMessage}`;
 };
 
 const UpdateEntriesPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [triggerHaptic, setTriggerHaptic] = useState(false);
+
+  // Reset haptic feedback state after it's triggered
+  useEffect(() => {
+    if (triggerHaptic) {
+      const timer = setTimeout(() => {
+        setTriggerHaptic(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [triggerHaptic]);
 
   const handleUpdateData = async () => {
     const password = getPasswordFromLocalStorage();
@@ -43,7 +50,6 @@ const UpdateEntriesPage = () => {
           success: 'Data updated successfully.',
           error: {
             render({ data }) {
-              // data.message is the error thrown from updateScoutingDataFromAPI
               return getFriendlyErrorMessage(data.message, "update");
             }
           }
@@ -51,6 +57,7 @@ const UpdateEntriesPage = () => {
       );
       console.log('Data update completed.');
       console.log('data:', localStorage.getItem('scouting_data'));
+      setTriggerHaptic(true); 
     } catch (error) {
       console.error(error);
     } finally {
@@ -78,6 +85,7 @@ const UpdateEntriesPage = () => {
           }
         }
       );
+      setTriggerHaptic(true); 
     } catch (error) {
       console.error(error);
     } finally {
@@ -87,6 +95,7 @@ const UpdateEntriesPage = () => {
 
   return (
     <div className="update-entries-page">
+      {triggerHaptic && <HapticFeedback />}
       <div className="update-entries-container">
         <h1 className="update-entries-title">Manage Data</h1>
         <button
