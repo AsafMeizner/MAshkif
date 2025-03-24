@@ -374,8 +374,9 @@ export const teleopCoralPrecentInConfig = (scoutingData, teamNumber) => {
         sortOrder: 'ascending',
         xAxisLabelRotation: 0,
         yAxisMax: 100,
+        yAxisMin: 0,
         showDataLabels: true,
-        dataLabelPosition: 'top',
+        dataLabelPosition: 'middle',
         dataLabelRotation: 0,
     };
 }

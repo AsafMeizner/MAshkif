@@ -144,18 +144,25 @@ export const autoMaxesCoral = (scoutingData) => {
         const team = entry.teamNumber;
 
         if (!acc[team]) {
-            acc[team] = { teamNumber: team, maxCoralL1Score: 0, maxCoralL2Score: 0, maxCoralL3Score: 0, maxCoralL4Score: 0, maxScore: 0 };
+            acc[team] = { 
+                teamNumber: team, 
+                maxCoralL1Score: 0, 
+                maxCoralL2Score: 0, 
+                maxCoralL3Score: 0, 
+                maxCoralL4Score: 0, 
+                maxScore: 0 
+            };
         }
 
-        const totalCoralL1Score = Number(entry.L1sc);
-        const totalCoralL2Score = Number(entry.L2sc);
-        const totalCoralL3Score = Number(entry.L3sc);
-        const totalCoralL4Score = Number(entry.L4sc);
+        const totalCoralScore = Number(entry.L1sc) + Number(entry.L2sc) + Number(entry.L3sc) + Number(entry.L4sc);
 
-        acc[team].maxCoralL1Score = Math.max(acc[team].maxCoralL1Score, totalCoralL1Score);
-        acc[team].maxCoralL2Score = Math.max(acc[team].maxCoralL2Score, totalCoralL2Score);
-        acc[team].maxCoralL3Score = Math.max(acc[team].maxCoralL3Score, totalCoralL3Score);
-        acc[team].maxCoralL4Score = Math.max(acc[team].maxCoralL4Score, totalCoralL4Score);
+        if (totalCoralScore > acc[team].maxScore) {
+            acc[team].maxScore = totalCoralScore;
+            acc[team].maxCoralL1Score = Number(entry.L1sc);
+            acc[team].maxCoralL2Score = Number(entry.L2sc);
+            acc[team].maxCoralL3Score = Number(entry.L3sc);
+            acc[team].maxCoralL4Score = Number(entry.L4sc);
+        }
 
         return acc;
     }, {});
@@ -166,7 +173,7 @@ export const autoMaxesCoral = (scoutingData) => {
         maxCoralL2Score: team.maxCoralL2Score,
         maxCoralL3Score: team.maxCoralL3Score,
         maxCoralL4Score: team.maxCoralL4Score,
-        maxScore: team.maxCoralL1Score + team.maxCoralL2Score + team.maxCoralL3Score + team.maxCoralL4Score
+        maxScore: team.maxScore
     }));
 }
 
@@ -301,18 +308,25 @@ export const teleopMaxCoral = (scoutingData) => {
         const team = entry.teamNumber;
 
         if (!acc[team]) {
-            acc[team] = { teamNumber: team, maxCoralL1Score: 0, maxCoralL2Score: 0, maxCoralL3Score: 0, maxCoralL4Score: 0, maxScore: 0 };
+            acc[team] = { 
+                teamNumber: team, 
+                maxCoralL1Score: 0, 
+                maxCoralL2Score: 0, 
+                maxCoralL3Score: 0, 
+                maxCoralL4Score: 0, 
+                maxScore: 0 
+            };
         }
 
-        const totalCoralL1Score = Number(entry.tL1sc);
-        const totalCoralL2Score = Number(entry.tL2sc);
-        const totalCoralL3Score = Number(entry.tL3sc);
-        const totalCoralL4Score = Number(entry.tL4sc);
+        const totalCoralScore = Number(entry.tL1sc) + Number(entry.tL2sc) + Number(entry.tL3sc) + Number(entry.tL4sc);
 
-        acc[team].maxCoralL1Score = Math.max(acc[team].maxCoralL1Score, totalCoralL1Score);
-        acc[team].maxCoralL2Score = Math.max(acc[team].maxCoralL2Score, totalCoralL2Score);
-        acc[team].maxCoralL3Score = Math.max(acc[team].maxCoralL3Score, totalCoralL3Score);
-        acc[team].maxCoralL4Score = Math.max(acc[team].maxCoralL4Score, totalCoralL4Score);
+        if (totalCoralScore > acc[team].maxScore) {
+            acc[team].maxScore = totalCoralScore;
+            acc[team].maxCoralL1Score = Number(entry.tL1sc);
+            acc[team].maxCoralL2Score = Number(entry.tL2sc);
+            acc[team].maxCoralL3Score = Number(entry.tL3sc);
+            acc[team].maxCoralL4Score = Number(entry.tL4sc);
+        }
 
         return acc;
     }, {});
@@ -323,7 +337,7 @@ export const teleopMaxCoral = (scoutingData) => {
         maxCoralL2Score: team.maxCoralL2Score,
         maxCoralL3Score: team.maxCoralL3Score,
         maxCoralL4Score: team.maxCoralL4Score,
-        maxScore: team.maxCoralL1Score + team.maxCoralL2Score + team.maxCoralL3Score + team.maxCoralL4Score
+        maxScore: team.maxScore
     }));
 }
 

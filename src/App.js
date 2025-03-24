@@ -78,26 +78,32 @@ function App() {
           toast.error('Password not found in local storage for auto-update.');
           return;
         }
-        toast.promise(
-          updateScoutingDataFromAPI(password),
-          {
-            pending: 'Auto-updating local entries...',
-            success: 'Local entries updated automatically.',
-            error: {
-              render({ data }) {
-                const lowerMsg = data.message.toLowerCase();
-                const prefix = "Failed to auto-update data:";
-                if (lowerMsg.includes("403") || (lowerMsg.includes("forbidden") && lowerMsg.includes("invalid password"))) {
-                  return `${prefix} Incorrect Password`;
-                }
-                if (lowerMsg.includes("failed to fetch")) {
-                  return `${prefix} Incorrect Server URL`;
-                }
-                return `${prefix} ${data.message}`;
-              }
+        
+        // Create pending toast that auto-closes after 1 second
+        toast.info('Auto-updating local entries...', {
+          autoClose: 2000
+        });
+        
+        // Handle the update operation separately
+        updateScoutingDataFromAPI(password)
+          .then(() => {
+            toast.success('Local entries updated automatically.');
+          })
+          .catch((error) => {
+            const lowerMsg = error.message.toLowerCase();
+            const prefix = "Failed to auto-update data:";
+            let errorMessage;
+            
+            if (lowerMsg.includes("403") || (lowerMsg.includes("forbidden") && lowerMsg.includes("invalid password"))) {
+              errorMessage = `${prefix} Incorrect Password`;
+            } else if (lowerMsg.includes("failed to fetch")) {
+              errorMessage = `${prefix} Incorrect Server URL`;
+            } else {
+              errorMessage = `${prefix} ${error.message}`;
             }
-          }
-        );
+            
+            toast.error(errorMessage);
+          });
       }
     }, 180000); // 180,000 ms = 3 minutes
 
