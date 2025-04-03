@@ -6,6 +6,7 @@ import SelectField from './QuestionFields/SelectField';
 import BooleanField from './QuestionFields/BooleanField';
 import CounterField from './QuestionFields/CounterField';
 import MultiCounterField from './QuestionFields/MultiCounterField';
+import AutocompleteField from './QuestionFields/AutocompleteField';
 
 const FieldRenderer = ({ field, onChange, value }) => {
   switch (field.type) {
@@ -66,6 +67,15 @@ const FieldRenderer = ({ field, onChange, value }) => {
     case 'text-long':
       return (
         <TextLongField
+          key={field.code}
+          field={field}
+          value={value}
+          onChange={onChange}
+        />
+      );
+    case 'autocomplete':
+      return (
+        <AutocompleteField
           key={field.code}
           field={field}
           value={value}

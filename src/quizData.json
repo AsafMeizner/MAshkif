@@ -21,9 +21,12 @@
                 },
                 {
                     "title": "מספר קבוצה",
-                    "type": "number",
+                    "type": "autocomplete",
                     "required": true,
-                    "code": "teamNumber"
+                    "code": "teamNumber",
+                    "apiSubUrl": "/{competition_id}/teams",
+                    "storeInLocalStorage": "teams_list",
+                    "placeholder": "Type team number or name..."
                 },
                 {
                     "title": "לא הופיע?",
