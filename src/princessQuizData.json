@@ -12,10 +12,13 @@
                     "code": "scouter"
                 },
                 {
-                    "title": "Team Number",
-                    "type": "number",
+                    "title": "מספר קבוצה",
+                    "type": "autocomplete",
                     "required": true,
-                    "code": "teamNumber"
+                    "code": "teamNumber",
+                    "apiSubUrl": "/{competition_id}/teams",
+                    "storeInLocalStorage": "teams_list",
+                    "placeholder": "Type team number or name..."
                 },
                 {
                     "title": "Match Number",
