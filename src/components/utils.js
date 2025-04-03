@@ -227,3 +227,64 @@ export const decompressAndDecode = (content) => {
 export const compressAndEncode = (content) => {
   return LZUTF8.compress(content, { outputEncoding: 'Base64' });
 };
+
+// Function to validate autocomplete fields based on preferences
+export const validateAutocompleteFields = (sections, formData) => {
+  try {
+    // Get preferences from localStorage
+    const storedPreferences = localStorage.getItem('preferences');
+    if (!storedPreferences) {
+      return { isValid: true, errors: [] }; // Default to valid if no preferences
+    }
+    
+    const preferences = JSON.parse(storedPreferences);
+    if (!preferences.forceAutocomplete) {
+      return { isValid: true, errors: [] }; // If force autocomplete is disabled, all values are valid
+    }
+    
+    const errors = [];
+    
+    // Check each section and field
+    sections.forEach(section => {
+      section.fields.forEach(field => {
+        if (field.type === 'autocomplete' && field.required) {
+          const value = formData[field.code];
+          
+          // If the field is required and empty, add an error
+          if (!value || value.trim() === '') {
+            errors.push(`Field "${field.title}" is required`);
+            return;
+          }
+          
+          // Check if the value exists in the options
+          let options = [];
+          
+          // Try to get options from localStorage if specified
+          if (field.storeInLocalStorage) {
+            try {
+              const storedOptions = JSON.parse(localStorage.getItem(field.storeInLocalStorage) || '[]');
+              if (Array.isArray(storedOptions)) {
+                options = storedOptions;
+              }
+            } catch (error) {
+              console.error(`Error loading options from storage: ${error.message}`);
+            }
+          }
+          
+          // If we have options and the value is not in the list, add an error
+          if (options.length > 0 && !options.includes(value)) {
+            errors.push(`Field "${field.title}" must be selected from the dropdown`);
+          }
+        }
+      });
+    });
+    
+    return {
+      isValid: errors.length === 0,
+      errors
+    };
+  } catch (error) {
+    console.error('Error validating autocomplete fields:', error);
+    return { isValid: true, errors: [] }; // Default to valid if there's an error
+  }
+};

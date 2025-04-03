@@ -5,7 +5,7 @@ import HistoryModal from '../components/QuizComponents/HistoryModal';
 import FieldRenderer from '../components/QuizComponents/FieldRenderer';
 import HapticFeedback from '../components/HapticFeedback';
 import { toast } from 'react-toastify';
-import { compressAndEncode } from '../components/utils';
+import { compressAndEncode, validateAutocompleteFields } from '../components/utils';
 import './QuizForm.css';
 
 const defaultQuizData = require('../quizData.json');
@@ -31,6 +31,16 @@ const QuizForm = () => {
   }, []);
 
   const onSubmit = (data) => {
+    // Validate autocomplete fields based on preferences
+    const validation = validateAutocompleteFields(sections, data);
+    if (!validation.isValid) {
+      // Show error toast with all validation errors
+      validation.errors.forEach(error => {
+        toast.error(error);
+      });
+      return;
+    }
+
     const reducedData = sections.reduce((acc, section) => {
       section.fields.forEach((field) => {
         if (field.type === 'multi-counter') {

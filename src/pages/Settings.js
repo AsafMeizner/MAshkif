@@ -15,6 +15,8 @@ function SettingsPage() {
     const [savedCompetitionId, setSavedCompetitionId] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [isFetchingTeams, setIsFetchingTeams] = useState(false);
+    const [forceAutocomplete, setForceAutocomplete] = useState(true);
+    const [autoUpdate, setAutoUpdate] = useState(true);
 
     useEffect(() => {
         // Load API URL if exists
@@ -34,6 +36,33 @@ function SettingsPage() {
         if (storedPassword) {
             setSavedPassword(storedPassword);
             setPassword(storedPassword);
+        }
+        
+        // Load preferences if they exist
+        try {
+            const storedPreferences = localStorage.getItem('preferences');
+            if (storedPreferences) {
+                const preferences = JSON.parse(storedPreferences);
+                if (preferences.forceAutocomplete !== undefined) {
+                    setForceAutocomplete(preferences.forceAutocomplete);
+                }
+                if (preferences.autoUpdate !== undefined) {
+                    setAutoUpdate(preferences.autoUpdate);
+                }
+            } else {
+                // Set default preferences if they don't exist
+                localStorage.setItem('preferences', JSON.stringify({
+                    forceAutocomplete: true,
+                    autoUpdate: true
+                }));
+            }
+        } catch (error) {
+            console.error('Error loading preferences:', error);
+            // Set default preferences if there's an error
+            localStorage.setItem('preferences', JSON.stringify({
+                forceAutocomplete: true,
+                autoUpdate: true
+            }));
         }
     }, []);
 
@@ -191,6 +220,38 @@ function SettingsPage() {
     function toggleShowPassword() {
         setShowPassword(!showPassword);
     }
+    
+    function toggleForceAutocomplete() {
+        const newValue = !forceAutocomplete;
+        setForceAutocomplete(newValue);
+        
+        try {
+            const storedPreferences = localStorage.getItem('preferences');
+            const preferences = storedPreferences ? JSON.parse(storedPreferences) : {};
+            preferences.forceAutocomplete = newValue;
+            localStorage.setItem('preferences', JSON.stringify(preferences));
+            toast.success(`Force Autocomplete ${newValue ? 'enabled' : 'disabled'}`);
+        } catch (error) {
+            console.error('Error saving preferences:', error);
+            toast.error('Failed to save preferences');
+        }
+    }
+    
+    function toggleAutoUpdate() {
+        const newValue = !autoUpdate;
+        setAutoUpdate(newValue);
+        
+        try {
+            const storedPreferences = localStorage.getItem('preferences');
+            const preferences = storedPreferences ? JSON.parse(storedPreferences) : {};
+            preferences.autoUpdate = newValue;
+            localStorage.setItem('preferences', JSON.stringify(preferences));
+            toast.success(`Auto Update ${newValue ? 'enabled' : 'disabled'}`);
+        } catch (error) {
+            console.error('Error saving preferences:', error);
+            toast.error('Failed to save preferences');
+        }
+    }
 
     return (
         <div className='settings-page'>
@@ -261,6 +322,45 @@ function SettingsPage() {
                     {savedPassword && (
                         <p>Password saved</p>
                     )}
+                </div>
+                
+                {/* Preferences section */}
+                <div className="preferences-section">
+                    <h2>Preferences</h2>
+                    
+                    {/* Force Autocomplete toggle */}
+                    <div className="toggle-section">
+                        <label htmlFor="forceAutocomplete">Force Autocomplete:</label>
+                        <div className="toggle-container">
+                            <button
+                                type="button"
+                                onClick={toggleForceAutocomplete}
+                                className={`toggle-button ${forceAutocomplete ? 'active' : ''}`}
+                            >
+                                {forceAutocomplete ? 'ON' : 'OFF'}
+                            </button>
+                        </div>
+                        <p className="toggle-description">
+                            When enabled, autocomplete fields require selecting from the dropdown.
+                        </p>
+                    </div>
+                    
+                    {/* Auto Update toggle */}
+                    <div className="toggle-section">
+                        <label htmlFor="autoUpdate">Auto Update:</label>
+                        <div className="toggle-container">
+                            <button
+                                type="button"
+                                onClick={toggleAutoUpdate}
+                                className={`toggle-button ${autoUpdate ? 'active' : ''}`}
+                            >
+                                {autoUpdate ? 'ON' : 'OFF'}
+                            </button>
+                        </div>
+                        <p className="toggle-description">
+                            When enabled, data will automatically update every 3 minutes.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

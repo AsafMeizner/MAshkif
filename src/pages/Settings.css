@@ -1,5 +1,5 @@
 .settings-page {
-  height: 100vh;
+  /* height: 100vh; */
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -11,7 +11,8 @@
 }
 
 .settings-container {
-  margin-top: 10%;
+  margin-top: 5%;
+  margin-bottom: 3%;
   text-align: center;
   padding: 20px;
   background-color: #181b1f;
@@ -143,4 +144,58 @@
   color: #ecf0f1;
   font-size: 14px;
   margin-top: 10px;
+}
+
+/* Preferences section */
+.preferences-section {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #444;
+}
+
+.preferences-section h2 {
+  color: #e74c3c;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.toggle-section {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.toggle-section label {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.toggle-button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+  background-color: #444;
+  color: #ccc;
+  transition: all 0.3s ease;
+  min-width: 60px;
+}
+
+.toggle-button.active {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.toggle-description {
+  color: #aaa;
+  font-size: 12px;
+  margin-top: 5px;
 }

@@ -5,7 +5,7 @@ import HistoryModal from '../components/QuizComponents/HistoryModal';
 import FieldRenderer from '../components/QuizComponents/FieldRenderer';
 import HapticFeedback from '../components/HapticFeedback';
 import { toast } from 'react-toastify'; 
-import { compressAndEncode } from '../components/utils';
+import { compressAndEncode, validateAutocompleteFields } from '../components/utils';
 import './PrincessForm.css';
 
 const defaultQuizData = require('../princessQuizData.json');
@@ -33,6 +33,16 @@ const PrincessForm = () => {
   }, []);
 
   const onSubmit = (data) => {
+    // Validate autocomplete fields based on preferences
+    const validation = validateAutocompleteFields(sections, data);
+    if (!validation.isValid) {
+      // Show error toast with all validation errors
+      validation.errors.forEach(error => {
+        toast.error(error);
+      });
+      return;
+    }
+
     // First reduce to get all field data
     const reducedData = sections.reduce((acc, section) => {
       section.fields.forEach((field) => {

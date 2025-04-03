@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import QuizForm from './pages/QuizForm';
@@ -15,6 +15,22 @@ import { updateScoutingDataFromAPI, getPasswordFromLocalStorage } from './compon
 function App() {
   const isElectron = navigator.userAgent.toLowerCase().indexOf('electron') > -1;
   const RouterComponent = isElectron ? HashRouter : BrowserRouter;
+  const [autoUpdateEnabled, setAutoUpdateEnabled] = useState(true);
+
+  // Load preferences from localStorage
+  useEffect(() => {
+    try {
+      const storedPreferences = localStorage.getItem('preferences');
+      if (storedPreferences) {
+        const preferences = JSON.parse(storedPreferences);
+        if (preferences.autoUpdate !== undefined) {
+          setAutoUpdateEnabled(preferences.autoUpdate);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading preferences:', error);
+    }
+  }, []);
 
   // Existing localStorage fixup
   useEffect(() => {
@@ -71,6 +87,11 @@ function App() {
 
   // New background updater: every 3 minutes, if online, run update local entries.
   useEffect(() => {
+    // Only set up the interval if auto update is enabled
+    if (!autoUpdateEnabled) {
+      return;
+    }
+
     const intervalId = setInterval(() => {
       if (navigator.onLine) {
         const password = getPasswordFromLocalStorage();
@@ -108,7 +129,7 @@ function App() {
     }, 180000); // 180,000 ms = 3 minutes
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [autoUpdateEnabled]); // Add autoUpdateEnabled as a dependency
 
   return (
     <RouterComponent>

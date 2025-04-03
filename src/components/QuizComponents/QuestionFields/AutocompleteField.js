@@ -9,7 +9,23 @@ const AutocompleteField = ({ field, onChange, value }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
     const [previewValue, setPreviewValue] = useState('');
+    const [forceAutocomplete, setForceAutocomplete] = useState(true);
     const wrapperRef = useRef(null);
+
+    // Load preferences from localStorage
+    useEffect(() => {
+        try {
+            const storedPreferences = localStorage.getItem('preferences');
+            if (storedPreferences) {
+                const preferences = JSON.parse(storedPreferences);
+                if (preferences.forceAutocomplete !== undefined) {
+                    setForceAutocomplete(preferences.forceAutocomplete);
+                }
+            }
+        } catch (error) {
+            console.error('Error loading preferences:', error);
+        }
+    }, []);
 
     // Load options from localStorage or API if specified
     useEffect(() => {
@@ -168,6 +184,11 @@ const AutocompleteField = ({ field, onChange, value }) => {
         const newValue = e.target.value;
         setInputValue(newValue);
         setPreviewValue('');
+        
+        // If force autocomplete is disabled, update the value directly
+        if (!forceAutocomplete) {
+            onChange(newValue);
+        }
     };
 
     const handleSuggestionClick = (suggestion) => {
@@ -206,6 +227,11 @@ const AutocompleteField = ({ field, onChange, value }) => {
                 e.preventDefault();
                 if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
                     handleSuggestionClick(suggestions[highlightedIndex]);
+                } else if (!forceAutocomplete) {
+                    // If force autocomplete is disabled and no suggestion is highlighted,
+                    // just use the current input value
+                    onChange(inputValue);
+                    setShowSuggestions(false);
                 }
                 break;
             case 'Escape':
