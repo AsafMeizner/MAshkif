@@ -127,6 +127,30 @@ function QrScannerPage() {
     toast.success('QR code scanned successfully!');
   };
 
+  const updateVideoDevices = async () => {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoInputs = devices.filter(device => device.kind === 'videoinput');
+      console.log('Updated video devices:', videoInputs);
+      setVideoDevices(videoInputs);
+      
+      // Try to find the main/back camera
+      const mainCamera = videoInputs.find(device => 
+        device.label.toLowerCase().includes('back') || 
+        device.label.toLowerCase().includes('main') ||
+        device.label.toLowerCase().includes('rear')
+      );
+      
+      if (mainCamera) {
+        setSelectedDeviceId(mainCamera.deviceId);
+      } else if (videoInputs.length > 0) {
+        setSelectedDeviceId(videoInputs[0].deviceId);
+      }
+    } catch (err) {
+      console.error('Error updating devices:', err);
+    }
+  };
+
   const startScan = async () => {
     console.log('startScan triggered. useNative:', useNative, 'cameraAvailable:', cameraAvailable);
     if (useNative && cameraAvailable) {
@@ -174,13 +198,22 @@ function QrScannerPage() {
       }
     } else {
       console.log('Starting fallback scan (react-zxing)');
-      setIsScanning(true);
-      
-      // Auto-hide tips after 5 seconds if not manually toggled
-      if (!manualTipsToggle) {
-        setTimeout(() => {
-          setShowTips(false);
-        }, 5000);
+      try {
+        // Request camera permissions and update devices
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        stream.getTracks().forEach(track => track.stop()); // Stop the stream after getting permission
+        await updateVideoDevices(); // Update devices after permission granted
+        setIsScanning(true);
+        
+        // Auto-hide tips after 5 seconds if not manually toggled
+        if (!manualTipsToggle) {
+          setTimeout(() => {
+            setShowTips(false);
+          }, 5000);
+        }
+      } catch (error) {
+        console.error('Error accessing camera:', error);
+        toast.error('Error accessing camera. Please check permissions.');
       }
     }
   };
