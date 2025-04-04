@@ -23,8 +23,6 @@ function QrScannerPage() {
   // video device selection for fallback scanning
   const [videoDevices, setVideoDevices] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
-  // flashlight state for web scanning
-  const [flashlightOn, setFlashlightOn] = useState(false);
   // scanning guide state
   const [showScanningGuide, setShowScanningGuide] = useState(true);
   // tips visibility state
@@ -230,29 +228,6 @@ function QrScannerPage() {
     handleCloseModal();
   };
 
-  // Toggle flashlight for web scanning
-  const toggleFlashlight = async () => {
-    if (!scannerRef.current) return;
-    
-    try {
-      const track = scannerRef.current.srcObject?.getVideoTracks()[0];
-      if (!track) return;
-      
-      const capabilities = track.getCapabilities();
-      if (capabilities.torch) {
-        setFlashlightOn(!flashlightOn);
-        await track.applyConstraints({
-          advanced: [{ torch: !flashlightOn }]
-        });
-      } else {
-        toast.info('Flashlight not supported on this device');
-      }
-    } catch (error) {
-      console.error('Error toggling flashlight:', error);
-      toast.error('Could not toggle flashlight');
-    }
-  };
-
   // Toggle scanning guide
   const toggleScanningGuide = () => {
     setShowScanningGuide(!showScanningGuide);
@@ -338,12 +313,6 @@ function QrScannerPage() {
           />
           
           <div className="scanner-controls">
-            <button 
-              onClick={toggleFlashlight}
-              className={`control-button ${flashlightOn ? 'active' : ''}`}
-            >
-              {flashlightOn ? '💡' : '🔦'}
-            </button>
             <button 
               onClick={toggleScanningGuide}
               className={`control-button ${showScanningGuide ? 'active' : ''}`}
