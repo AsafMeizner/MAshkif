@@ -5,6 +5,7 @@ import TableChart from '../components/charts/tableChart';
 import MultiNumberDisplay from '../components/charts/MultiNumberDisplay';
 import MultiPieChart from '../components/charts/multiPieChart';
 import RadarGraph from '../components/charts/radarChart';
+import TeamNumberAutocomplete from '../components/QuizComponents/QuestionFields/TeamNumberAutocomplete';
 import './Visualization.css';
 import * as allTeamsConfigs from '../components/chart-configs/allTeams/configs';
 import * as specificTeamConfigs from '../components/chart-configs/specificTeam/configs';
@@ -17,15 +18,15 @@ const Visualization = () => {
     const [isPortrait, setIsPortrait] = useState(window.matchMedia("(orientation: portrait)").matches);
     const [activeTab, setActiveTab] = useState('AllTeams');
     const [openSections, setOpenSections] = useState(['princess', 'general', 'autonomous', 'teleop', 'endgame', 'summary']);
-    const [teamNumber, setTeamNumber] = useState(5951);
-    const [team1Number, setTeam1Number] = useState(5951);
-    const [team2Number, setTeam2Number] = useState(5951);
-    const [red1Number, setRed1Number] = useState(5951);
-    const [red2Number, setRed2Number] = useState(1577);
-    const [red3Number, setRed3Number] = useState(5990);
-    const [blue1Number, setBlue1Number] = useState(1690);
-    const [blue2Number, setBlue2Number] = useState(1576);
-    const [blue3Number, setBlue3Number] = useState(3339);
+    const [teamNumber, setTeamNumber] = useState("");
+    const [team1Number, setTeam1Number] = useState("");
+    const [team2Number, setTeam2Number] = useState("");
+    const [red1Number, setRed1Number] = useState("");
+    const [red2Number, setRed2Number] = useState("");
+    const [red3Number, setRed3Number] = useState("");
+    const [blue1Number, setBlue1Number] = useState("");
+    const [blue2Number, setBlue2Number] = useState("");
+    const [blue3Number, setBlue3Number] = useState("");
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [startMatchNumber, setStartMatchNumber] = useState(0);
     const [endMatchNumber, setEndMatchNumber] = useState(100);
@@ -227,8 +228,8 @@ const Visualization = () => {
         </div>
     );
 
-    const handleTeamNumberChange = (e) => {
-        setTeamNumber(parseInt(e.target.value, 10));
+    const handleTeamNumberChange = (value) => {
+        setTeamNumber(value);
     };
 
     const specificTeamRenderGeneralSection = () => (
@@ -345,12 +346,12 @@ const Visualization = () => {
         </div>
     );
 
-    const handleTeam1NumberChange = (e) => {
-        setTeam1Number(parseInt(e.target.value, 10));
+    const handleTeam1NumberChange = (value) => {
+        setTeam1Number(value);
     };
 
-    const handleTeam2NumberChange = (e) => {
-        setTeam2Number(parseInt(e.target.value, 10));
+    const handleTeam2NumberChange = (value) => {
+        setTeam2Number(value);
     };
 
     const comparisonSectionRenderGeneral = () => (
@@ -479,28 +480,28 @@ const Visualization = () => {
         </div>
     );
 
-    const handleRed1NumberChange = (e) => {
-        setRed1Number(parseInt(e.target.value, 10));
+    const handleRed1NumberChange = (value) => {
+        setRed1Number(value);
     };
 
-    const handleRed2NumberChange = (e) => {
-        setRed2Number(parseInt(e.target.value, 10));
+    const handleRed2NumberChange = (value) => {
+        setRed2Number(value);
     };
 
-    const handleRed3NumberChange = (e) => {
-        setRed3Number(parseInt(e.target.value, 10));
+    const handleRed3NumberChange = (value) => {
+        setRed3Number(value);
     };
 
-    const handleBlue1NumberChange = (e) => {
-        setBlue1Number(parseInt(e.target.value, 10));
+    const handleBlue1NumberChange = (value) => {
+        setBlue1Number(value);
     };
 
-    const handleBlue2NumberChange = (e) => {
-        setBlue2Number(parseInt(e.target.value, 10));
+    const handleBlue2NumberChange = (value) => {
+        setBlue2Number(value);
     };
 
-    const handleBlue3NumberChange = (e) => {
-        setBlue3Number(parseInt(e.target.value, 10));
+    const handleBlue3NumberChange = (value) => {
+        setBlue3Number(value);
     };
 
     const ReportRenderGeneral = (redAlliance, blueAlliance) => (
@@ -602,69 +603,45 @@ const Visualization = () => {
         return (
             <>
                 <div className="team-number-input">
-                    <label htmlFor="red1Number">Red 1:</label>
-                    <input
-                        type="number"
-                        id="red1Number"
+                    <TeamNumberAutocomplete
                         value={red1Number}
                         onChange={handleRed1NumberChange}
-                        min="0"
-                        placeholder="Enter team number"
+                        label="Red 1:"
                     />
                 </div>
                 <div className="team-number-input">
-                    <label htmlFor="red2Number">Red 2:</label>
-                    <input
-                        type="number"
-                        id="red2Number"
+                    <TeamNumberAutocomplete
                         value={red2Number}
                         onChange={handleRed2NumberChange}
-                        min="0"
-                        placeholder="Enter team number"
+                        label="Red 2:"
                     />
                 </div>
                 <div className="team-number-input">
-                    <label htmlFor="red3Number">Red 3:</label>
-                    <input
-                        type="number"
-                        id="red3Number"
+                    <TeamNumberAutocomplete
                         value={red3Number}
                         onChange={handleRed3NumberChange}
-                        min="0"
-                        placeholder="Enter team number"
+                        label="Red 3:"
                     />
                 </div>
                 <div className="team-number-input">
-                    <label htmlFor="blue1Number">Blue 1:</label>
-                    <input
-                        type="number"
-                        id="blue1Number"
+                    <TeamNumberAutocomplete
                         value={blue1Number}
                         onChange={handleBlue1NumberChange}
-                        min="0"
-                        placeholder="Enter team number"
+                        label="Blue 1:"
                     />
                 </div>
                 <div className="team-number-input">
-                    <label htmlFor="blue2Number">Blue 2:</label>
-                    <input
-                        type="number"
-                        id="blue2Number"
+                    <TeamNumberAutocomplete
                         value={blue2Number}
                         onChange={handleBlue2NumberChange}
-                        min="0"
-                        placeholder="Enter team number"
+                        label="Blue 2:"
                     />
                 </div>
                 <div className="team-number-input">
-                    <label htmlFor="blue3Number">Blue 3:</label>
-                    <input
-                        type="number"
-                        id="blue3Number"
+                    <TeamNumberAutocomplete
                         value={blue3Number}
                         onChange={handleBlue3NumberChange}
-                        min="0"
-                        placeholder="Enter team number"
+                        label="Blue 3:"
                     />
                 </div>
 
@@ -685,7 +662,7 @@ const Visualization = () => {
                 </div>
 
                 <div className="team-selection">
-                    {teamNumbers.sort((a, b) => a - b).map(teamNumber => (
+                    {teamNumbers.sort((a, b) => a.localeCompare(b)).map(teamNumber => (
                         <label key={teamNumber}>
                             <input
                                 type="checkbox"
@@ -730,14 +707,10 @@ const Visualization = () => {
     const renderSpecificTeam = () => (
         <>
             <div className="team-number-input">
-                <label htmlFor="teamNumber">Select Team Number:</label>
-                <input
-                    type="number"
-                    id="teamNumber"
+                <TeamNumberAutocomplete
                     value={teamNumber}
                     onChange={handleTeamNumberChange}
-                    min="0"
-                    placeholder="Enter team number"
+                    label="Select Team Number:"
                 />
             </div>
             <div className="team-selection-container">
@@ -747,7 +720,7 @@ const Visualization = () => {
                 </div>
 
                 <div className="team-selection">
-                    {matchNumbers.sort((a, b) => a - b).map(matchNumber => (
+                    {matchNumbers.sort((a, b) => a.toString().localeCompare(b.toString())).map(matchNumber => (
                         <label key={matchNumber}>
                             <input
                                 type="checkbox"
@@ -770,25 +743,17 @@ const Visualization = () => {
     const renderComparison = () => (
         <>
             <div className="team-number-input">
-                <label htmlFor="teamNumber">Select Team 1 Number:</label>
-                <input
-                    type="number"
-                    id="team1Number"
+                <TeamNumberAutocomplete
                     value={team1Number}
                     onChange={handleTeam1NumberChange}
-                    min="0"
-                    placeholder="Enter team number"
+                    label="Select Team 1 Number:"
                 />
             </div>
             <div className="team-number-input">
-                <label htmlFor="teamNumber">Select Team 2 Number:</label>
-                <input
-                    type="number"
-                    id="team2Number"
+                <TeamNumberAutocomplete
                     value={team2Number}
                     onChange={handleTeam2NumberChange}
-                    min="0"
-                    placeholder="Enter team number"
+                    label="Select Team 2 Number:"
                 />
             </div>
             {comparisonSectionRenderGeneral()}

@@ -81,12 +81,25 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    width: 100%;
+}
+
+.team-number-input .field {
+    width: 100%;
+    max-width: 300px;
 }
 
 .team-number-input label {
     font-size: 1.2rem;
     margin-right: 10px;
     color: white;
+    min-width: 150px;
+    text-align: right;
+}
+
+.team-number-input .autocomplete-container {
+    position: relative;
+    width: 100%;
 }
 
 .team-number-input input {
@@ -97,12 +110,38 @@
     background-color: #1e1e1e;
     color: white;
     outline: none;
-    width: 150px;
-    text-align: center;
+    width: 100%;
+    text-align: left;
 }
 
 .team-number-input input:focus {
     border-color: #ff6b6b;
+}
+
+.team-number-input .suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #1e1e1e;
+    border: 2px solid #e74c3c;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    margin-top: 5px;
+}
+
+.team-number-input .suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.team-number-input .suggestion-item:hover,
+.team-number-input .suggestion-item.highlighted {
+    background-color: #e74c3c;
 }
 
 .team-selection-container {
