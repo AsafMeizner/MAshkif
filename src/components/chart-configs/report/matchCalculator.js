@@ -52,9 +52,9 @@ export function calculateEstimatedMaxRP(data, team1number, team2number, team3num
     const team3Avg = calaculateAvgCycle(data, team3number);
     const totalAvgCycle = team1Avg + team2Avg + team3Avg;
 
-    const fixedL4 = 5;
-    const fixedL3 = 5;
-    const fixedL2 = 5;
+    const fixedL4 = 7;
+    const fixedL3 = 7;
+    const fixedL2 = 7;
     const canProcessor = ifCanDoProcessor(data, team1number) ||
         ifCanDoProcessor(data, team2number) ||
         ifCanDoProcessor(data, team3number);
