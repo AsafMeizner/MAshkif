@@ -662,7 +662,7 @@ const Visualization = () => {
                 </div>
 
                 <div className="team-selection">
-                    {teamNumbers.sort((a, b) => a.localeCompare(b)).map(teamNumber => (
+                    {teamNumbers.sort((a, b) => String(a).localeCompare(String(b))).map(teamNumber => (
                         <label key={teamNumber}>
                             <input
                                 type="checkbox"
