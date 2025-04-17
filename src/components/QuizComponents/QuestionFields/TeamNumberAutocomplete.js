@@ -25,7 +25,7 @@ const TeamNumberAutocomplete = ({ value, onChange, label, placeholder = "Type te
         
         return {
             teamMap: map,
-            teamNumbers: numbers.sort((a, b) => a.localeCompare(b))
+            teamNumbers: numbers.sort((a, b) => String(a).localeCompare(String(b)))
         };
     }, [scoutingData]);
 
