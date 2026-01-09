@@ -47,8 +47,9 @@
   "main": "main.js",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "electron-dev": "concurrently \"npm run start\" \"wait-on http://localhost:3000 && cross-env ELECTRON_START_URL=http://localhost:3000 electron .\"",
+    "build": "react-scripts build && npm run build:electron",
+    "build:electron": "tsc --project tsconfig.electron.json",
+    "electron-dev": "npm run build:electron && concurrently \"npm run start\" \"wait-on http://localhost:3000 && cross-env ELECTRON_START_URL=http://localhost:3000 electron .\"",
     "electron-prod": "npm run build && electron .",
     "dist": "npm run build && electron-builder"
   },
@@ -65,7 +66,6 @@
       "main.js",
       "preload.js",
       "tray.html",
-      "src/globalUpdateHandlers.js",
       "public/**/*"
     ],
     "extraResources": [
@@ -112,10 +112,19 @@
   },
   "devDependencies": {
     "@capacitor/assets": "^3.0.5",
+    "@types/electron": "^1.4.38",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.3",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@types/react-modal": "^3.16.3",
+    "@types/react-router-dom": "^5.3.3",
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "electron": "^34.2.0",
     "electron-builder": "^25.1.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^4.9.5",
     "wait-on": "^8.0.2"
   }
 }
