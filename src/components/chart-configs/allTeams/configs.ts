@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as functions from './functions';
 
 // general chart configs

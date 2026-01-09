@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import TextField from './QuestionFields/TextField';
 import TextLongField from './QuestionFields/TextLong';

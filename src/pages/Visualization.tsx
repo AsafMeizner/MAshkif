@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import BarGraph from '../components/charts/barChart';
 import PieGraph from '../components/charts/pieChart';

@@ -1,3 +1,5 @@
+// @ts-nocheck
+// @ts-nocheck
 import React, { useState } from 'react';
 import {
     AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label, Text,

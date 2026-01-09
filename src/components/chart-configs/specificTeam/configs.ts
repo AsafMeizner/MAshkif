@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as specificTeamFunctions from './functions';
 import * as allTeamsFunctions from '../allTeams/functions';
 

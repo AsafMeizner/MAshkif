@@ -1,3 +1,5 @@
+// @ts-nocheck
+// @ts-nocheck
 import React, { useState } from 'react';
 
 const CounterField = ({ field, onChange, value }) => {

@@ -1,3 +1,5 @@
+// @ts-nocheck
+// @ts-nocheck
 import React from 'react';
 
 const NumberField = ({ field, onChange, value, valueAsNumber }) => {

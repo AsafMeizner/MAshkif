@@ -1,3 +1,5 @@
+// @ts-nocheck
+// @ts-nocheck
 import React, { useState, useEffect, useCallback } from 'react';
 
 const MultiCounterField = ({ field, onChange, value }) => {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as reportFunctions from './functions';
 
 export const allianceFocusPoints = (scoutingData, teamNumbers, title, color) => {

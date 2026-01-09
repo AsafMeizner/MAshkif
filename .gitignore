@@ -27,3 +27,7 @@ yarn-error.log*
 
 # electron build
 /release-builds
+
+# TypeScript compiled output for Electron main/preload (root level only)
+/main.js
+/preload.js

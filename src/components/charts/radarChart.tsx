@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import {
     RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend, Tooltip

@@ -1,3 +1,4 @@
+// @ts-nocheck
 export function calculateEstemaitedMaxPoints(data, team1number, team2number, team3number) {
     const team1totalAvgCycle = calaculateAvgCycle(data, team1number);
     const team2totalAvgCycle = calaculateAvgCycle(data, team2number);

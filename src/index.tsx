@@ -1,4 +1,4 @@
-// src/index.js
+// src/index.tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -6,10 +6,20 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { updateLocalEntries, uploadSubmissions } from './globalUpdateHandlers';
 
+// Extend Window interface for TypeScript
+declare global {
+  interface Window {
+    updateLocalEntries: () => Promise<void>;
+    uploadSubmissions: () => Promise<void>;
+  }
+}
+
 window.updateLocalEntries = updateLocalEntries;
 window.uploadSubmissions = uploadSubmissions;
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 root.render(
     <React.StrictMode>
         <App />

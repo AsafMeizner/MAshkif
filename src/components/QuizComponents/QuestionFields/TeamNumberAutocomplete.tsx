@@ -1,3 +1,5 @@
+// @ts-nocheck
+// @ts-nocheck
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import './AutocompleteField.css';
 

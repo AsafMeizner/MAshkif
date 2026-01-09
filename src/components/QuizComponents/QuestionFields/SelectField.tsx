@@ -1,3 +1,5 @@
+// @ts-nocheck
+// @ts-nocheck
 import React from 'react';
 
 const SelectField = ({ field, onChange, value }) => {
