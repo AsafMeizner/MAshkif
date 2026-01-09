@@ -70,7 +70,7 @@ export const matchTeamAverages = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(teamScores).map(team => ({
+    return Object.values(teamScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         averageCoralScore: Math.round((team.totalCoralScore / team.count) * 100) / 100,
         averageAlgaeScore: Math.round((team.totalAlgaeScore / team.count) * 100) / 100,
@@ -95,7 +95,7 @@ export const matchTeamMax = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(teamScores).map(team => ({
+    return Object.values(teamScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         maxScore: team.maxCoralScore + team.maxAlgaeScore,
         maxCoralScore: team.maxCoralScore,
@@ -129,7 +129,7 @@ export const autoAveragesCoral = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(autoScores).map(team => ({
+    return Object.values(autoScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         averageCoralL1Score: Math.round((team.totalCoralL1Score / team.count) * 100) / 100,
         averageCoralL2Score: Math.round((team.totalCoralL2Score / team.count) * 100) / 100,
@@ -167,7 +167,7 @@ export const autoMaxesCoral = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(autoScores).map(team => ({
+    return Object.values(autoScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         maxCoralL1Score: team.maxCoralL1Score,
         maxCoralL2Score: team.maxCoralL2Score,
@@ -193,7 +193,7 @@ export const autoAveragesAlgae = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(autoScores).map(team => ({
+    return Object.values(autoScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         averageAlgaeScore: Math.round((team.totalAlgaeScore / team.count) * 100) / 100
     }));
@@ -214,7 +214,7 @@ export const autoMaxesAlgae = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(autoScores).map(team => ({
+    return Object.values(autoScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         maxAlgaeScore: team.maxAlgaeScore
     }));
@@ -238,7 +238,7 @@ export const autoCoralScorePrecentage = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(autoScores).map(team => ({
+    return Object.values(autoScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         precentInAuto: (Math.round((team.scoredCoral / (team.scoredCoral + team.missedCoral)) * 100) || 0)
     }));
@@ -260,7 +260,7 @@ export const autoLeftStartingLine = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(autoScores).map(team => ({
+    return Object.values(autoScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         moved: Math.round((team.moved / team.count) * 100)
     }));
@@ -293,7 +293,7 @@ export const teleopAverageCoral = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(teleopScores).map(team => ({
+    return Object.values(teleopScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         averageCoralL1Score: Math.round((team.totalCoralL1Score / team.count) * 100) / 100,
         averageCoralL2Score: Math.round((team.totalCoralL2Score / team.count) * 100) / 100,
@@ -331,7 +331,7 @@ export const teleopMaxCoral = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(teleopScores).map(team => ({
+    return Object.values(teleopScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         maxCoralL1Score: team.maxCoralL1Score,
         maxCoralL2Score: team.maxCoralL2Score,
@@ -360,7 +360,7 @@ export const teleopAverageAlgae = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(teleopScores).map(team => ({
+    return Object.values(teleopScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         averageAlgaeProcessorScore: Math.round((team.totalAlgaeProcessorScore / team.count) * 100) / 100,
         averageAlgaeBargeScore: Math.round((team.totalAlgaeBargeScore / team.count) * 100) / 100,
@@ -387,7 +387,7 @@ export const teleopMaxAlgae = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(teleopScores).map(team => ({
+    return Object.values(teleopScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         maxAlgaeProcessorScore: team.maxAlgaeProcessorScore,
         maxAlgaeBargeScore: team.maxAlgaeBargeScore,
@@ -415,7 +415,7 @@ export const teleopCoralScorePrecentage = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(teleopScores).map(team => ({
+    return Object.values(teleopScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         precentInTeleop: (Math.round((team.scoredCoral / (team.scoredCoral + team.missedCoral)) * 100) || 0)
     }));
@@ -437,7 +437,7 @@ export const teleopRemovedAlgaeFromReef = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(teleopScores).map(team => ({
+    return Object.values(teleopScores).map((team: any) => ({
         teamNumber: team.teamNumber,
         removedAlgaeFromReef: ((team.removedAlgaeFromReef / team.count).toFixed(2))
     }));
@@ -584,7 +584,7 @@ export const endgameClimbData = (scoutingData) => {
         return acc;
     }, {});
 
-    return Object.values(teamData).map(team => ({
+    return Object.values(teamData).map((team: any) => ({
         teamNumber: team.teamNumber,
         No: Math.round((team.No / team.total) * 100 * 100) / 100,
         P: Math.round((team.P / team.total) * 100 * 100) / 100,

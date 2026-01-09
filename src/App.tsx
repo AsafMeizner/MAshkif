@@ -10,19 +10,19 @@ import Visualization from './pages/Visualization';
 import UpdateEntriesPage from './pages/UpdateEntriesPage';
 import PrincessForm from './pages/PrincessForm';
 import { ToastContainer, toast } from 'react-toastify';
-import { updateScoutingDataFromAPI, getPasswordFromLocalStorage, Preferences } from './components/utils';
+import { updateScoutingDataFromAPI, getPasswordFromLocalStorage } from './components/utils';
 
 function App() {
   const isElectron = navigator.userAgent.toLowerCase().indexOf('electron') > -1;
   const RouterComponent = isElectron ? HashRouter : BrowserRouter;
-  const [autoUpdateEnabled, setAutoUpdateEnabled] = useState<boolean>(true);
+  const [autoUpdateEnabled, setAutoUpdateEnabled] = useState(true);
 
   // Load preferences from localStorage
   useEffect(() => {
     try {
       const storedPreferences = localStorage.getItem('preferences');
       if (storedPreferences) {
-        const preferences: Preferences = JSON.parse(storedPreferences);
+        const preferences = JSON.parse(storedPreferences);
         if (preferences.autoUpdate !== undefined) {
           setAutoUpdateEnabled(preferences.autoUpdate);
         }
@@ -35,7 +35,7 @@ function App() {
   // Existing localStorage fixup
   useEffect(() => {
     let didFix = false;
-    const keysAndDefaults: { [key: string]: any } = {
+    const keysAndDefaults = {
       submissions: [],
       princessSubmissions: [],
     };
@@ -110,10 +110,10 @@ function App() {
           .then(() => {
             toast.success('Local entries updated automatically.');
           })
-          .catch((error: Error) => {
+          .catch((error) => {
             const lowerMsg = error.message.toLowerCase();
             const prefix = "Failed to auto-update data:";
-            let errorMessage: string;
+            let errorMessage;
             
             if (lowerMsg.includes("403") || (lowerMsg.includes("forbidden") && lowerMsg.includes("invalid password"))) {
               errorMessage = `${prefix} Incorrect Password`;

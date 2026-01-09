@@ -1,11 +1,11 @@
-// src/globalUpdateHandlers.ts
+// src/globalUpdateHandlers.js
 import {
     getPasswordFromLocalStorage,
     updateScoutingDataFromAPI,
     postAllSubmissions
 } from './components/utils';
 
-export const getFriendlyErrorMessage = (errorMessage: string, operationType: 'update' | 'upload'): string => {
+export const getFriendlyErrorMessage = (errorMessage, operationType) => {
     const lowerMsg = errorMessage.toLowerCase();
     const prefix = operationType === "update" ? "Failed to update data:" : "Failed to upload:";
     if (lowerMsg.includes("403") || (lowerMsg.includes("forbidden") && lowerMsg.includes("invalid password"))) {
@@ -17,7 +17,7 @@ export const getFriendlyErrorMessage = (errorMessage: string, operationType: 'up
     return `${prefix} ${errorMessage}`;
 };
 
-export async function updateLocalEntries(): Promise<void> {
+export async function updateLocalEntries() {
     const password = getPasswordFromLocalStorage();
     if (!password) {
         new Notification("MAshkif", { body: "Password not found in local storage.", icon: 'favicon.ico' });
@@ -31,12 +31,12 @@ export async function updateLocalEntries(): Promise<void> {
             window.location.hash = '#/visualization';
         };
     } catch (error) {
-        new Notification("MAshkif", { body: getFriendlyErrorMessage((error as Error).message, "update"), icon: 'favicon.ico' });
+        new Notification("MAshkif", { body: getFriendlyErrorMessage(error.message, "update"), icon: 'favicon.ico' });
         throw error;
     }
 }
 
-export async function uploadSubmissions(): Promise<void> {
+export async function uploadSubmissions() {
     const password = getPasswordFromLocalStorage();
     if (!password) {
         new Notification("MAshkif", { body: "Password not found in local storage.", icon: 'favicon.ico' });
@@ -50,7 +50,7 @@ export async function uploadSubmissions(): Promise<void> {
             window.location.hash = '#/visualization';
         };
     } catch (error) {
-        new Notification("MAshkif", { body: getFriendlyErrorMessage((error as Error).message, "upload"), icon: 'favicon.ico' });
+        new Notification("MAshkif", { body: getFriendlyErrorMessage(error.message, "upload"), icon: 'favicon.ico' });
         throw error;
     }
 }

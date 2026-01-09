@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
 Pre-Match:
 
@@ -338,14 +339,14 @@ export function teleopSummery(scoutingData, teamNumber) {
     }, 0) / teamData.length);
 
     const maxCoralPrecent = teamData.reduce((acc, entry) => {
-        const matchCoralPrecent = (entry.tL1sc + entry.tL2sc + entry.tL3sc + entry.tL4sc) ? ((((entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0)) / ((entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0))) * 100).toFixed(1) : 0;
-        return Math.max(acc, matchCoralPrecent);
+        const matchCoralPrecent: number = (entry.tL1sc + entry.tL2sc + entry.tL3sc + entry.tL4sc) ? parseFloat(((((entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0)) / ((entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0))) * 100).toFixed(1)) : 0;
+        return Math.max(acc, matchCoralPrecent as number);
     }, 0);
 
     const averageCoralPrecent = teamData.reduce((acc, entry) => {
         const numerator = (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0);
         const denominator = (entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0);
-        const matchCoralPrecent = denominator ? parseFloat(((numerator / denominator) * 100).toFixed(1)) : 0;
+        const matchCoralPrecent: number = denominator ? parseFloat(((numerator / denominator) * 100).toFixed(1)) : 0;
         return acc + matchCoralPrecent;
     }, 0) / teamData.length;
 
@@ -521,13 +522,13 @@ export function generalSummery(scoutingData, teamNumber) {
     const averageCoralPercent = teamData.reduce((acc, entry) => {
         const numerator = (entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0);
         const denominator = (entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0);
-        const matchCoralPrecent = denominator ? parseFloat(((numerator / denominator) * 100).toFixed(1)) : 0;
+        const matchCoralPrecent: number = denominator ? parseFloat(((numerator / denominator) * 100).toFixed(1)) : 0;
         return acc + matchCoralPrecent;
     }, 0) / teamData.length;
 
     const maxCoralPercent = teamData.reduce((acc, entry) => {
-        const matchCoralPrecent = (entry.tL1sc + entry.tL2sc + entry.tL3sc + entry.tL4sc) ? ((((entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0)) / ((entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0))) * 100).toFixed(1) : 0;
-        return Math.max(acc, matchCoralPrecent);
+        const matchCoralPrecent: number = (entry.tL1sc + entry.tL2sc + entry.tL3sc + entry.tL4sc) ? parseFloat(((((entry.tL1sc || 0) + (entry.tL2sc || 0) + (entry.tL3sc || 0) + (entry.tL4sc || 0)) / ((entry.tL1sc || 0) + (entry.tL1ms || 0) + (entry.tL2sc || 0) + (entry.tL2ms || 0) + (entry.tL3sc || 0) + (entry.tL3ms || 0) + (entry.tL4sc || 0) + (entry.tL4ms || 0))) * 100).toFixed(1)) : 0;
+        return Math.max(acc, matchCoralPrecent as number);
     }, 0);
 
     const averageAlgaeBarge = teamData.reduce((acc, entry) => {

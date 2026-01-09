@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import { Haptics } from '@capacitor/haptics';
 
-const HapticFeedback = ({ duration = 500 }) => {
+interface HapticFeedbackProps {
+  duration?: number;
+}
+
+const HapticFeedback: React.FC<HapticFeedbackProps> = ({ duration = 500 }) => {
   useEffect(() => {
     const triggerVibration = async () => {
       try {

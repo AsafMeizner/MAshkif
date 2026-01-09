@@ -49,8 +49,8 @@ yc - Yellow/Red Card
 co - Notes
 */
 
-import { calculateEstemaitedMaxPoints, calculateEstimatedMaxRP } from './matchCalculator.js';
-import * as specificTeamFunctions from '../specificTeam/functions.js';
+import { calculateEstemaitedMaxPoints, calculateEstimatedMaxRP } from './matchCalculator';
+import * as specificTeamFunctions from '../specificTeam/functions';
 
 // General
 export function allianceMaxPoints(scoutingData, team1Number, team2number, team3Number) {

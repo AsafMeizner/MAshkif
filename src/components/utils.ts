@@ -1,50 +1,18 @@
-// utils.ts
-import LZUTF8 from 'lzutf8';
-
-// Types
-export interface ScoutingEntry {
-  [key: string]: any;
-}
-
-export interface StoredData {
-  entries: ScoutingEntry[];
-}
-
-export interface Preferences {
-  autoUpdate?: boolean;
-  forceAutocomplete?: boolean;
-}
-
-export interface Field {
-  code: string;
-  title: string;
-  type: string;
-  required?: boolean;
-  storeInLocalStorage?: string;
-}
-
-export interface Section {
-  fields: Field[];
-}
-
-export interface ValidationResult {
-  isValid: boolean;
-  errors: string[];
-}
+// utils.js
 
 // Function to retrieve scouting data from localStorage
-export const getScoutingData = (): ScoutingEntry[] => {
-  const storedData: StoredData = JSON.parse(localStorage.getItem('scouting_data') || '{}');
+export const getScoutingData = () => {
+  const storedData = JSON.parse(localStorage.getItem('scouting_data') || '{}');
   return storedData && Array.isArray(storedData.entries) ? storedData.entries : [];
 };
 
-export const getPrincessData = (): ScoutingEntry[] => {
-  const storedData: StoredData = JSON.parse(localStorage.getItem('princess_data') || '{}');
+export const getPrincessData = () => {
+  const storedData = JSON.parse(localStorage.getItem('princess_data') || '{}');
   return storedData && Array.isArray(storedData.entries) ? storedData.entries : [];
 };
 
 // Function to save scouting data to localStorage
-export const saveScoutingData = (scoutingData: ScoutingEntry[]): void => {
+export const saveScoutingData = (scoutingData) => {
   if (Array.isArray(scoutingData)) {
     localStorage.setItem('scouting_data', JSON.stringify({ entries: scoutingData }));
   } else {
@@ -52,7 +20,7 @@ export const saveScoutingData = (scoutingData: ScoutingEntry[]): void => {
   }
 };
 
-export const savePrincessData = (princessData: ScoutingEntry[]): void => {
+export const savePrincessData = (princessData) => {
   if (Array.isArray(princessData)) {
     localStorage.setItem('princess_data', JSON.stringify({ entries: princessData }));
   } else {
@@ -61,13 +29,13 @@ export const savePrincessData = (princessData: ScoutingEntry[]): void => {
 };
 
 // Function to update scouting data from API with error propagation
-export const updateScoutingDataFromAPI = async (password: string): Promise<void> => {
+export const updateScoutingDataFromAPI = async (password) => {
   const competitionId = localStorage.getItem('competition_id');
   const baseUrl = localStorage.getItem('api_url');
   const apiUrl = `${baseUrl}${competitionId}/entries`;
   const princessApiUrl = `${baseUrl}${competitionId}/princess`;
 
-  const errorMessages: string[] = [];
+  const errorMessages = [];
 
   // Fetch scouting (entries) data
   try {
@@ -91,7 +59,7 @@ export const updateScoutingDataFromAPI = async (password: string): Promise<void>
       throw new Error('Invalid data format received for scouting data');
     }
   } catch (error) {
-    errorMessages.push((error as Error).message);
+    errorMessages.push(error.message);
   }
 
   // Fetch princess data
@@ -116,7 +84,7 @@ export const updateScoutingDataFromAPI = async (password: string): Promise<void>
       throw new Error('Invalid data format received for princess data');
     }
   } catch (error) {
-    errorMessages.push((error as Error).message);
+    errorMessages.push(error.message);
   }
 
   if (errorMessages.length > 0) {
@@ -125,14 +93,14 @@ export const updateScoutingDataFromAPI = async (password: string): Promise<void>
 };
 
 // Function to upload all submissions from localStorage to API with error propagation
-export const postAllSubmissions = async (password: string): Promise<void> => {
+export const postAllSubmissions = async (password) => {
   const competitionId = localStorage.getItem('competition_id');
   const baseUrl = localStorage.getItem('api_url');
   const apiUrl = `${baseUrl}${competitionId}/entries`;
   const princessApiUrl = `${baseUrl}${competitionId}/princess`;
 
-  const compressedSubmissions: string[] = JSON.parse(localStorage.getItem('submissions') || '[]');
-  const compressedPrincessSubmissions: string[] = JSON.parse(localStorage.getItem('princessSubmissions') || '[]');
+  const compressedSubmissions = JSON.parse(localStorage.getItem('submissions') || '[]');
+  const compressedPrincessSubmissions = JSON.parse(localStorage.getItem('princessSubmissions') || '[]');
 
   if (!apiUrl || !princessApiUrl) {
     throw new Error('Submission API URL not found in localStorage');
@@ -143,7 +111,7 @@ export const postAllSubmissions = async (password: string): Promise<void> => {
     throw new Error('No submissions to upload');
   }
 
-  const errorMessages: string[] = [];
+  const errorMessages = [];
 
   // Decompress and parse each entry submission
   const submissions = compressedSubmissions.map((submission) => {
@@ -154,7 +122,7 @@ export const postAllSubmissions = async (password: string): Promise<void> => {
       console.error('Error parsing decompressed submission:', decompressed);
       return null;
     }
-  }).filter((submission): submission is ScoutingEntry => submission !== null);
+  }).filter((submission) => submission !== null);
 
   // If there were submissions stored but none parsed correctly, register an error.
   if (compressedSubmissions.length > 0 && submissions.length === 0) {
@@ -176,7 +144,7 @@ export const postAllSubmissions = async (password: string): Promise<void> => {
       localStorage.removeItem('submissions');
       console.log('Scouting submissions uploaded successfully');
     } catch (error) {
-      errorMessages.push((error as Error).message);
+      errorMessages.push(error.message);
     }
   }
 
@@ -189,7 +157,7 @@ export const postAllSubmissions = async (password: string): Promise<void> => {
       console.error('Error parsing decompressed princess submission:', decompressed);
       return null;
     }
-  }).filter((submission): submission is ScoutingEntry => submission !== null);
+  }).filter((submission) => submission !== null);
 
   if (compressedPrincessSubmissions.length > 0 && princessSubmissions.length === 0) {
     errorMessages.push('All princess submissions failed to parse');
@@ -210,7 +178,7 @@ export const postAllSubmissions = async (password: string): Promise<void> => {
       localStorage.removeItem('princessSubmissions');
       console.log('Princess submissions uploaded successfully');
     } catch (error) {
-      errorMessages.push((error as Error).message);
+      errorMessages.push(error.message);
     }
   }
 
@@ -220,7 +188,7 @@ export const postAllSubmissions = async (password: string): Promise<void> => {
 };
 
 // Function to save the API URL to localStorage
-export const saveAPIURLToLocalStorage = (url: string): [boolean, string] => {
+export const saveAPIURLToLocalStorage = (url) => {
   try {
     const validatedUrl = new URL(url);
     if (validatedUrl.protocol !== 'http:' && validatedUrl.protocol !== 'https:') {
@@ -236,7 +204,7 @@ export const saveAPIURLToLocalStorage = (url: string): [boolean, string] => {
   }
 };
 
-export const savePasswordToLocalStorage = (password: string): [boolean, string] => {
+export const savePasswordToLocalStorage = (password) => {
   if (password) {
     localStorage.setItem('password', password);
     console.log('Password saved to localStorage.');
@@ -245,24 +213,23 @@ export const savePasswordToLocalStorage = (password: string): [boolean, string] 
   return [false, 'Invalid password.'];
 };
 
-export const getPasswordFromLocalStorage = (): string => {
+export const getPasswordFromLocalStorage = () => {
   return localStorage.getItem('password') || '';
 };
 
 // Compress/Decompress utilities
-export const decompressAndDecode = (content: string): string => {
-  return LZUTF8.decompress(content, { inputEncoding: 'Base64', outputEncoding: 'String' }) as string;
+const LZUTF8 = require('lzutf8');
+
+export const decompressAndDecode = (content) => {
+  return LZUTF8.decompress(content, { inputEncoding: 'Base64', outputEncoding: 'String' });
 };
 
-export const compressAndEncode = (content: string): string => {
-  return LZUTF8.compress(content, { outputEncoding: 'Base64' }) as string;
+export const compressAndEncode = (content) => {
+  return LZUTF8.compress(content, { outputEncoding: 'Base64' });
 };
 
 // Function to validate autocomplete fields based on preferences
-export const validateAutocompleteFields = (
-  sections: Section[], 
-  formData: { [key: string]: any }
-): ValidationResult => {
+export const validateAutocompleteFields = (sections, formData) => {
   try {
     // Get preferences from localStorage
     const storedPreferences = localStorage.getItem('preferences');
@@ -270,12 +237,12 @@ export const validateAutocompleteFields = (
       return { isValid: true, errors: [] }; // Default to valid if no preferences
     }
     
-    const preferences: Preferences = JSON.parse(storedPreferences);
+    const preferences = JSON.parse(storedPreferences);
     if (!preferences.forceAutocomplete) {
       return { isValid: true, errors: [] }; // If force autocomplete is disabled, all values are valid
     }
     
-    const errors: string[] = [];
+    const errors = [];
     
     // Check each section and field
     sections.forEach(section => {
@@ -290,7 +257,7 @@ export const validateAutocompleteFields = (
           }
           
           // Check if the value exists in the options
-          let options: string[] = [];
+          let options = [];
           
           // Try to get options from localStorage if specified
           if (field.storeInLocalStorage) {
@@ -300,7 +267,7 @@ export const validateAutocompleteFields = (
                 options = storedOptions;
               }
             } catch (error) {
-              console.error(`Error loading options from storage: ${(error as Error).message}`);
+              console.error(`Error loading options from storage: ${error.message}`);
             }
           }
           

@@ -1,4 +1,4 @@
-import * as functions from './functions.js';
+import * as functions from './functions';
 
 // general chart configs
 
@@ -373,6 +373,7 @@ export const teleopRemovedAlgaeFromReefConfig = (scoutingData) => ({
 });
 
 export const teleopSummeryConfig = (scoutingData) => {
+    const summery: any = functions.teleopSummeryCompetition(scoutingData);
     const {
         averageCoralScore,
         averageAlgaeScore,
@@ -382,7 +383,7 @@ export const teleopSummeryConfig = (scoutingData) => {
         maxAlgaeRemovedFromReef,
         averageCoralPrecent,
         maxCoralPrecent,
-    } = functions.teleopSummeryCompetition(scoutingData);
+    } = summery;
 
     return {
         mainTitle: `Teleop Stats Competition Wide`,

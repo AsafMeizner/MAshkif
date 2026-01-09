@@ -1,5 +1,5 @@
-import * as specificTeamFunctions from './functions.js';
-import * as allTeamsFunctions from '../allTeams/functions.js';
+import * as specificTeamFunctions from './functions';
+import * as allTeamsFunctions from '../allTeams/functions';
 
 // General
 
@@ -382,15 +382,16 @@ export const teleopCoralPrecentInConfig = (scoutingData, teamNumber) => {
 }
 
 export const teleopSummeryConfig = (scoutingData, teamNumber) => {
-    const averageCoralScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageCoralScore;
-    const averageAlgaeScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageAlgaeScore;
-    const maxCoralScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxCoralScore;
-    const maxAlgaeScore = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxAlgaeScore;
+    const summery: any = specificTeamFunctions.teleopSummery(scoutingData, teamNumber);
+    const averageCoralScore = summery.averageCoralScore;
+    const averageAlgaeScore = summery.averageAlgaeScore;
+    const maxCoralScore = summery.maxCoralScore;
+    const maxAlgaeScore = summery.maxAlgaeScore;
 
-    const averageAlgaeRemovedFromReef = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageAlgaeRemovedFromReef;
-    const maxAlgaeRemovedFromReef = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxAlgaeRemovedFromReef;
-    const averageCoralPrecent = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).averageCoralPrecent;
-    const maxCoralPrecent = specificTeamFunctions.teleopSummery(scoutingData, teamNumber).maxCoralPrecent;
+    const averageAlgaeRemovedFromReef = summery.averageAlgaeRemovedFromReef;
+    const maxAlgaeRemovedFromReef = summery.maxAlgaeRemovedFromReef;
+    const averageCoralPrecent = summery.averageCoralPrecent;
+    const maxCoralPrecent = summery.maxCoralPrecent;
 
     return {
         mainTitle: `Teleop Stats for Team ${teamNumber}`,
