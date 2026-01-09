@@ -1,5 +1,15 @@
 # Getting Started
 
+## TypeScript Migration
+
+This project has been migrated to TypeScript for improved type safety and maintainability. The migration approach:
+- Core utilities and entry points have full TypeScript support
+- Some complex components use `@ts-nocheck` for incremental typing improvements
+- TypeScript strict mode is currently disabled to allow gradual improvement
+- Future improvements can progressively add stricter type checking
+
+## Setup
+
 1. **Install Dependencies & Sync Capacitor**
 
    `npm install`
